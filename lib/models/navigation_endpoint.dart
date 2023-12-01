@@ -4,7 +4,7 @@ part 'navigation_endpoint.g.dart';
 
 abstract class Endpoint {}
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Watch extends Endpoint {
   String? params;
   String? playlistId;
@@ -34,7 +34,7 @@ class Watch extends Endpoint {
       ?.watchEndpointMusicConfig?.musicVideoType;
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class WatchEndpointMusicSupportedConfigs {
   WatchEndpointMusicConfig? watchEndpointMusicConfig;
 
@@ -50,7 +50,7 @@ class WatchEndpointMusicSupportedConfigs {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class WatchEndpointMusicConfig {
   String? musicVideoType;
 
@@ -65,7 +65,7 @@ class WatchEndpointMusicConfig {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class WatchPlaylist extends Endpoint {
   String? params;
   String? playlistId;
@@ -81,7 +81,7 @@ class WatchPlaylist extends Endpoint {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Browse extends Endpoint {
   String? params;
   String? browseId;
@@ -99,7 +99,7 @@ class Browse extends Endpoint {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class BrowseEndpointContextSupportedConfigs {
   BrowseEndpointContextMusicConfig? browseEndpointContextMusicConfig;
 
@@ -116,7 +116,7 @@ class BrowseEndpointContextSupportedConfigs {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class BrowseEndpointContextMusicConfig {
   String? pageType;
 
@@ -131,7 +131,7 @@ class BrowseEndpointContextMusicConfig {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Search extends Endpoint {
   String? params;
   String? query;
@@ -147,7 +147,7 @@ class Search extends Endpoint {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class NavigationEndpoint {
   Watch? watchEndpoint;
   WatchPlaylist? watchPlaylistEndpoint;

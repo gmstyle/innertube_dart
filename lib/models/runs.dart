@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'runs.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Runs {
   final List<Run> runs;
 
@@ -47,7 +47,7 @@ class Runs {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Run {
   final String? text;
   final String? navigationEndpoint;

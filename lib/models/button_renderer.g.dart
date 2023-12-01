@@ -16,5 +16,5 @@ ButtonRenderer _$ButtonRendererFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ButtonRendererToJson(ButtonRenderer instance) =>
     <String, dynamic>{
-      'navigationEndpoint': instance.navigationEndpoint,
+      'navigationEndpoint': instance.navigationEndpoint?.toJson(),
     };

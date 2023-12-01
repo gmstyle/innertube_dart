@@ -14,7 +14,7 @@ GridRenderer _$GridRendererFromJson(Map<String, dynamic> json) => GridRenderer(
 
 Map<String, dynamic> _$GridRendererToJson(GridRenderer instance) =>
     <String, dynamic>{
-      'items': instance.items,
+      'items': instance.items?.map((e) => e.toJson()).toList(),
     };
 
 Item _$ItemFromJson(Map<String, dynamic> json) => Item(
@@ -25,5 +25,5 @@ Item _$ItemFromJson(Map<String, dynamic> json) => Item(
     );
 
 Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
-      'musicTwoRowItemRenderer': instance.musicTwoRowItemRenderer,
+      'musicTwoRowItemRenderer': instance.musicTwoRowItemRenderer?.toJson(),
     };

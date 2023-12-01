@@ -14,8 +14,8 @@ Context _$ContextFromJson(Map<String, dynamic> json) => Context(
     );
 
 Map<String, dynamic> _$ContextToJson(Context instance) => <String, dynamic>{
-      'client': instance.client,
-      'thirdParty': instance.thirdParty,
+      'client': instance.client.toJson(),
+      'thirdParty': instance.thirdParty?.toJson(),
     };
 
 Client _$ClientFromJson(Map<String, dynamic> json) => Client(

@@ -28,8 +28,8 @@ MusicTwoRowItemRenderer _$MusicTwoRowItemRendererFromJson(
 Map<String, dynamic> _$MusicTwoRowItemRendererToJson(
         MusicTwoRowItemRenderer instance) =>
     <String, dynamic>{
-      'navigationEndpoint': instance.navigationEndpoint,
-      'thumbnailRenderer': instance.thumbnailRenderer,
-      'title': instance.title,
-      'subtitle': instance.subtitle,
+      'navigationEndpoint': instance.navigationEndpoint?.toJson(),
+      'thumbnailRenderer': instance.thumbnailRenderer?.toJson(),
+      'title': instance.title?.toJson(),
+      'subtitle': instance.subtitle?.toJson(),
     };

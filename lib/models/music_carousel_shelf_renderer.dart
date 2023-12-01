@@ -3,19 +3,19 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'music_carousel_shelf_renderer.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class MusciCarouselShelfRenderer {}
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Content {}
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Header {}
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class MusicCarouselShelfBasicHeaderRenderer {}
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class MoreContentButton {
   final ButtonRenderer? buttonRenderer;
 

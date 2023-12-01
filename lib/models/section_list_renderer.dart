@@ -7,7 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'section_list_renderer.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SectionListRenderer {
   final List<Content>? contents;
   final List<Continuation>? continuations;
@@ -26,7 +26,7 @@ class SectionListRenderer {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Content {
   final MusciCarouselShelfRenderer? musicCarouselShelfRenderer;
   final MusicShelfRenderer? musicShelfRenderer;
@@ -53,7 +53,7 @@ class Content {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class MusicDescriptionShelfRenderer {
   final Runs? description;
 

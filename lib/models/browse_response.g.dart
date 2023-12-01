@@ -21,9 +21,9 @@ BrowseResponse _$BrowseResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$BrowseResponseToJson(BrowseResponse instance) =>
     <String, dynamic>{
-      'contents': instance.contents,
-      'header': instance.header,
-      'microformat': instance.microformat,
+      'contents': instance.contents?.toJson(),
+      'header': instance.header?.toJson(),
+      'microformat': instance.microformat?.toJson(),
     };
 
 Contents _$ContentsFromJson(Map<String, dynamic> json) => Contents(
@@ -39,8 +39,8 @@ Contents _$ContentsFromJson(Map<String, dynamic> json) => Contents(
 
 Map<String, dynamic> _$ContentsToJson(Contents instance) => <String, dynamic>{
       'singleColumnBrowseResultsRenderer':
-          instance.singleColumnBrowseResultsRenderer,
-      'sectionListRenderer': instance.sectionListRenderer,
+          instance.singleColumnBrowseResultsRenderer?.toJson(),
+      'sectionListRenderer': instance.sectionListRenderer?.toJson(),
     };
 
 Header _$HeaderFromJson(Map<String, dynamic> json) => Header(
@@ -55,8 +55,9 @@ Header _$HeaderFromJson(Map<String, dynamic> json) => Header(
     );
 
 Map<String, dynamic> _$HeaderToJson(Header instance) => <String, dynamic>{
-      'musicImmersiveHeaderRenderer': instance.musicImmersiveHeaderRenderer,
-      'musicDetailHeaderRenderer': instance.musicDetailHeaderRenderer,
+      'musicImmersiveHeaderRenderer':
+          instance.musicImmersiveHeaderRenderer?.toJson(),
+      'musicDetailHeaderRenderer': instance.musicDetailHeaderRenderer?.toJson(),
     };
 
 MusicDetailHeaderRenderer _$MusicDetailHeaderRendererFromJson(
@@ -80,10 +81,10 @@ MusicDetailHeaderRenderer _$MusicDetailHeaderRendererFromJson(
 Map<String, dynamic> _$MusicDetailHeaderRendererToJson(
         MusicDetailHeaderRenderer instance) =>
     <String, dynamic>{
-      'title': instance.title,
-      'subtitle': instance.subtitle,
-      'secondSubtitle': instance.secondSubtitle,
-      'thumbnail': instance.thumbnail,
+      'title': instance.title?.toJson(),
+      'subtitle': instance.subtitle?.toJson(),
+      'secondSubtitle': instance.secondSubtitle?.toJson(),
+      'thumbnail': instance.thumbnail?.toJson(),
     };
 
 MusicImmersiveHeaderRenderer _$MusicImmersiveHeaderRendererFromJson(
@@ -115,12 +116,12 @@ MusicImmersiveHeaderRenderer _$MusicImmersiveHeaderRendererFromJson(
 Map<String, dynamic> _$MusicImmersiveHeaderRendererToJson(
         MusicImmersiveHeaderRenderer instance) =>
     <String, dynamic>{
-      'description': instance.description,
-      'playButton': instance.playButton,
-      'startRadioButton': instance.startRadioButton,
-      'thumbnail': instance.thumbnail,
-      'foregroundThumbnail': instance.foregroundThumbnail,
-      'title': instance.title,
+      'description': instance.description?.toJson(),
+      'playButton': instance.playButton?.toJson(),
+      'startRadioButton': instance.startRadioButton?.toJson(),
+      'thumbnail': instance.thumbnail?.toJson(),
+      'foregroundThumbnail': instance.foregroundThumbnail?.toJson(),
+      'title': instance.title?.toJson(),
     };
 
 PlayButton _$PlayButtonFromJson(Map<String, dynamic> json) => PlayButton(
@@ -132,7 +133,7 @@ PlayButton _$PlayButtonFromJson(Map<String, dynamic> json) => PlayButton(
 
 Map<String, dynamic> _$PlayButtonToJson(PlayButton instance) =>
     <String, dynamic>{
-      'buttonRenderer': instance.buttonRenderer,
+      'buttonRenderer': instance.buttonRenderer?.toJson(),
     };
 
 StartRadioButton _$StartRadioButtonFromJson(Map<String, dynamic> json) =>
@@ -145,7 +146,7 @@ StartRadioButton _$StartRadioButtonFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$StartRadioButtonToJson(StartRadioButton instance) =>
     <String, dynamic>{
-      'buttonRenderer': instance.buttonRenderer,
+      'buttonRenderer': instance.buttonRenderer?.toJson(),
     };
 
 Microformat _$MicroformatFromJson(Map<String, dynamic> json) => Microformat(
@@ -157,7 +158,7 @@ Microformat _$MicroformatFromJson(Map<String, dynamic> json) => Microformat(
 
 Map<String, dynamic> _$MicroformatToJson(Microformat instance) =>
     <String, dynamic>{
-      'microformatDataRenderer': instance.microformatDataRenderer,
+      'microformatDataRenderer': instance.microformatDataRenderer?.toJson(),
     };
 
 MicroformatDataRenderer _$MicroformatDataRendererFromJson(

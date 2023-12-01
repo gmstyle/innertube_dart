@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'music_two_row_item_renderer.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class MusicTwoRowItemRenderer {
   final NavigationEndpoint? navigationEndpoint;
   final ThumbnailRenderer? thumbnailRenderer;

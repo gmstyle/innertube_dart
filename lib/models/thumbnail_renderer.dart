@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'thumbnail_renderer.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ThumbnailRenderer {
   final MusciThumbnailRenderer? musicThumbnailRenderer;
 
@@ -19,7 +19,7 @@ class ThumbnailRenderer {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class MusciThumbnailRenderer {
   final Thumbnail? thumbnail;
 
@@ -34,7 +34,7 @@ class MusciThumbnailRenderer {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Thumbnail {
   final List<thumbnail.Thumbnail> thumbnails;
 

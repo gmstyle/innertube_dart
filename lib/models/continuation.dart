@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'continuation.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Continuation {
   @JsonKey(name: 'nextContinuationData')
   final Data? nextContinuationData;
@@ -17,7 +17,7 @@ class Continuation {
   Map<String, dynamic> toJson() => _$ContinuationToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Data {
   final String? continuation;
 

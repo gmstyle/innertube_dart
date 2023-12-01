@@ -8,7 +8,7 @@ import 'runs.dart';
 
 part 'browse_response.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class BrowseResponse {
   final Contents? contents;
   final Header? header;
@@ -22,7 +22,7 @@ class BrowseResponse {
   Map<String, dynamic> toJson() => _$BrowseResponseToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Contents {
   final Tabs? singleColumnBrowseResultsRenderer;
   final SectionListRenderer? sectionListRenderer;
@@ -35,7 +35,7 @@ class Contents {
   Map<String, dynamic> toJson() => _$ContentsToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Header {
   final MusicImmersiveHeaderRenderer? musicImmersiveHeaderRenderer;
   final MusicDetailHeaderRenderer? musicDetailHeaderRenderer;
@@ -50,7 +50,7 @@ class Header {
   Map<String, dynamic> toJson() => _$HeaderToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class MusicDetailHeaderRenderer {
   final Runs? title;
   final Runs? subtitle;
@@ -66,7 +66,7 @@ class MusicDetailHeaderRenderer {
   Map<String, dynamic> toJson() => _$MusicDetailHeaderRendererToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class MusicImmersiveHeaderRenderer {
   final Runs? description;
   final PlayButton? playButton;
@@ -89,7 +89,7 @@ class MusicImmersiveHeaderRenderer {
   Map<String, dynamic> toJson() => _$MusicImmersiveHeaderRendererToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class PlayButton {
   final ButtonRenderer? buttonRenderer;
 
@@ -101,7 +101,7 @@ class PlayButton {
   Map<String, dynamic> toJson() => _$PlayButtonToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class StartRadioButton {
   final ButtonRenderer? buttonRenderer;
 
@@ -113,7 +113,7 @@ class StartRadioButton {
   Map<String, dynamic> toJson() => _$StartRadioButtonToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Microformat {
   final MicroformatDataRenderer? microformatDataRenderer;
 
@@ -125,7 +125,7 @@ class Microformat {
   Map<String, dynamic> toJson() => _$MicroformatToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class MicroformatDataRenderer {
   final String? urlCanonical;
 

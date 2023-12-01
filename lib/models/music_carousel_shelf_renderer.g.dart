@@ -41,5 +41,5 @@ MoreContentButton _$MoreContentButtonFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$MoreContentButtonToJson(MoreContentButton instance) =>
     <String, dynamic>{
-      'buttonRenderer': instance.buttonRenderer,
+      'buttonRenderer': instance.buttonRenderer?.toJson(),
     };

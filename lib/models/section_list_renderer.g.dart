@@ -19,8 +19,8 @@ SectionListRenderer _$SectionListRendererFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$SectionListRendererToJson(
         SectionListRenderer instance) =>
     <String, dynamic>{
-      'contents': instance.contents,
-      'continuations': instance.continuations,
+      'contents': instance.contents?.map((e) => e.toJson()).toList(),
+      'continuations': instance.continuations?.map((e) => e.toJson()).toList(),
     };
 
 Content _$ContentFromJson(Map<String, dynamic> json) => Content(
@@ -43,10 +43,12 @@ Content _$ContentFromJson(Map<String, dynamic> json) => Content(
     );
 
 Map<String, dynamic> _$ContentToJson(Content instance) => <String, dynamic>{
-      'musicCarouselShelfRenderer': instance.musicCarouselShelfRenderer,
-      'musicShelfRenderer': instance.musicShelfRenderer,
-      'gridRenderer': instance.gridRenderer,
-      'musicDescriptionShelfRenderer': instance.musicDescriptionShelfRenderer,
+      'musicCarouselShelfRenderer':
+          instance.musicCarouselShelfRenderer?.toJson(),
+      'musicShelfRenderer': instance.musicShelfRenderer?.toJson(),
+      'gridRenderer': instance.gridRenderer?.toJson(),
+      'musicDescriptionShelfRenderer':
+          instance.musicDescriptionShelfRenderer?.toJson(),
     };
 
 MusicDescriptionShelfRenderer _$MusicDescriptionShelfRendererFromJson(
@@ -60,5 +62,5 @@ MusicDescriptionShelfRenderer _$MusicDescriptionShelfRendererFromJson(
 Map<String, dynamic> _$MusicDescriptionShelfRendererToJson(
         MusicDescriptionShelfRenderer instance) =>
     <String, dynamic>{
-      'description': instance.description,
+      'description': instance.description?.toJson(),
     };

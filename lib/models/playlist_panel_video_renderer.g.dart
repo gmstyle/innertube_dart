@@ -33,10 +33,10 @@ PlaylistPanelVideoRenderer _$PlaylistPanelVideoRendererFromJson(
 Map<String, dynamic> _$PlaylistPanelVideoRendererToJson(
         PlaylistPanelVideoRenderer instance) =>
     <String, dynamic>{
-      'title': instance.title,
-      'longByLineText': instance.longByLineText,
-      'shortByLineText': instance.shortByLineText,
-      'lengthText': instance.lengthText,
-      'navigationEndpoint': instance.navigationEndpoint,
-      'thumbnail': instance.thumbnail,
+      'title': instance.title?.toJson(),
+      'longByLineText': instance.longByLineText?.toJson(),
+      'shortByLineText': instance.shortByLineText?.toJson(),
+      'lengthText': instance.lengthText?.toJson(),
+      'navigationEndpoint': instance.navigationEndpoint?.toJson(),
+      'thumbnail': instance.thumbnail?.toJson(),
     };

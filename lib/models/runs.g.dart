@@ -13,7 +13,7 @@ Runs _$RunsFromJson(Map<String, dynamic> json) => Runs(
     );
 
 Map<String, dynamic> _$RunsToJson(Runs instance) => <String, dynamic>{
-      'runs': instance.runs,
+      'runs': instance.runs.map((e) => e.toJson()).toList(),
     };
 
 Run _$RunFromJson(Map<String, dynamic> json) => Run(

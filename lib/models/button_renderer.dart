@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'button_renderer.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ButtonRenderer {
   final NavigationEndpoint? navigationEndpoint;
 

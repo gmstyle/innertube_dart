@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'thumbnail.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Thumbnail {
   final String url;
   final int? width;

@@ -14,7 +14,7 @@ Continuation _$ContinuationFromJson(Map<String, dynamic> json) => Continuation(
 
 Map<String, dynamic> _$ContinuationToJson(Continuation instance) =>
     <String, dynamic>{
-      'nextContinuationData': instance.nextContinuationData,
+      'nextContinuationData': instance.nextContinuationData?.toJson(),
     };
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(

@@ -6,7 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'playlist_panel_video_renderer.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class PlaylistPanelVideoRenderer {
   final Runs? title;
   final Runs? longByLineText;

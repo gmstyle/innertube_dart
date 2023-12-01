@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'grid_renderer.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class GridRenderer {
   final List<Item>? items;
 
@@ -18,7 +18,7 @@ class GridRenderer {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Item {
   final MusicTwoRowItemRenderer? musicTwoRowItemRenderer;
 

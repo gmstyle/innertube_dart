@@ -27,7 +27,7 @@ Map<String, dynamic> _$WatchToJson(Watch instance) => <String, dynamic>{
       'index': instance.index,
       'playlistSetVideoId': instance.playlistSetVideoId,
       'watchEndpointMusicSupportedConfigs':
-          instance.watchEndpointMusicSupportedConfigs,
+          instance.watchEndpointMusicSupportedConfigs?.toJson(),
     };
 
 WatchEndpointMusicSupportedConfigs _$WatchEndpointMusicSupportedConfigsFromJson(
@@ -42,7 +42,7 @@ WatchEndpointMusicSupportedConfigs _$WatchEndpointMusicSupportedConfigsFromJson(
 Map<String, dynamic> _$WatchEndpointMusicSupportedConfigsToJson(
         WatchEndpointMusicSupportedConfigs instance) =>
     <String, dynamic>{
-      'watchEndpointMusicConfig': instance.watchEndpointMusicConfig,
+      'watchEndpointMusicConfig': instance.watchEndpointMusicConfig?.toJson(),
     };
 
 WatchEndpointMusicConfig _$WatchEndpointMusicConfigFromJson(
@@ -84,7 +84,7 @@ Map<String, dynamic> _$BrowseToJson(Browse instance) => <String, dynamic>{
       'params': instance.params,
       'browseId': instance.browseId,
       'browseEndpointContextSupportedConfigs':
-          instance.browseEndpointContextSupportedConfigs,
+          instance.browseEndpointContextSupportedConfigs?.toJson(),
     };
 
 BrowseEndpointContextSupportedConfigs
@@ -103,7 +103,7 @@ Map<String, dynamic> _$BrowseEndpointContextSupportedConfigsToJson(
         BrowseEndpointContextSupportedConfigs instance) =>
     <String, dynamic>{
       'browseEndpointContextMusicConfig':
-          instance.browseEndpointContextMusicConfig,
+          instance.browseEndpointContextMusicConfig?.toJson(),
     };
 
 BrowseEndpointContextMusicConfig _$BrowseEndpointContextMusicConfigFromJson(
@@ -147,8 +147,8 @@ NavigationEndpoint _$NavigationEndpointFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$NavigationEndpointToJson(NavigationEndpoint instance) =>
     <String, dynamic>{
-      'watchEndpoint': instance.watchEndpoint,
-      'watchPlaylistEndpoint': instance.watchPlaylistEndpoint,
-      'browseEndpoint': instance.browseEndpoint,
-      'searchEndpoint': instance.searchEndpoint,
+      'watchEndpoint': instance.watchEndpoint?.toJson(),
+      'watchPlaylistEndpoint': instance.watchPlaylistEndpoint?.toJson(),
+      'browseEndpoint': instance.browseEndpoint?.toJson(),
+      'searchEndpoint': instance.searchEndpoint?.toJson(),
     };

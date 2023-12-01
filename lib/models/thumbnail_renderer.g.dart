@@ -16,7 +16,7 @@ ThumbnailRenderer _$ThumbnailRendererFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ThumbnailRendererToJson(ThumbnailRenderer instance) =>
     <String, dynamic>{
-      'musicThumbnailRenderer': instance.musicThumbnailRenderer,
+      'musicThumbnailRenderer': instance.musicThumbnailRenderer?.toJson(),
     };
 
 MusciThumbnailRenderer _$MusciThumbnailRendererFromJson(
@@ -30,7 +30,7 @@ MusciThumbnailRenderer _$MusciThumbnailRendererFromJson(
 Map<String, dynamic> _$MusciThumbnailRendererToJson(
         MusciThumbnailRenderer instance) =>
     <String, dynamic>{
-      'thumbnail': instance.thumbnail,
+      'thumbnail': instance.thumbnail?.toJson(),
     };
 
 Thumbnail _$ThumbnailFromJson(Map<String, dynamic> json) => Thumbnail(
@@ -40,5 +40,5 @@ Thumbnail _$ThumbnailFromJson(Map<String, dynamic> json) => Thumbnail(
     );
 
 Map<String, dynamic> _$ThumbnailToJson(Thumbnail instance) => <String, dynamic>{
-      'thumbnails': instance.thumbnails,
+      'thumbnails': instance.thumbnails.map((e) => e.toJson()).toList(),
     };

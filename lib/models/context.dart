@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'context.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Context {
   final Client client;
   final ThirdParty? thirdParty;
@@ -18,7 +18,7 @@ class Context {
   Map<String, dynamic> toJson() => _$ContextToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Client {
   final String clientName;
   final String clientVersion;
@@ -65,7 +65,7 @@ class Client {
           platform: 'TV'));
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ThirdParty {
   final String? embedUrl;
 
