@@ -3,7 +3,11 @@ import 'package:innertube_dart/models/grid_renderer.dart';
 import 'package:innertube_dart/models/music_carousel_shelf_renderer.dart';
 import 'package:innertube_dart/models/music_shelf_renderer.dart';
 import 'package:innertube_dart/models/runs.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'section_list_renderer.g.dart';
+
+@JsonSerializable()
 class SectionListRenderer {
   final List<Content>? contents;
   final List<Continuation>? continuations;
@@ -14,26 +18,15 @@ class SectionListRenderer {
   });
 
   factory SectionListRenderer.fromJson(Map<String, dynamic> json) {
-    return SectionListRenderer(
-      contents: json['contents'] != null
-          ? (json['contents'] as List).map((i) => Content.fromJson(i)).toList()
-          : [],
-      continuations: json['continuations'] != null
-          ? (json['continuations'] as List)
-              .map((i) => Continuation.fromJson(i))
-              .toList()
-          : [],
-    );
+    return _$SectionListRendererFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'contents': contents?.map((e) => e.toJson()).toList(),
-      'continuations': continuations?.map((e) => e.toJson()).toList(),
-    };
+    return _$SectionListRendererToJson(this);
   }
 }
 
+@JsonSerializable()
 class Content {
   final MusciCarouselShelfRenderer? musicCarouselShelfRenderer;
   final MusicShelfRenderer? musicShelfRenderer;
@@ -48,27 +41,19 @@ class Content {
   });
 
   factory Content.fromJson(Map<String, dynamic> json) {
-    return Content(
-      musicCarouselShelfRenderer:
-          json['musicImmersiveCarouselShelfRenderer'] != null
-              ? MusciCarouselShelfRenderer.fromJson(
-                  json['musicImmersiveCarouselShelfRenderer'])
-              : null,
-      musicShelfRenderer: json['musicPlaylistShelfRenderer'] != null
-          ? MusicShelfRenderer.fromJson(json['musicPlaylistShelfRenderer'])
-          : null,
-      gridRenderer: json['gridRenderer'] != null
-          ? GridRenderer.fromJson(json['gridRenderer'])
-          : null,
-      musicDescriptionShelfRenderer:
-          json['musicDescriptionShelfRenderer'] != null
-              ? MusicDescriptionShelfRenderer.fromJson(
-                  json['musicDescriptionShelfRenderer'])
-              : null,
-    );
+    json['musicCarouselShelfRenderer'] ??=
+        json['musicImmersiveCarouselShelfRenderer'];
+    json['musicShelfRenderer'] ??= json['musicPlaylistShelfRenderer'];
+
+    return _$ContentFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$ContentToJson(this);
   }
 }
 
+@JsonSerializable()
 class MusicDescriptionShelfRenderer {
   final Runs? description;
 
@@ -77,16 +62,10 @@ class MusicDescriptionShelfRenderer {
   });
 
   factory MusicDescriptionShelfRenderer.fromJson(Map<String, dynamic> json) {
-    return MusicDescriptionShelfRenderer(
-      description: json['description'] != null
-          ? Runs.fromJson(json['description'])
-          : null,
-    );
+    return _$MusicDescriptionShelfRendererFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'description': description?.toJson(),
-    };
+    return _$MusicDescriptionShelfRendererToJson(this);
   }
 }

@@ -1,23 +1,53 @@
-class Runs {
-  final List<Run>? runs;
+import 'package:innertube_dart/extensions/extension.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-  Runs({this.runs});
+part 'runs.g.dart';
+
+@JsonSerializable()
+class Runs {
+  final List<Run> runs;
+
+  Runs({required this.runs});
 
   factory Runs.fromJson(Map<String, dynamic> json) {
-    return Runs(
-      runs: json['runs'] != null
-          ? (json['runs'] as List).map((i) => Run.fromJson(i)).toList()
-          : null,
-    );
+    return _$RunsFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'runs': runs?.map((e) => e.toJson()).toList(),
-    };
+    return _$RunsToJson(this);
+  }
+
+  String get text {
+    return runs.map((run) => run.text).join('');
+  }
+
+  List<List<Run>> splitBySeparator() {
+    return runs
+        .asMap()
+        .entries
+        .expand((entry) {
+          int index = entry.key;
+          Run run = entry.value;
+          if (index == 0 || index == runs.length - 1) {
+            return [index];
+          } else if (run.text == " • ") {
+            return [index - 1, index + 1];
+          } else {
+            return [];
+          }
+        })
+        .toList()
+        .windowed(2, 2)
+        .map((window) {
+          int from = window[0];
+          int to = window[1];
+          return runs.sublist(from, to + 1);
+        })
+        .toList();
   }
 }
 
+@JsonSerializable()
 class Run {
   final String? text;
   final String? navigationEndpoint;
@@ -25,16 +55,10 @@ class Run {
   Run({this.text, this.navigationEndpoint});
 
   factory Run.fromJson(Map<String, dynamic> json) {
-    return Run(
-      text: json['text'],
-      navigationEndpoint: json['navigationEndpoint'],
-    );
+    return _$RunFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'text': text,
-      'navigationEndpoint': navigationEndpoint,
-    };
+    return _$RunToJson(this);
   }
 }

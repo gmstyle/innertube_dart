@@ -1,47 +1,50 @@
-import 'package:innertube_dart/models/thumbnail.dart';
+import 'package:innertube_dart/models/thumbnail.dart' as thumbnail;
+import 'package:json_annotation/json_annotation.dart';
 
+part 'thumbnail_renderer.g.dart';
+
+@JsonSerializable()
 class ThumbnailRenderer {
   final MusciThumbnailRenderer? musicThumbnailRenderer;
 
   ThumbnailRenderer({this.musicThumbnailRenderer});
 
   factory ThumbnailRenderer.fromJson(Map<String, dynamic> json) {
-    return ThumbnailRenderer(
-      musicThumbnailRenderer: json['croppedSquareThumbnailRenderer'] != null
-          ? MusciThumbnailRenderer.fromJson(
-              json['croppedSquareThumbnailRenderer'])
-          : null,
-    );
+    json['musicThumbnailRenderer'] ??= json['croppedSquareThumbnailRenderer'];
+    return _$ThumbnailRendererFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.musicThumbnailRenderer != null) {
-      data['croppedSquareThumbnailRenderer'] =
-          this.musicThumbnailRenderer!.toJson();
-    }
-    return data;
+    return _$ThumbnailRendererToJson(this);
   }
 }
 
+@JsonSerializable()
 class MusciThumbnailRenderer {
   final Thumbnail? thumbnail;
 
   MusciThumbnailRenderer({this.thumbnail});
 
   factory MusciThumbnailRenderer.fromJson(Map<String, dynamic> json) {
-    return MusciThumbnailRenderer(
-      thumbnail: json['thumbnail'] != null
-          ? Thumbnail.fromJson(json['thumbnail'])
-          : null,
-    );
+    return _$MusciThumbnailRendererFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.thumbnail != null) {
-      data['thumbnail'] = this.thumbnail!.toJson();
-    }
-    return data;
+    return _$MusciThumbnailRendererToJson(this);
+  }
+}
+
+@JsonSerializable()
+class Thumbnail {
+  final List<thumbnail.Thumbnail> thumbnails;
+
+  Thumbnail({required this.thumbnails});
+
+  factory Thumbnail.fromJson(Map<String, dynamic> json) {
+    return _$ThumbnailFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$ThumbnailToJson(this);
   }
 }

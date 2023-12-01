@@ -1,5 +1,10 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'navigation_endpoint.g.dart';
+
 abstract class Endpoint {}
 
+@JsonSerializable()
 class Watch extends Endpoint {
   String? params;
   String? playlistId;
@@ -18,36 +23,18 @@ class Watch extends Endpoint {
   });
 
   factory Watch.fromJson(Map<String, dynamic> json) {
-    return Watch(
-      params: json['params'],
-      playlistId: json['playlistId'],
-      videoId: json['videoId'],
-      index: json['index'],
-      playlistSetVideoId: json['playlistSetVideoId'],
-      watchEndpointMusicSupportedConfigs:
-          json['watchEndpointMusicSupportedConfigs'] != null
-              ? WatchEndpointMusicSupportedConfigs.fromJson(
-                  json['watchEndpointMusicSupportedConfigs'])
-              : null,
-    );
+    return _$WatchFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'params': params,
-      'playlistId': playlistId,
-      'videoId': videoId,
-      'index': index,
-      'playlistSetVideoId': playlistSetVideoId,
-      'watchEndpointMusicSupportedConfigs':
-          watchEndpointMusicSupportedConfigs?.toJson(),
-    };
+    return _$WatchToJson(this);
   }
 
   String? get type => watchEndpointMusicSupportedConfigs
       ?.watchEndpointMusicConfig?.musicVideoType;
 }
 
+@JsonSerializable()
 class WatchEndpointMusicSupportedConfigs {
   WatchEndpointMusicConfig? watchEndpointMusicConfig;
 
@@ -55,38 +42,30 @@ class WatchEndpointMusicSupportedConfigs {
 
   factory WatchEndpointMusicSupportedConfigs.fromJson(
       Map<String, dynamic> json) {
-    return WatchEndpointMusicSupportedConfigs(
-      watchEndpointMusicConfig: json['watchEndpointMusicConfig'] != null
-          ? WatchEndpointMusicConfig.fromJson(json['watchEndpointMusicConfig'])
-          : null,
-    );
+    return _$WatchEndpointMusicSupportedConfigsFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'watchEndpointMusicConfig': watchEndpointMusicConfig?.toJson(),
-    };
+    return _$WatchEndpointMusicSupportedConfigsToJson(this);
   }
 }
 
+@JsonSerializable()
 class WatchEndpointMusicConfig {
   String? musicVideoType;
 
   WatchEndpointMusicConfig({this.musicVideoType});
 
   factory WatchEndpointMusicConfig.fromJson(Map<String, dynamic> json) {
-    return WatchEndpointMusicConfig(
-      musicVideoType: json['musicVideoType'],
-    );
+    return _$WatchEndpointMusicConfigFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'musicVideoType': musicVideoType,
-    };
+    return _$WatchEndpointMusicConfigToJson(this);
   }
 }
 
+@JsonSerializable()
 class WatchPlaylist extends Endpoint {
   String? params;
   String? playlistId;
@@ -94,20 +73,15 @@ class WatchPlaylist extends Endpoint {
   WatchPlaylist({this.params, this.playlistId});
 
   factory WatchPlaylist.fromJson(Map<String, dynamic> json) {
-    return WatchPlaylist(
-      params: json['params'],
-      playlistId: json['playlistId'],
-    );
+    return _$WatchPlaylistFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'params': params,
-      'playlistId': playlistId,
-    };
+    return _$WatchPlaylistToJson(this);
   }
 }
 
+@JsonSerializable()
 class Browse extends Endpoint {
   String? params;
   String? browseId;
@@ -117,27 +91,15 @@ class Browse extends Endpoint {
       {this.params, this.browseId, this.browseEndpointContextSupportedConfigs});
 
   factory Browse.fromJson(Map<String, dynamic> json) {
-    return Browse(
-      params: json['params'],
-      browseId: json['browseId'],
-      browseEndpointContextSupportedConfigs:
-          json['browseEndpointContextSupportedConfigs'] != null
-              ? BrowseEndpointContextSupportedConfigs.fromJson(
-                  json['browseEndpointContextSupportedConfigs'])
-              : null,
-    );
+    return _$BrowseFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'params': params,
-      'browseId': browseId,
-      'browseEndpointContextSupportedConfigs':
-          browseEndpointContextSupportedConfigs?.toJson(),
-    };
+    return _$BrowseToJson(this);
   }
 }
 
+@JsonSerializable()
 class BrowseEndpointContextSupportedConfigs {
   BrowseEndpointContextMusicConfig? browseEndpointContextMusicConfig;
 
@@ -146,41 +108,30 @@ class BrowseEndpointContextSupportedConfigs {
 
   factory BrowseEndpointContextSupportedConfigs.fromJson(
       Map<String, dynamic> json) {
-    return BrowseEndpointContextSupportedConfigs(
-      browseEndpointContextMusicConfig:
-          json['browseEndpointContextMusicConfig'] != null
-              ? BrowseEndpointContextMusicConfig.fromJson(
-                  json['browseEndpointContextMusicConfig'])
-              : null,
-    );
+    return _$BrowseEndpointContextSupportedConfigsFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'browseEndpointContextMusicConfig':
-          browseEndpointContextMusicConfig?.toJson(),
-    };
+    return _$BrowseEndpointContextSupportedConfigsToJson(this);
   }
 }
 
+@JsonSerializable()
 class BrowseEndpointContextMusicConfig {
   String? pageType;
 
   BrowseEndpointContextMusicConfig({this.pageType});
 
   factory BrowseEndpointContextMusicConfig.fromJson(Map<String, dynamic> json) {
-    return BrowseEndpointContextMusicConfig(
-      pageType: json['pageType'],
-    );
+    return _$BrowseEndpointContextMusicConfigFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'pageType': pageType,
-    };
+    return _$BrowseEndpointContextMusicConfigToJson(this);
   }
 }
 
+@JsonSerializable()
 class Search extends Endpoint {
   String? params;
   String? query;
@@ -188,20 +139,15 @@ class Search extends Endpoint {
   Search({this.params, this.query});
 
   factory Search.fromJson(Map<String, dynamic> json) {
-    return Search(
-      params: json['params'],
-      query: json['query'],
-    );
+    return _$SearchFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'params': params,
-      'query': query,
-    };
+    return _$SearchToJson(this);
   }
 }
 
+@JsonSerializable()
 class NavigationEndpoint {
   Watch? watchEndpoint;
   WatchPlaylist? watchPlaylistEndpoint;
@@ -216,29 +162,11 @@ class NavigationEndpoint {
   });
 
   factory NavigationEndpoint.fromJson(Map<String, dynamic> json) {
-    return NavigationEndpoint(
-      watchEndpoint: json['watchEndpoint'] != null
-          ? Watch.fromJson(json['watchEndpoint'])
-          : null,
-      watchPlaylistEndpoint: json['watchPlaylistEndpoint'] != null
-          ? WatchPlaylist.fromJson(json['watchPlaylistEndpoint'])
-          : null,
-      browseEndpoint: json['browseEndpoint'] != null
-          ? Browse.fromJson(json['browseEndpoint'])
-          : null,
-      searchEndpoint: json['searchEndpoint'] != null
-          ? Search.fromJson(json['searchEndpoint'])
-          : null,
-    );
+    return _$NavigationEndpointFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'watchEndpoint': watchEndpoint?.toJson(),
-      'watchPlaylistEndpoint': watchPlaylistEndpoint?.toJson(),
-      'browseEndpoint': browseEndpoint?.toJson(),
-      'searchEndpoint': searchEndpoint?.toJson(),
-    };
+    return _$NavigationEndpointToJson(this);
   }
 
   Endpoint? get endpoint {

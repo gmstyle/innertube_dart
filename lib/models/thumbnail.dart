@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'thumbnail.g.dart';
+
+@JsonSerializable()
 class Thumbnail {
   final String url;
   final int? width;
@@ -6,20 +11,10 @@ class Thumbnail {
   Thumbnail({required this.url, this.width, this.height});
 
   factory Thumbnail.fromJson(Map<String, dynamic> json) {
-    return Thumbnail(
-      url: json['url'],
-      width: json['width'],
-      height: json['height'],
-    );
+    return _$ThumbnailFromJson(json);
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['url'] = this.url;
-    data['width'] = this.width;
-    data['height'] = this.height;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$ThumbnailToJson(this);
 
   bool get isResizable => !url.startsWith('https://i.ytimg.com');
 
