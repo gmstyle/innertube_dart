@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'next_response.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class NextResponse {
   final Contents? contents;
 
@@ -17,35 +17,37 @@ class NextResponse {
   Map<String, dynamic> toJson() => _$NextResponseToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class MusicQueueRenderer {
-  final Content? content;
+  final MusicQueueRendererContent? content;
 
   MusicQueueRenderer(this.content);
 
-  factory MusicQueueRenderer.fromJson(Map<String, dynamic> json) =>
-      _$MusicQueueRendererFromJson(json);
+  factory MusicQueueRenderer.fromJson(Map<String, dynamic> json) {
+    json['playlistPanelRenderer'] ??= json['playlistPanelContinuation'];
+    return _$MusicQueueRendererFromJson(json);
+  }
 
   Map<String, dynamic> toJson() => _$MusicQueueRendererToJson(this);
 }
 
-@JsonSerializable()
-class Content {
+@JsonSerializable(explicitToJson: true)
+class MusicQueueRendererContent {
   final PlaylistPanelRenderer? playlistPanelRenderer;
 
-  Content(this.playlistPanelRenderer);
+  MusicQueueRendererContent(this.playlistPanelRenderer);
 
-  factory Content.fromJson(Map<String, dynamic> json) {
+  factory MusicQueueRendererContent.fromJson(Map<String, dynamic> json) {
     json['playlistPanelRenderer'] ??= json['playlistPanelContinuation'];
-    return _$ContentFromJson(json);
+    return _$MusicQueueRendererContentFromJson(json);
   }
 
-  Map<String, dynamic> toJson() => _$ContentToJson(this);
+  Map<String, dynamic> toJson() => _$MusicQueueRendererContentToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class PlaylistPanelRenderer {
-  final List<Content>? contents;
+  final List<PlaylistPanelContent>? contents;
   final List<Continuation>? continuations;
 
   PlaylistPanelRenderer(this.contents, this.continuations);
@@ -56,9 +58,24 @@ class PlaylistPanelRenderer {
   Map<String, dynamic> toJson() => _$PlaylistPanelRendererToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
+class PlaylistPanelContent {
+  final PlaylistPanelVideoRenderer? playlistPanelVideoRenderer;
+  final AutomixPreviewVideoRenderer? automixPreviewVideoRenderer;
+
+  PlaylistPanelContent(
+      this.playlistPanelVideoRenderer, this.automixPreviewVideoRenderer);
+
+  factory PlaylistPanelContent.fromJson(Map<String, dynamic> json) {
+    return _$PlaylistPanelContentFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() => _$PlaylistPanelContentToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class AutomixPreviewVideoRenderer {
-  final Content? content;
+  final AutomixPreviewContent? content;
 
   AutomixPreviewVideoRenderer(this.content);
 
@@ -68,20 +85,19 @@ class AutomixPreviewVideoRenderer {
   Map<String, dynamic> toJson() => _$AutomixPreviewVideoRendererToJson(this);
 }
 
-@JsonSerializable()
-class Content {
-  final PlaylistPanelVideoRenderer? playlistPanelVideoRenderer;
-  final AutomixPreviewVideoRenderer? automixPreviewVideoRenderer;
+@JsonSerializable(explicitToJson: true)
+class AutomixPreviewContent {
+  final AutomixPlaylistVideoRenderer? automixPlaylistVideoRenderer;
 
-  Content._(this.playlistPanelVideoRenderer, this.automixPreviewVideoRenderer);
+  AutomixPreviewContent(this.automixPlaylistVideoRenderer);
 
-  factory Content.fromJson(Map<String, dynamic> json) =>
-      _$ContentFromJson(json);
+  factory AutomixPreviewContent.fromJson(Map<String, dynamic> json) =>
+      _$AutomixPreviewContentFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ContentToJson(this);
+  Map<String, dynamic> toJson() => _$AutomixPreviewContentToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AutomixPlaylistVideoRenderer {
   final NavigationEndpoint? navigationEndpoint;
 
@@ -93,7 +109,7 @@ class AutomixPlaylistVideoRenderer {
   Map<String, dynamic> toJson() => _$AutomixPlaylistVideoRendererToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Contents {
   final SingleColumnMusicWatchNextResultsRenderer?
       singleColumnMusicWatchNextResultsRenderer;
@@ -106,7 +122,7 @@ class Contents {
   Map<String, dynamic> toJson() => _$ContentsToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SingleColumnMusicWatchNextResultsRenderer {
   final TabbedRenderer? tabbedRenderer;
 
@@ -120,7 +136,7 @@ class SingleColumnMusicWatchNextResultsRenderer {
       _$SingleColumnMusicWatchNextResultsRendererToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class TabbedRenderer {
   final WatchNextTabbedResultsRenderer? watchNextTabbedResultsRenderer;
 
@@ -132,7 +148,7 @@ class TabbedRenderer {
   Map<String, dynamic> toJson() => _$TabbedRendererToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class WatchNextTabbedResultsRenderer {
   final List<Tab>? tabs;
 
@@ -144,7 +160,7 @@ class WatchNextTabbedResultsRenderer {
   Map<String, dynamic> toJson() => _$WatchNextTabbedResultsRendererToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Tab {
   final TabRenderer? tabRenderer;
 
@@ -155,9 +171,9 @@ class Tab {
   Map<String, dynamic> toJson() => _$TabToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class TabRenderer {
-  final Content? content;
+  final TabContent? content;
   final NavigationEndpoint? endpoint;
   final String? title;
 
@@ -167,4 +183,16 @@ class TabRenderer {
       _$TabRendererFromJson(json);
 
   Map<String, dynamic> toJson() => _$TabRendererToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class TabContent {
+  final MusicQueueRenderer? musicQueueRenderer;
+
+  TabContent(this.musicQueueRenderer);
+
+  factory TabContent.fromJson(Map<String, dynamic> json) =>
+      _$TabContentFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TabContentToJson(this);
 }
