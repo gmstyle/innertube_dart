@@ -27,7 +27,8 @@ PlaylistPanelVideoRenderer _$PlaylistPanelVideoRendererFromJson(
               json['navigationEndpoint'] as Map<String, dynamic>),
       thumbnail: json['thumbnail'] == null
           ? null
-          : Thumbnail.fromJson(json['thumbnail'] as Map<String, dynamic>),
+          : thumbnailRenderer.Thumbnail.fromJson(
+              json['thumbnail'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PlaylistPanelVideoRendererToJson(
