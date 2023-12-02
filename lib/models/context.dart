@@ -7,7 +7,7 @@ class Context {
   final Client client;
   final ThirdParty? thirdParty;
 
-  Context({
+  const Context({
     required this.client,
     this.thirdParty,
   });
@@ -16,6 +16,30 @@ class Context {
       _$ContextFromJson(json);
 
   Map<String, dynamic> toJson() => _$ContextToJson(this);
+
+  static const Context defaultWeb = Context(
+    client: Client(
+        clientName: 'WEB_REMIX',
+        clientVersion: '1.20220918',
+        platform: 'DESKTOP'),
+  );
+
+  static const Context defaultAndroid = Context(
+    client: Client(
+      clientName: 'ANDROID_MUSIC',
+      clientVersion: '5.28.1',
+      platform: 'MOBILE',
+      androidSdkVersion: 30,
+      userAgent:
+          'com.google.android.apps.youtube.music/5.28.1 (Linux; U; Android 11) gzip',
+    ),
+  );
+
+  static const Context defaultAgeRestrictionBypass = Context(
+      client: Client(
+          clientName: 'TVHTML5_SIMPLY_EMBEDDED_PLAYER',
+          clientVersion: '2.0',
+          platform: 'TV'));
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -28,7 +52,7 @@ class Client {
   final int? androidSdkVersion;
   final String? userAgent;
 
-  Client({
+  const Client({
     required this.clientName,
     required this.clientVersion,
     required this.platform,
@@ -39,30 +63,6 @@ class Client {
   factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
 
   Map<String, dynamic> toJson() => _$ClientToJson(this);
-
-  static Context defaultWeb = Context(
-    client: Client(
-        clientName: 'WEB_REMIX',
-        clientVersion: '1.20220918',
-        platform: 'DESKTOP'),
-  );
-
-  static Context defaultAndroid = Context(
-    client: Client(
-      clientName: 'ANDROID_MUSIC',
-      clientVersion: '5.28.1',
-      platform: 'MOBILE',
-      androidSdkVersion: 30,
-      userAgent:
-          'com.google.android.apps.youtube.music/5.28.1 (Linux; U; Android 11) gzip',
-    ),
-  );
-
-  static Context defaultAgeRestrictionBypass = Context(
-      client: Client(
-          clientName: 'TVHTML5_SIMPLY_EMBEDDED_PLAYER',
-          clientVersion: '2.0',
-          platform: 'TV'));
 }
 
 @JsonSerializable(explicitToJson: true)

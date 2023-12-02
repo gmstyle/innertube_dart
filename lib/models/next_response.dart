@@ -47,7 +47,7 @@ class MusicQueueRendererContent {
 
 @JsonSerializable(explicitToJson: true)
 class PlaylistPanelRenderer {
-  final List<PlaylistPanelContent>? contents;
+  final List<PlaylistPanelRendererContent>? contents;
   final List<Continuation>? continuations;
 
   PlaylistPanelRenderer(this.contents, this.continuations);
@@ -59,18 +59,18 @@ class PlaylistPanelRenderer {
 }
 
 @JsonSerializable(explicitToJson: true)
-class PlaylistPanelContent {
+class PlaylistPanelRendererContent {
   final PlaylistPanelVideoRenderer? playlistPanelVideoRenderer;
   final AutomixPreviewVideoRenderer? automixPreviewVideoRenderer;
 
-  PlaylistPanelContent(
+  PlaylistPanelRendererContent(
       this.playlistPanelVideoRenderer, this.automixPreviewVideoRenderer);
 
-  factory PlaylistPanelContent.fromJson(Map<String, dynamic> json) {
-    return _$PlaylistPanelContentFromJson(json);
+  factory PlaylistPanelRendererContent.fromJson(Map<String, dynamic> json) {
+    return _$PlaylistPanelRendererContentFromJson(json);
   }
 
-  Map<String, dynamic> toJson() => _$PlaylistPanelContentToJson(this);
+  Map<String, dynamic> toJson() => _$PlaylistPanelRendererContentToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)

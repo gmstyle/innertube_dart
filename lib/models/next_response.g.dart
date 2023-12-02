@@ -49,7 +49,8 @@ PlaylistPanelRenderer _$PlaylistPanelRendererFromJson(
         Map<String, dynamic> json) =>
     PlaylistPanelRenderer(
       (json['contents'] as List<dynamic>?)
-          ?.map((e) => PlaylistPanelContent.fromJson(e as Map<String, dynamic>))
+          ?.map((e) =>
+              PlaylistPanelRendererContent.fromJson(e as Map<String, dynamic>))
           .toList(),
       (json['continuations'] as List<dynamic>?)
           ?.map((e) => Continuation.fromJson(e as Map<String, dynamic>))
@@ -63,9 +64,9 @@ Map<String, dynamic> _$PlaylistPanelRendererToJson(
       'continuations': instance.continuations?.map((e) => e.toJson()).toList(),
     };
 
-PlaylistPanelContent _$PlaylistPanelContentFromJson(
+PlaylistPanelRendererContent _$PlaylistPanelRendererContentFromJson(
         Map<String, dynamic> json) =>
-    PlaylistPanelContent(
+    PlaylistPanelRendererContent(
       json['playlistPanelVideoRenderer'] == null
           ? null
           : PlaylistPanelVideoRenderer.fromJson(
@@ -76,8 +77,8 @@ PlaylistPanelContent _$PlaylistPanelContentFromJson(
               json['automixPreviewVideoRenderer'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$PlaylistPanelContentToJson(
-        PlaylistPanelContent instance) =>
+Map<String, dynamic> _$PlaylistPanelRendererContentToJson(
+        PlaylistPanelRendererContent instance) =>
     <String, dynamic>{
       'playlistPanelVideoRenderer':
           instance.playlistPanelVideoRenderer?.toJson(),
