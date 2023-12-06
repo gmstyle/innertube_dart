@@ -1,5 +1,5 @@
 import 'package:innertube_dart/mappers/base_mapper.dart';
-import 'package:innertube_dart/models/responses/video/video.dart';
+import 'package:innertube_dart/models/responses/video.dart';
 
 class VideoMapper implements BaseMapper<Video, Map<String, dynamic>> {
   @override

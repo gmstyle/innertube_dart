@@ -48,11 +48,24 @@ enum BrowseId {
   FEmusic_moods_and_genres,
   FEmusic_moods_and_genres_category,
 
-  // Toutube
-  FEwhat_to_watch,
+  // Youtube
+  FEwhat_to_watch, // Home
   FEshorts,
   FElibrary,
+  FEhistory, // History
+  FETrending,
+  // Trending
 
   // Youtube Kids
   FEkids_home,
+}
+
+enum TrendingCategory {
+  music('4gINGgt5dG1hX2NoYXJ0cw%3D%3D'),
+  film('4gIKGgh0cmFpbGVycw%3D%3D'),
+  game('4gIcGhpnYW1pbmdfY29ycHVzX21vc3RfcG9wdWxhcg%3D%3D');
+
+  final String param;
+
+  const TrendingCategory(this.param);
 }

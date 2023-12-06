@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:innertube_dart/innertube.dart';
-import 'package:innertube_dart/models/responses/search_response/search_response.dart';
-import 'package:innertube_dart/models/responses/video/video.dart';
+import 'package:innertube_dart/models/responses/home_response.dart';
+import 'package:innertube_dart/models/responses/search_response.dart';
+import 'package:innertube_dart/models/responses/video.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,22 +34,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   final innertube = Innertube();
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   Future<Video> getVideo(String videoId) async {
-    final resp = await innertube.getVideo(videoId);
+    final resp = await innertube.getVideo(videoId: videoId);
     return resp;
   }
 
   Future<SearchResponse> search(String query) async {
-    final resp = await innertube.search(query);
+    final resp = await innertube.search(query: query);
+    return resp;
+  }
+
+  Future<HomeResponse> getHome() async {
+    final resp = await innertube.getHomeContent();
     return resp;
   }
 
@@ -60,28 +59,25 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //getVideo('nHCsuf1TVOY').then((value) => print(value.toJson()));
-    search('elodie').then((value) => print(value.toJson()));
+    //search('elodie').then((value) => print(value.toJson()));
+    getHome().then((value) => print(value));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              'You have pushed the button this many times:',
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
