@@ -1,7 +1,6 @@
 import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube_adaptor.dart';
 import 'package:innertube_dart/mappers/video_mapper.dart';
-import 'package:innertube_dart/models/responses/player_response/player_response.dart';
 import 'package:innertube_dart/models/responses/video/video.dart';
 
 class Innertube extends InnertubeAdaptor {
@@ -21,6 +20,17 @@ class Innertube extends InnertubeAdaptor {
     };
     final response = await dispatch(endpoint, params: params);
 
-    return _videoMapper.toModel(PlayerResponse.fromMap(response));
+    return _videoMapper.toModel(response);
+  }
+
+  Future<Map> search(String query, {String? continuationToken}) async {
+    final endpoint = Endpoint.search.name;
+    final params = {
+      'query': query,
+      'continuation': continuationToken,
+    };
+    final response = await dispatch(endpoint, params: params);
+
+    return response;
   }
 }

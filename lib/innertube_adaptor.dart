@@ -49,7 +49,8 @@ class InnertubeAdaptor {
       HttpHeaders.refererHeader: REFERER_YOUTUBE,
       HttpHeaders.acceptEncodingHeader: 'gzip, deflate',
       HttpHeaders.acceptLanguageHeader: locale.acceptLenguage,
-      'X-Goog-Api-Key': API_KEY
+      'X-Goog-Api-Key': API_KEY,
+      'prettyPrint': 'false',
     };
 
     try {

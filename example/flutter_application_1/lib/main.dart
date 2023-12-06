@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:innertube_dart/innertube.dart';
-import 'package:innertube_dart/models/responses/player_response/player_response.dart';
 import 'package:innertube_dart/models/responses/video/video.dart';
 
 void main() {
@@ -42,8 +41,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<Video> player(String videoId) async {
+  Future<Video> getVideo(String videoId) async {
     final resp = await innertube.getVideo(videoId);
+    return resp;
+  }
+
+  Future<Map> search(String query) async {
+    final resp = await innertube.search(query);
     return resp;
   }
 
@@ -54,7 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    player('yvyAQiiKIN8').then((value) => print(value.toJson()));
+    getVideo('nHCsuf1TVOY').then((value) => print(value.toJson()));
+    //search('elodie').then((value) => print(value));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,

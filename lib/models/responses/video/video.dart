@@ -1,18 +1,15 @@
 import 'dart:convert';
 
-import 'package:innertube_dart/models/responses/player_response/streaming_data.dart';
-import 'package:innertube_dart/models/responses/player_response/thumbnail_element.dart';
-
 class Video {
   String? videoId;
   String? title;
   String? lengthSeconds;
   List<dynamic>? keywords;
   String? channelId;
-  List<ThumbnailElements>? thumbnails;
+  List<dynamic>? thumbnails;
   String? viewCount;
   String? author;
-  StreamingData? streamingData;
+  Map<String, dynamic>? streamingData;
 
   Video({
     this.videoId,
@@ -33,12 +30,11 @@ class Video {
         keywords: data['keywords'] as List<dynamic>?,
         channelId: data['channelId'] as String?,
         thumbnails: (data['thumbnails'] as List<dynamic>?)
-            ?.map((e) => ThumbnailElements.fromMap(e as Map<String, dynamic>))
+            ?.map((e) => e as Map<String, dynamic>)
             .toList(),
         viewCount: data['viewCount'] as String?,
         author: data['author'] as String?,
-        streamingData: StreamingData.fromMap(
-            data['streamingData'] as Map<String, dynamic>),
+        streamingData: data['streamingData'] as Map<String, dynamic>?,
       );
 
   Map<String, dynamic> toMap() => {
@@ -47,10 +43,11 @@ class Video {
         'lengthSeconds': lengthSeconds,
         'keywords': keywords,
         'channelId': channelId,
-        'thumbnails': thumbnails?.map((e) => e.toMap()).toList(),
+        'thumbnails':
+            thumbnails?.map((e) => e as Map<String, dynamic>).toList(),
         'viewCount': viewCount,
         'author': author,
-        'streamingData': streamingData?.toMap(),
+        'streamingData': streamingData,
       };
 
   /// `dart:convert`
