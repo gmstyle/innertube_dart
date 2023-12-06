@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:innertube_dart/innertube.dart';
 import 'package:innertube_dart/models/responses/player_response/player_response.dart';
+import 'package:innertube_dart/models/responses/video/video.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,8 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<PlayerResponse> player(String videoId) async {
-    final resp = await innertube.player(videoId);
+  Future<Video> player(String videoId) async {
+    final resp = await innertube.getVideo(videoId);
     return resp;
   }
 
@@ -53,9 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    innertube
-        .player('yvyAQiiKIN8')
-        .then((value) => print(value.videoDetails?.toJson()));
+    player('yvyAQiiKIN8').then((value) => print(value.toJson()));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
