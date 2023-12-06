@@ -1,11 +1,14 @@
 import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube_adaptor.dart';
+import 'package:innertube_dart/mappers/search_response_mapper.dart';
 import 'package:innertube_dart/mappers/video_mapper.dart';
+import 'package:innertube_dart/models/responses/search_response/search_response.dart';
 import 'package:innertube_dart/models/responses/video/video.dart';
 
 class Innertube extends InnertubeAdaptor {
   Innertube();
   final VideoMapper _videoMapper = VideoMapper();
+  final SearchResponseMapper _searchResponseMapper = SearchResponseMapper();
 
   /// Retrieves a video with the given [videoId].
   ///
@@ -23,7 +26,8 @@ class Innertube extends InnertubeAdaptor {
     return _videoMapper.toModel(response);
   }
 
-  Future<Map> search(String query, {String? continuationToken}) async {
+  Future<SearchResponse> search(String query,
+      {String? continuationToken}) async {
     final endpoint = Endpoint.search.name;
     final params = {
       'query': query,
@@ -31,6 +35,6 @@ class Innertube extends InnertubeAdaptor {
     };
     final response = await dispatch(endpoint, params: params);
 
-    return response;
+    return _searchResponseMapper.toModel(response);
   }
 }
