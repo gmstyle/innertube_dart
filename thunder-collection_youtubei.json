@@ -1,0 +1,297 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "youtubei",
+    "dateExported": "2023-12-07T17:30:47.549Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "8aadf037-2ced-4ab5-867a-28c45341f4b6",
+            "name": "android",
+            "containerId": "",
+            "created": "2023-12-07T17:10:34.837Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "4aba688d-d0f5-4d37-8d07-9fd7f747a3de",
+            "name": "web",
+            "containerId": "",
+            "created": "2023-12-07T17:10:59.600Z",
+            "sortNum": 20000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "a6d63463-7f41-4b2e-bd13-86093adf1c96",
+            "colId": "d5fa5e2c-b85b-4f29-8eb9-4d2d566a5707",
+            "containerId": "8aadf037-2ced-4ab5-867a-28c45341f4b6",
+            "name": "TEST-ANDROID-browse getHomeContent",
+            "url": "https://youtubei.googleapis.com/youtubei/v1/browse",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-12-07T09:23:41.202Z",
+            "modified": "2023-12-07T17:20:07.406Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "com.google.android.youtube/17.10.35 (Linux; U; Android 12; GB) gzip"
+                },
+                {
+                    "name": "X-Goog-Api-Key",
+                    "value": "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "prettyPrint",
+                    "value": "false"
+                },
+                {
+                    "name": "X-Goog-FieldMask",
+                    "value": "*"
+                },
+                {
+                    "name": "Accept-Language",
+                    "value": "it-IT,it;q=9.0"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"context\": {\n        \"client\": {\n            \"clientName\": \"ANDROID\",\n            \"clientVersion\": \"18.46.41\",\n            \"hl\": \"it-IT\",\n            \"androidSdkVersion\": 33\n        }\n    },\n    \"browseId\": \"FEwhat_to_watch\",\n    \"racyCheckOk\": true,\n    \"contentCheckOk\": true\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "9b95d89a-91c1-43fe-9a0a-d0ad89ea8350",
+            "colId": "d5fa5e2c-b85b-4f29-8eb9-4d2d566a5707",
+            "containerId": "8aadf037-2ced-4ab5-867a-28c45341f4b6",
+            "name": "TEST-ANDROID-browse getTrending",
+            "url": "https://youtubei.googleapis.com/youtubei/v1/browse",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-12-07T17:03:55.171Z",
+            "modified": "2023-12-07T17:19:30.229Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "com.google.android.youtube/17.10.35 (Linux; U; Android 12; GB) gzip"
+                },
+                {
+                    "name": "X-Goog-Api-Key",
+                    "value": "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "prettyPrint",
+                    "value": "false"
+                },
+                {
+                    "name": "X-Goog-FieldMask",
+                    "value": "*"
+                },
+                {
+                    "name": "Accept-Language",
+                    "value": "it-IT,it;q=9.0"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"context\": {\n        \"client\": {\n            \"clientName\": \"ANDROID\",\n            \"clientVersion\": \"18.46.41\",\n            \"hl\": \"it-IT\",\n            \"androidSdkVersion\": 33\n        }\n    },\n    \"browseId\": \"FEtrending\",\n    \"racyCheckOk\": true,\n    \"contentCheckOk\": true\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "0d601a5d-09cc-44c0-b775-886a410f9b33",
+            "colId": "d5fa5e2c-b85b-4f29-8eb9-4d2d566a5707",
+            "containerId": "4aba688d-d0f5-4d37-8d07-9fd7f747a3de",
+            "name": "TEST-WEB-browse getHomeContent",
+            "url": "https://youtubei.googleapis.com/youtubei/v1/browse",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-12-07T08:15:06.623Z",
+            "modified": "2023-12-07T10:01:03.498Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.42"
+                },
+                {
+                    "name": "X-Goog-Api-Key",
+                    "value": "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "prettyPrint",
+                    "value": "false"
+                },
+                {
+                    "name": "X-Goog-FieldMask",
+                    "value": "*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Accept-Language",
+                    "value": "it-IT,it;q=9.0"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"context\": {\n        \"client\": {\n            \"hl\": \"en\",\n            \"gl\": \"US\",\n            \"clientName\": \"WEB\",\n            \"clientVersion\": \"2.20220916.00.00\"\n        }\n    },\n    \"browseId\": \"FEwhat_to_watch\",\n    \"racyCheckOk\": true,\n    \"contentCheckOk\": true\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "3b275e0b-27ed-42c0-8f71-13005824b936",
+            "colId": "d5fa5e2c-b85b-4f29-8eb9-4d2d566a5707",
+            "containerId": "8aadf037-2ced-4ab5-867a-28c45341f4b6",
+            "name": "ANDROID player - Ok getVideo",
+            "url": "https://youtubei.googleapis.com/youtubei/v1/player",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-12-07T17:12:09.403Z",
+            "modified": "2023-12-07T17:19:07.213Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "com.google.android.youtube/17.10.35 (Linux; U; Android 12; GB) gzip"
+                },
+                {
+                    "name": "Host",
+                    "value": "www.youtube.com"
+                },
+                {
+                    "name": "Origin",
+                    "value": "https://www.youtube.com"
+                },
+                {
+                    "name": "Referer",
+                    "value": "https://www.youtube.com"
+                },
+                {
+                    "name": "Accept-Encoding",
+                    "value": "gzip, deflate"
+                },
+                {
+                    "name": "Accept-Language",
+                    "value": "it,it-IT;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6"
+                },
+                {
+                    "name": "X-Goog-Api-Key",
+                    "value": "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"context\": {\n        \"client\": {\n           \"clientName\": \"ANDROID\",\n            \"clientVersion\": \"18.46.41\",\n            \"hl\": \"it-IT\",\n            \"androidSdkVersion\": 33\n        }\n    },\n    \"videoId\": \"nHCsuf1TVOY\",\n    \"racyCheckOk\": true,\n    \"contentCheckOk\": true\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "82ef6feb-ee01-4d36-924c-594f458d9c3a",
+            "colId": "d5fa5e2c-b85b-4f29-8eb9-4d2d566a5707",
+            "containerId": "4aba688d-d0f5-4d37-8d07-9fd7f747a3de",
+            "name": "TEST-WEB-browse getTrending",
+            "url": "https://youtubei.googleapis.com/youtubei/v1/browse",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-12-07T10:40:15.300Z",
+            "modified": "2023-12-07T10:41:36.842Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.42"
+                },
+                {
+                    "name": "X-Goog-Api-Key",
+                    "value": "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "prettyPrint",
+                    "value": "false"
+                },
+                {
+                    "name": "X-Goog-FieldMask",
+                    "value": "*"
+                },
+                {
+                    "name": "Accept-Language",
+                    "value": "it-IT,it;q=9.0"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"context\": {\n        \"client\": {\n            \"hl\": \"it\",\n            \"gl\": \"IT\",\n            \"clientName\": \"WEB\",\n            \"clientVersion\": \"2.20220916.00.00\"\n        }\n    },\n    \"browseId\": \"FEtrending\",\n    \"racyCheckOk\": true,\n    \"contentCheckOk\": true\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "5726187b-a12d-4f01-9cfc-018d26abee58",
+            "colId": "d5fa5e2c-b85b-4f29-8eb9-4d2d566a5707",
+            "containerId": "4aba688d-d0f5-4d37-8d07-9fd7f747a3de",
+            "name": "player - Ok getVideo",
+            "url": "https://youtubei.googleapis.com/youtubei/v1/player",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-12-07T08:15:06.621Z",
+            "modified": "2023-12-07T09:26:46.897Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.42"
+                },
+                {
+                    "name": "Host",
+                    "value": "www.youtube.com"
+                },
+                {
+                    "name": "Origin",
+                    "value": "https://www.youtube.com"
+                },
+                {
+                    "name": "Referer",
+                    "value": "https://www.youtube.com"
+                },
+                {
+                    "name": "Accept-Encoding",
+                    "value": "gzip, deflate"
+                },
+                {
+                    "name": "Accept-Language",
+                    "value": "it,it-IT;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6"
+                },
+                {
+                    "name": "X-Goog-Api-Key",
+                    "value": "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"context\": {\n        \"client\": {\n            \"hl\": \"en\",\n            \"gl\": \"US\",\n            \"clientName\": \"WEB\",\n            \"clientVersion\": \"2.20220916.00.00\"\n        }\n    },\n    \"videoId\": \"nHCsuf1TVOY\",\n    \"racyCheckOk\": true,\n    \"contentCheckOk\": true\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
