@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:innertube_dart/innertube.dart';
 import 'package:innertube_dart/models/responses/home_response.dart';
 import 'package:innertube_dart/models/responses/search_response.dart';
+import 'package:innertube_dart/models/responses/trending_response.dart';
 import 'package:innertube_dart/models/responses/video.dart';
 
 void main() {
@@ -34,7 +35,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final innertube = Innertube();
+  final innertube = Innertube(locale: const Locale('it', 'IT'));
 
   Future<Video> getVideo(String videoId) async {
     final resp = await innertube.getVideo(videoId: videoId);
@@ -46,8 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return resp;
   }
 
-  Future<HomeResponse> getHome() async {
-    final resp = await innertube.getHomeContent();
+  Future<TrendingResponse> getTrenging() async {
+    final resp = await innertube.getTrending();
     return resp;
   }
 
@@ -60,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     //getVideo('nHCsuf1TVOY').then((value) => print(value.toJson()));
     //search('elodie').then((value) => print(value.toJson()));
-    getHome().then((value) => print(value));
+    getTrenging().then((value) => print(value));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,

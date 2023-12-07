@@ -53,7 +53,7 @@ enum BrowseId {
   FEshorts,
   FElibrary,
   FEhistory, // History
-  FETrending,
+  FEtrending,
   // Trending
 
   // Youtube Kids
@@ -61,6 +61,7 @@ enum BrowseId {
 }
 
 enum TrendingCategory {
+  now('6gQJRkVleHBsb3Jl'),
   music('4gINGgt5dG1hX2NoYXJ0cw%3D%3D'),
   film('4gIKGgh0cmFpbGVycw%3D%3D'),
   game('4gIcGhpnYW1pbmdfY29ycHVzX21vc3RfcG9wdWxhcg%3D%3D');

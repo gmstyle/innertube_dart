@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:innertube_dart/configuration/configuration.dart';
-
-import 'models/requests/locale.dart';
+import 'package:innertube_dart/utils/utils.dart';
 
 class InnertubeAdaptor {
   final http.Client client;
@@ -19,11 +19,11 @@ class InnertubeAdaptor {
   Future<Map<String, dynamic>> dispatch(
     String endpoint, {
     Map<String, dynamic>? params,
-    Locale? locale = const Locale(hl: 'en', gl: 'US'),
+    Locale? locale = const Locale('en', 'US'),
   }) async {
     final url = Uri.parse(API_BASE_URL + endpoint);
-    final hl = locale!.hl;
-    final gl = locale.gl;
+    final hl = locale!.languageCode;
+    final gl = locale.countryCode;
     final Map<String, dynamic> body = {
       "context": {
         "client": {
@@ -48,7 +48,7 @@ class InnertubeAdaptor {
       'Origin': REFERER_YOUTUBE,
       HttpHeaders.refererHeader: REFERER_YOUTUBE,
       HttpHeaders.acceptEncodingHeader: 'gzip, deflate',
-      HttpHeaders.acceptLanguageHeader: locale.acceptLenguage,
+      HttpHeaders.acceptLanguageHeader: Utils.acceptedLenguage(locale),
       'X-Goog-Api-Key': API_KEY,
       'prettyPrint': 'false',
     };

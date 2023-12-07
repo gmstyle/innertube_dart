@@ -3,7 +3,7 @@
 const API_BASE_URL = 'https://youtubei.googleapis.com/youtubei/v1/';
 const API_KEY = 'AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
 const WEB_CLIENT_NAME = 'WEB';
-const WEB_CLIENT_VERSION = '2.20230728.00.00';
+const WEB_CLIENT_VERSION = '2.20230206.06.00';
 const HOST = 'www.youtube.com';
 const REFERER_YOUTUBE = 'https://www.youtube.com/';
 const REFERER_YOUTUBE_MOBILE = 'https://m.youtube.com/';
@@ -12,6 +12,10 @@ const REFERER_YOUTUBE_KIDS = 'https://www.youtubekids.com/';
 const REFERER_YOUTUBE_STUDIO = 'https://studio.youtube.com/';
 const REFERER_YOUTUBE_ANALYTICS = 'https://analytics.youtube.com/';
 const REFER_GOOGLE_ASSISTANT = 'https://assistant.google.com/';
+
+const ANDROID_CLIENT_NAME = 'ANDROID';
+const ANDROID_CLIENT_VERSION = '18.06.35';
+const ANDROID_API_KEY = 'AIzaSyDCU8hByM-4DrUqRUYnGn-3llEO78bcxq8';
 
 const USER_AGENT_WEB =
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36';
