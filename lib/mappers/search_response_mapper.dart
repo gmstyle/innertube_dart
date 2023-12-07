@@ -1,11 +1,20 @@
 import 'package:innertube_dart/mappers/base_mapper.dart';
+import 'package:innertube_dart/mappers/channerl_renderer_mapper.dart';
+import 'package:innertube_dart/mappers/playlist_renderer_mapper.dart';
+import 'package:innertube_dart/mappers/video_renderer_mapper.dart';
 import 'package:innertube_dart/models/responses/channel.dart';
 import 'package:innertube_dart/models/responses/playlist.dart';
 import 'package:innertube_dart/models/responses/search_response.dart';
 import 'package:innertube_dart/models/responses/video.dart';
+import 'package:innertube_dart/utils/utils.dart';
 
 class SearchResponseMapper
     extends BaseMapper<SearchResponse, Map<String, dynamic>> {
+  final VideorendererMapper _videoRendererMapper = VideorendererMapper();
+  final ChannelRendererMapper _channelRendererMapper = ChannelRendererMapper();
+  final PlaylistRendererMapper _playlistRendererMapper =
+      PlaylistRendererMapper();
+
   @override
   Map<String, dynamic> toData(SearchResponse model) {
     throw UnimplementedError();
@@ -17,23 +26,25 @@ class SearchResponseMapper
     final channels = <Channel>[];
     final playlists = <Playlist>[];
 
-    final List<dynamic> itemSectionRenderer = data['contents']
+    final List<dynamic> itemSectionRenderer = Utils.filterContents(
+        data['contents']['twoColumnSearchResultsRenderer']['primaryContents']
+            ['sectionListRenderer']['contents']);
+
+    final Map<String, dynamic> continuationItemRenderer = (data['contents']
                 ['twoColumnSearchResultsRenderer']['primaryContents']
-            ['sectionListRenderer']['contents'][0]['itemSectionRenderer']
-        ['contents'];
-    final Map<String, dynamic> continuationItemRenderer = data['contents']
-            ['twoColumnSearchResultsRenderer']['primaryContents']
-        ['sectionListRenderer']['contents'][1]['continuationItemRenderer'];
+            ['sectionListRenderer']['contents'] as List<dynamic>)
+        .last['continuationItemRenderer'];
 
     for (final content in itemSectionRenderer) {
       if (content.containsKey('videoRenderer')) {
-        videos.add(_toVideo(content['videoRenderer'] as Map<String, dynamic>));
+        videos.add(_videoRendererMapper
+            .toModel(content['videoRenderer'] as Map<String, dynamic>));
       } else if (content.containsKey('channelRenderer')) {
-        channels.add(
-            _toChannel(content['channelRenderer'] as Map<String, dynamic>));
+        channels.add(_channelRendererMapper
+            .toModel(content['channelRenderer'] as Map<String, dynamic>));
       } else if (content.containsKey('playlistRenderer')) {
-        playlists.add(
-            _toPlaylist(content['playlistRenderer'] as Map<String, dynamic>));
+        playlists.add(_playlistRendererMapper
+            .toModel(content['playlistRenderer'] as Map<String, dynamic>));
       }
     }
 
@@ -41,52 +52,8 @@ class SearchResponseMapper
       videos: videos,
       channels: channels,
       playlists: playlists,
-      continuationToken: continuationItemRenderer.isNotEmpty
-          ? continuationItemRenderer['continuationEndpoint']
-              ['continuationCommand']['token']
-          : null,
-    );
-  }
-
-  // Map content to Video
-  Video _toVideo(Map<String, dynamic> videoRenderer) {
-    return Video(
-      videoId: videoRenderer['videoId'],
-      title: videoRenderer['title']['runs'][0]['text'],
-      lengthSeconds: videoRenderer['lengthText']['simpleText'],
-      channelId: videoRenderer['channelThumbnailSupportedRenderers']
-              ['channelThumbnailWithLinkRenderer']['navigationEndpoint']
-          ['browseEndpoint']['browseId'],
-      thumbnails: (videoRenderer['thumbnail']['thumbnails'] as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
-          .toList(),
-      viewCount: videoRenderer['viewCountText']['simpleText'],
-    );
-  }
-
-  // Map content to Channel
-  Channel _toChannel(Map<String, dynamic> channelRenderer) {
-    return Channel(
-      channelId: channelRenderer['channelId'],
-      title: channelRenderer['title']['simpleText'],
-      thumbnails: (channelRenderer['thumbnail']['thumbnails'] as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
-          .toList(),
-      videoCount: channelRenderer['videoCountText']['simpleText'],
-      subscriberCount: channelRenderer['subscriberCountText']['simpleText'],
-    );
-  }
-
-  // Map content to Playlist
-  Playlist _toPlaylist(Map<String, dynamic> playlistRenderer) {
-    return Playlist(
-      playlistId: playlistRenderer['playlistId'],
-      title: playlistRenderer['title']['simpleText'],
-      thumbnails:
-          (playlistRenderer['thumbnails'][0]['thumbnails'] as List<dynamic>)
-              .map((e) => e as Map<String, dynamic>)
-              .toList(),
-      videoCount: playlistRenderer['videoCount'],
+      continuationToken: continuationItemRenderer['continuationEndpoint']
+          ['continuationCommand']['token'],
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube.dart';
 import 'package:innertube_dart/models/responses/home_response.dart';
 import 'package:innertube_dart/models/responses/search_response.dart';
@@ -48,7 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<TrendingResponse> getTrenging() async {
-    final resp = await innertube.getTrending();
+    final resp =
+        await innertube.getTrending(trendingCategory: TrendingCategory.music);
     return resp;
   }
 
@@ -60,8 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //getVideo('nHCsuf1TVOY').then((value) => print(value.toJson()));
-    //search('elodie').then((value) => print(value.toJson()));
-    getTrenging().then((value) => print(value));
+    search('elodie').then((value) => print(value.toJson()));
+    //getTrenging().then((value) => print(value));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,

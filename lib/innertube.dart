@@ -3,7 +3,7 @@ import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube_adaptor.dart';
 import 'package:innertube_dart/mappers/search_response_mapper.dart';
 import 'package:innertube_dart/mappers/trending_response_mapper.dart';
-import 'package:innertube_dart/mappers/video_mapper.dart';
+import 'package:innertube_dart/mappers/video_mapper_response.dart';
 
 import 'package:innertube_dart/models/responses/home_response.dart';
 import 'package:innertube_dart/models/responses/search_response.dart';
@@ -75,6 +75,12 @@ class Innertube extends InnertubeAdaptor {
     return HomeResponse();
   } */
 
+  /// Retrieves the trending videos based on the specified [trendingCategory] and [continuationToken].
+  ///
+  /// The [trendingCategory] parameter specifies the category of trending videos to retrieve. If not provided, the default value is [TrendingCategory.now].
+  /// The [continuationToken] parameter is used for pagination, allowing you to retrieve the next set of trending videos.
+  ///
+  /// Returns a [Future] that resolves to a [TrendingResponse] object containing the trending videos.
   Future<TrendingResponse> getTrending(
       {TrendingCategory? trendingCategory = TrendingCategory.now,
       String? continuationToken}) async {

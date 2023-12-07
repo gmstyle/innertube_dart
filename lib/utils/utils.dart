@@ -22,4 +22,31 @@ class Utils {
     return '${locale.languageCode}-${locale.countryCode},'
         '${locale.languageCode};q=0.9';
   }
+
+  /// Filters the given list of contents and returns a new list containing only the desired content types.
+  ///
+  /// The function recursively filters the contents by checking if each content item is of type 'itemSectionRenderer',
+  /// 'videoRenderer', 'channelRenderer', or 'playlistRenderer'. If the content item is of type 'itemSectionRenderer',
+  /// it calls itself recursively to filter the contents within the 'itemSectionRenderer'. If the content item is of
+  /// any of the desired types, it is added to the filtered list.
+  ///
+  /// Parameters:
+  /// - contents: The list of contents to be filtered.
+  ///
+  /// Returns:
+  /// A new list containing only the desired content types.
+  static List<dynamic> filterContents(List<dynamic> contents) {
+    final List<dynamic> filteredContents = [];
+    for (final content in contents) {
+      if (content['itemSectionRenderer'] != null) {
+        filteredContents.addAll(filterContents(
+            content['itemSectionRenderer']['contents'] as List<dynamic>));
+      } else if (content['videoRenderer'] != null ||
+          content['channelRenderer'] != null ||
+          content['playlistRenderer'] != null) {
+        filteredContents.add(content);
+      }
+    }
+    return filteredContents;
+  }
 }

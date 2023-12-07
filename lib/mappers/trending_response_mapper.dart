@@ -22,16 +22,13 @@ class TrendingResponseMapper
 
     for (final item in nowItems) {
       if (item.containsKey('videoRenderer')) {
-        nowVideos.add(_toVideo(item['videoRenderer'] as Map<String, dynamic>));
+        nowVideos.add(_videoRendererMapper
+            .toModel(item['videoRenderer'] as Map<String, dynamic>));
       }
     }
 
     return TrendingResponse(
       videos: nowVideos,
     );
-  }
-
-  Video _toVideo(Map<String, dynamic> videoRenderer) {
-    return _videoRendererMapper.toModel(videoRenderer);
   }
 }
