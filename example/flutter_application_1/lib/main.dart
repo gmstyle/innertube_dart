@@ -49,8 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<TrendingResponse> getTrenging() async {
-    final resp =
-        await innertube.getTrending(trendingCategory: TrendingCategory.music);
+    final resp = await innertube.getTrending();
     return resp;
   }
 

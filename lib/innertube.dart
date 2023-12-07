@@ -75,25 +75,39 @@ class Innertube extends InnertubeAdaptor {
     return HomeResponse();
   } */
 
-  /// Retrieves the trending videos based on the specified [trendingCategory] and [continuationToken].
+  /// Retrieves the trending videos based on the specified [trendingCategory].
   ///
-  /// The [trendingCategory] parameter specifies the category of trending videos to retrieve. If not provided, the default value is [TrendingCategory.now].
-  /// The [continuationToken] parameter is used for pagination, allowing you to retrieve the next set of trending videos.
+  /// The [trendingCategory] parameter is optional and defaults to [TrendingCategory.now].
+  /// It represents the category of trending videos to retrieve.
   ///
   /// Returns a [Future] that resolves to a [TrendingResponse] object containing the trending videos.
+  /// The [TrendingResponse] object is mapped from the API response.
   Future<TrendingResponse> getTrending(
-      {TrendingCategory? trendingCategory = TrendingCategory.now,
-      String? continuationToken}) async {
+      {TrendingCategory? trendingCategory = TrendingCategory.now}) async {
     final endpoint = Endpoint.browse.name;
     final params = {
       'browseId': BrowseId.FEtrending.name,
-      'params': trendingCategory?.param,
-      'continuation': continuationToken,
+      'params': trendingCategory?.param
     };
 
     final response = await dispatch(endpoint,
         params: Utils.filterNull(params), locale: locale);
 
-    return _trendingResponseMapper.toModel(response);
+    int index = 0;
+    switch (trendingCategory) {
+      case TrendingCategory.music:
+        index = 1;
+        break;
+      case TrendingCategory.game:
+        index = 2;
+        break;
+      case TrendingCategory.film:
+        index = 3;
+        break;
+      default:
+    }
+
+    return _trendingResponseMapper.toModel(
+        response['contents']['twoColumnBrowseResultsRenderer']['tabs'][index]);
   }
 }

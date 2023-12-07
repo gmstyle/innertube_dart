@@ -1,7 +1,7 @@
 import 'package:innertube_dart/mappers/base_mapper.dart';
 import 'package:innertube_dart/models/responses/video.dart';
 
-class VideorendererMapper extends BaseMapper<Video, Map<String, dynamic>> {
+class VideoRendererMapper extends BaseMapper<Video, Map<String, dynamic>> {
   @override
   Map<String, dynamic> toData(Video model) {
     throw UnimplementedError();

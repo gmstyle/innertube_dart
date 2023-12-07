@@ -10,7 +10,7 @@ import 'package:innertube_dart/utils/utils.dart';
 
 class SearchResponseMapper
     extends BaseMapper<SearchResponse, Map<String, dynamic>> {
-  final VideorendererMapper _videoRendererMapper = VideorendererMapper();
+  final VideoRendererMapper _videoRendererMapper = VideoRendererMapper();
   final ChannelRendererMapper _channelRendererMapper = ChannelRendererMapper();
   final PlaylistRendererMapper _playlistRendererMapper =
       PlaylistRendererMapper();
