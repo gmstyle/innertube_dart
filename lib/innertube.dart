@@ -6,13 +6,14 @@ import 'package:innertube_dart/mappers/trending_response_mapper.dart';
 import 'package:innertube_dart/mappers/video_mapper_response.dart';
 
 import 'package:innertube_dart/models/responses/home_response.dart';
+import 'package:innertube_dart/models/responses/playlist_response.dart';
 import 'package:innertube_dart/models/responses/search_response.dart';
 import 'package:innertube_dart/models/responses/trending_response.dart';
 import 'package:innertube_dart/models/responses/video.dart';
 import 'package:innertube_dart/utils/utils.dart';
 
 class Innertube extends InnertubeAdaptor {
-  final VideoMapper _videoMapper = VideoMapper();
+  final VideoResponseMapper _videoResponseMapper = VideoResponseMapper();
   final SearchResponseMapper _searchResponseMapper = SearchResponseMapper();
   final TrendingResponseMapper _trendingResponseMapper =
       TrendingResponseMapper();
@@ -36,7 +37,7 @@ class Innertube extends InnertubeAdaptor {
     };
     final response = await dispatch(endpoint, params: params, locale: locale);
 
-    return _videoMapper.toModel(response);
+    return _videoResponseMapper.toModel(response);
   }
 
   /// Performs a search using the specified [query] and optional [continuationToken].
@@ -93,21 +94,57 @@ class Innertube extends InnertubeAdaptor {
     final response = await dispatch(endpoint,
         params: Utils.filterNull(params), locale: locale);
 
-    int index = 0;
+    late int index;
     switch (trendingCategory) {
+      case TrendingCategory.now:
+        index = 0;
+        break;
       case TrendingCategory.music:
         index = 1;
         break;
-      case TrendingCategory.game:
+      case TrendingCategory.gaming:
         index = 2;
         break;
       case TrendingCategory.film:
         index = 3;
         break;
       default:
+        index = 0;
     }
 
     return _trendingResponseMapper.toModel(
         response['contents']['twoColumnBrowseResultsRenderer']['tabs'][index]);
+  }
+
+  Future<PlaylistResponse> getPlaylist(
+      {required String playlistId, String? continuationToken}) async {
+    final endpoint = Endpoint.browse.name;
+    final params = {
+      'browseId': playlistId,
+      'continuation': continuationToken,
+    };
+
+    final response = await dispatch(endpoint,
+        params: Utils.filterNull(params), locale: locale);
+    final List<dynamic> playlistVideoListRenderer = response['contents']
+                    ['twoColumnBrowseResultsRenderer']['tabs'][0]['tabRenderer']
+                ['content']['sectionListRenderer']['contents'][0]
+            ['itemSectionRenderer']['contents'][0]['playlistVideoListRenderer']
+        ['contents'];
+    final videoIds = playlistVideoListRenderer
+        .map((e) => e['playlistVideoRenderer']['videoId'])
+        .toList();
+    final List<Video> videos = [];
+    for (final videoId in videoIds) {
+      final video = await getVideo(videoId: videoId);
+      videos.add(video);
+    }
+
+    final data = {
+      "playlistData": response['header']['playlistHeaderRenderer'],
+      "videos": videos
+    };
+
+    return PlaylistResponse();
   }
 }
