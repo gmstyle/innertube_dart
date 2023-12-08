@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube.dart';
-import 'package:innertube_dart/models/responses/home_response.dart';
-import 'package:innertube_dart/models/responses/playlist_response.dart';
+import 'package:innertube_dart/models/responses/playlist.dart';
 import 'package:innertube_dart/models/responses/search_response.dart';
 import 'package:innertube_dart/models/responses/trending_response.dart';
 import 'package:innertube_dart/models/responses/video.dart';
@@ -54,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return resp;
   }
 
-  Future<PlaylistResponse> getPlaylist(String playlistId) async {
+  Future<Playlist> getPlaylist(String playlistId) async {
     final resp = await innertube.getPlaylist(playlistId: playlistId);
     return resp;
   }
@@ -69,8 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
     //getVideo('nHCsuf1TVOY').then((value) => print(value.toJson()));
     //search('elodie').then((value) => print(value.toJson()));
     //getTrenging().then((value) => print(value));
-    getPlaylist('VLPLTJVqehT6SrzjjX_7jWOUMDw9kRjx7AAt')
-        .then((value) => print(value.toJson()));
+    /* getPlaylist('VLPLTJVqehT6SrzjjX_7jWOUMDw9kRjx7AAt')
+        .then((value) => print(value.toJson())); */
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,

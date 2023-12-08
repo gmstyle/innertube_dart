@@ -72,3 +72,13 @@ enum TrendingCategory {
 
   const TrendingCategory(this.param);
 }
+
+enum ChannelSection {
+  home('EghmZWF0dXJlZPIGBAoCMgA%3D'),
+  videos('EgZ2aWRlb3PyBgQKAjoA'),
+  playlists('EglwbGF5bGlzdHPyBgQKAkIA');
+
+  final String param;
+
+  const ChannelSection(this.param);
+}

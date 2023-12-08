@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 class Video {
   String? videoId;
@@ -23,21 +22,21 @@ class Video {
     this.streamingData,
   });
 
-  factory Video.fromMap(Map<String, dynamic> data) => Video(
-        videoId: data['videoId'] as String?,
-        title: data['title'] as String?,
-        lengthSeconds: data['lengthSeconds'] as String?,
-        keywords: data['keywords'] as List<dynamic>?,
-        channelId: data['channelId'] as String?,
-        thumbnails: (data['thumbnails'] as List<dynamic>?)
+  factory Video.fromJson(Map<String, dynamic> json) => Video(
+        videoId: json['videoId'] as String?,
+        title: json['title'] as String?,
+        lengthSeconds: json['lengthSeconds'] as String?,
+        keywords: json['keywords'] as List<dynamic>?,
+        channelId: json['channelId'] as String?,
+        thumbnails: (json['thumbnails'] as List<dynamic>?)
             ?.map((e) => e as Map<String, dynamic>)
             .toList(),
-        viewCount: data['viewCount'] as String?,
-        author: data['author'] as String?,
-        streamingData: data['streamingData'] as Map<String, dynamic>?,
+        viewCount: json['viewCount'] as String?,
+        author: json['author'] as String?,
+        streamingData: json['streamingData'] as Map<String, dynamic>?,
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
         'videoId': videoId,
         'title': title,
         'lengthSeconds': lengthSeconds,
@@ -49,14 +48,4 @@ class Video {
         'author': author,
         'streamingData': streamingData,
       };
-
-  /// `dart:convert`
-  /// Parses the string and returns the resulting Json object as [Video].
-  factory Video.fromJson(String data) {
-    return Video.fromMap(json.decode(data) as Map<String, dynamic>);
-  }
-
-  /// `dart:convert`
-  /// Converts [Video] to a JSON string.
-  String toJson() => json.encode(toMap());
 }

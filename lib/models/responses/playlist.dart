@@ -4,7 +4,8 @@ class Playlist {
   String? playlistId;
   String? title;
   String? description;
-  List<Map<String, dynamic>>? thumbnails;
+  List<dynamic>? thumbnails;
+  String? author;
   String? videoCount;
   List<Video>? videos;
 
@@ -13,6 +14,7 @@ class Playlist {
     this.title,
     this.description,
     this.thumbnails,
+    this.author,
     this.videoCount,
     this.videos,
   });
@@ -24,6 +26,7 @@ class Playlist {
         thumbnails: (json['thumbnails'] as List<dynamic>?)
             ?.map((e) => e as Map<String, dynamic>)
             .toList(),
+        author: json['author'] as String?,
         videoCount: json['videoCount'] as String?,
         videos:
             (json['videos'] as List<dynamic>?)?.map((e) => e as Video).toList(),
@@ -34,6 +37,7 @@ class Playlist {
         'title': title,
         'description': description,
         'thumbnails': thumbnails?.map((e) => e).toList(),
+        'author': author,
         'videoCount': videoCount,
         'videos': videos?.map((e) => e).toList(),
       };

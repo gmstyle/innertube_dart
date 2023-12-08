@@ -12,11 +12,32 @@ class ChannelRendererMapper extends BaseMapper<Channel, Map<String, dynamic>> {
     return Channel(
       channelId: data['channelId'],
       title: data['title']['simpleText'],
-      thumbnails: (data['thumbnail']['thumbnails'] as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
-          .toList(),
+      thumbnails:
+          _fixThumbnails(data['thumbnail']['thumbnails'] as List<dynamic>),
       videoCount: data['videoCountText']['simpleText'],
       subscriberCount: data['subscriberCountText']['simpleText'],
     );
+  }
+
+  String? _fixThumbnailUrl(String? url) {
+    if (url == null) return null;
+    String? fixedUrl = url;
+
+    if (url.startsWith('//')) {
+      fixedUrl = 'https:$url';
+    }
+
+    return fixedUrl;
+  }
+
+  List<Map<String, dynamic>> _fixThumbnails(List<dynamic>? thumbnails) {
+    if (thumbnails == null) return [];
+    return thumbnails
+        .map((e) => {
+              'url': _fixThumbnailUrl(e['url'] as String),
+              'width': e['width'],
+              'height': e['height'],
+            })
+        .toList();
   }
 }

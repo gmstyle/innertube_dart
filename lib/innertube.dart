@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube_adaptor.dart';
+import 'package:innertube_dart/mappers/playlist_response_mapper.dart';
 import 'package:innertube_dart/mappers/search_response_mapper.dart';
 import 'package:innertube_dart/mappers/trending_response_mapper.dart';
-import 'package:innertube_dart/mappers/video_mapper_response.dart';
+import 'package:innertube_dart/mappers/video_response_mapper.dart';
+import 'package:innertube_dart/models/responses/playlist.dart';
 
-import 'package:innertube_dart/models/responses/home_response.dart';
-import 'package:innertube_dart/models/responses/playlist_response.dart';
 import 'package:innertube_dart/models/responses/search_response.dart';
 import 'package:innertube_dart/models/responses/trending_response.dart';
 import 'package:innertube_dart/models/responses/video.dart';
@@ -17,6 +17,8 @@ class Innertube extends InnertubeAdaptor {
   final SearchResponseMapper _searchResponseMapper = SearchResponseMapper();
   final TrendingResponseMapper _trendingResponseMapper =
       TrendingResponseMapper();
+  final PlaylistResponseMapper _playlistResponseMapper =
+      PlaylistResponseMapper();
 
   final Locale? locale;
 
@@ -116,7 +118,18 @@ class Innertube extends InnertubeAdaptor {
         response['contents']['twoColumnBrowseResultsRenderer']['tabs'][index]);
   }
 
-  Future<PlaylistResponse> getPlaylist(
+  /// Retrieves a playlist from the specified [playlistId] with an optional [continuationToken].
+  /// Returns a [Future] that resolves to a [PlaylistResponse] object.
+  ///
+  /// The [playlistId] parameter is required and represents the ID of the playlist to retrieve.
+  /// The [continuationToken] parameter is optional and represents a token for fetching the next page of results.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// final playlist = await getPlaylist(playlistId: 'abc123', continuationToken: 'def456');
+  /// print(playlist);
+  /// ```
+  Future<Playlist> getPlaylist(
       {required String playlistId, String? continuationToken}) async {
     final endpoint = Endpoint.browse.name;
     final params = {
@@ -145,6 +158,6 @@ class Innertube extends InnertubeAdaptor {
       "videos": videos
     };
 
-    return PlaylistResponse();
+    return _playlistResponseMapper.toModel(data);
   }
 }
