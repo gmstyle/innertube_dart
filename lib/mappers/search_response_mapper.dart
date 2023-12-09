@@ -26,7 +26,7 @@ class SearchResponseMapper
     final channels = <Channel>[];
     final playlists = <Playlist>[];
 
-    final List<dynamic> itemSectionRenderer = Utils.filterContents(
+    final List<dynamic> itemSectionRenderer = Utils.filterSearchContents(
         data['contents']['twoColumnSearchResultsRenderer']['primaryContents']
             ['sectionListRenderer']['contents']);
 

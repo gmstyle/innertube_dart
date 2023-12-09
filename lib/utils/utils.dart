@@ -35,11 +35,11 @@ class Utils {
   ///
   /// Returns:
   /// A new list containing only the desired content types.
-  static List<dynamic> filterContents(List<dynamic> contents) {
+  static List<dynamic> filterSearchContents(List<dynamic> contents) {
     final List<dynamic> filteredContents = [];
     for (final content in contents) {
       if (content['itemSectionRenderer'] != null) {
-        filteredContents.addAll(filterContents(
+        filteredContents.addAll(filterSearchContents(
             content['itemSectionRenderer']['contents'] as List<dynamic>));
       } else if (content['videoRenderer'] != null ||
           content['channelRenderer'] != null ||
@@ -66,7 +66,7 @@ class Utils {
     String? playlistId;
 
     if (id != null) {
-      if (id.startsWith('PL')) {
+      if (!id.startsWith('VL')) {
         playlistId = 'VL$id';
       } else if (id.startsWith('VL')) {
         playlistId = id;
@@ -74,5 +74,63 @@ class Utils {
     }
 
     return playlistId;
+  }
+
+  /// Filters the given list of contents and returns a new list containing only the sections with shelfRenderer.
+  ///
+  /// The [contents] parameter is a list of dynamic objects representing the contents to be filtered.
+  /// Each content object should have the structure:
+  /// {
+  ///   'itemSectionRenderer': {
+  ///     'contents': [
+  ///       {
+  ///         'shelfRenderer': {
+  ///           'title': {
+  ///             'runs': [
+  ///               {'text': 'section title'}
+  ///             ]
+  ///           },
+  ///           'content': {
+  ///             'horizontalListRenderer': {
+  ///               'items': [
+  ///                 // list of items
+  ///               ]
+  ///             }
+  ///           }
+  ///         }
+  ///       }
+  ///     ]
+  ///   }
+  /// }
+  ///
+  /// The method iterates over each content object and checks if it has a shelfRenderer.
+  /// If it does, it extracts the section information and adds it to the filteredContents list.
+  /// The section information is represented as a map with the following structure:
+  /// {
+  ///   'title': 'section title',
+  ///   'playlistId': 'playlist id',
+  ///   'contents': [
+  ///     // list of items
+  ///   ]
+  /// }
+  ///
+  /// Returns a new list containing the filtered sections.
+  static List<dynamic> filterChannelContents(List<dynamic> contents) {
+    final List<dynamic> filteredContents = [];
+    for (final content in contents) {
+      final shelfRenderer =
+          content['itemSectionRenderer']['contents'][0]['shelfRenderer'];
+      if (shelfRenderer != null) {
+        final section = {
+          'title': shelfRenderer['title']['runs'][0]['text'],
+          'playlistId': setPlaylistId(shelfRenderer['title']['runs'][0]
+              ['navigationEndpoint']['browseEndpoint']['browseId']),
+          'contents': shelfRenderer['content']['horizontalListRenderer']
+              ['items']
+        };
+        filteredContents.add(section);
+      }
+    }
+    return filteredContents;
   }
 }

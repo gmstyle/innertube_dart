@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube_adaptor.dart';
+import 'package:innertube_dart/mappers/channel_response_mapper.dart';
 import 'package:innertube_dart/mappers/playlist_response_mapper.dart';
 import 'package:innertube_dart/mappers/search_response_mapper.dart';
 import 'package:innertube_dart/mappers/trending_response_mapper.dart';
 import 'package:innertube_dart/mappers/video_response_mapper.dart';
+import 'package:innertube_dart/models/responses/channel.dart';
 import 'package:innertube_dart/models/responses/playlist.dart';
 
 import 'package:innertube_dart/models/responses/search_response.dart';
@@ -19,6 +21,7 @@ class Innertube extends InnertubeAdaptor {
       TrendingResponseMapper();
   final PlaylistResponseMapper _playlistResponseMapper =
       PlaylistResponseMapper();
+  final ChannelResponseMapper _channelResponseMapper = ChannelResponseMapper();
 
   final Locale? locale;
 
@@ -118,19 +121,16 @@ class Innertube extends InnertubeAdaptor {
         response['contents']['twoColumnBrowseResultsRenderer']['tabs'][index]);
   }
 
-  /// Retrieves a playlist from the specified [playlistId] with an optional [continuationToken].
-  /// Returns a [Future] that resolves to a [PlaylistResponse] object.
+  /// Retrieves a playlist with the specified [playlistId].
   ///
-  /// The [playlistId] parameter is required and represents the ID of the playlist to retrieve.
-  /// The [continuationToken] parameter is optional and represents a token for fetching the next page of results.
+  /// The [continuationToken] parameter is optional and can be used to fetch the next page of results.
+  /// The [getVideos] parameter determines whether to fetch the videos associated with the playlist.
   ///
-  /// Example usage:
-  /// ```dart
-  /// final playlist = await getPlaylist(playlistId: 'abc123', continuationToken: 'def456');
-  /// print(playlist);
-  /// ```
+  /// Returns a [Future] that resolves to a [Playlist] object.
   Future<Playlist> getPlaylist(
-      {required String playlistId, String? continuationToken}) async {
+      {required String playlistId,
+      String? continuationToken,
+      bool getVideos = true}) async {
     final endpoint = Endpoint.browse.name;
     final params = {
       'browseId': playlistId,
@@ -148,9 +148,11 @@ class Innertube extends InnertubeAdaptor {
         .map((e) => e['playlistVideoRenderer']['videoId'])
         .toList();
     final List<Video> videos = [];
-    for (final videoId in videoIds) {
-      final video = await getVideo(videoId: videoId);
-      videos.add(video);
+    if (getVideos) {
+      for (final videoId in videoIds) {
+        final video = await getVideo(videoId: videoId);
+        videos.add(video);
+      }
     }
 
     final data = {
@@ -159,5 +161,57 @@ class Innertube extends InnertubeAdaptor {
     };
 
     return _playlistResponseMapper.toModel(data);
+  }
+
+  Future<Channel> getChannel(
+      {required String channelId, String? continuationToken}) async {
+    final endpoint = Endpoint.browse.name;
+    final params = {
+      'browseId': channelId,
+      'continuation': continuationToken,
+    };
+
+    final response = await dispatch(endpoint,
+        params: Utils.filterNull(params), locale: locale);
+
+    final List<dynamic> sectionList = response['contents']
+            ['twoColumnBrowseResultsRenderer']['tabs'][0]['tabRenderer']
+        ['content']['sectionListRenderer']['contents'];
+
+    final header = response['header']['c4TabbedHeaderRenderer'];
+
+    // Filter the contents to get only the sections with shelfRenderer.
+    final sections = Utils.filterChannelContents(sectionList);
+
+    // Iterate over each section and get the videos and playlists.
+    final List<dynamic> newSections = [];
+    for (final section in sections) {
+      final newSection = {
+        'title': section['title'],
+        'playlistId': section['playlistId'],
+        'videos': [],
+        'playlists': []
+      };
+      for (final content in section['contents']) {
+        if (content['gridVideoRenderer'] != null) {
+          final videoId = content['gridVideoRenderer']['videoId'];
+          final video = await getVideo(videoId: videoId);
+          newSection['videos'].add(video);
+        }
+
+        if (content['gridPlaylistRenderer'] != null) {
+          final playlistId = Utils.setPlaylistId(
+              content['gridPlaylistRenderer']['playlistId']);
+          final playlist =
+              await getPlaylist(playlistId: playlistId!, getVideos: false);
+          newSection['playlists'].add(playlist);
+        }
+      }
+      newSections.add(newSection);
+    }
+
+    final data = {"header": header, "sections": newSections};
+
+    return _channelResponseMapper.toModel(data);
   }
 }

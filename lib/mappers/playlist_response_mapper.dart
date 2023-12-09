@@ -12,13 +12,25 @@ class PlaylistResponseMapper
   @override
   Playlist toModel(Map<String, dynamic> data) {
     return Playlist(
-        playlistId: Utils.setPlaylistId(data['playlistData']['playlistId']),
-        title: data['playlistData']['title']['simpleText'],
-        description: data['playlistData']['descriptionText']['simpleText'],
-        thumbnails: data['playlistData']['playlistHeaderBanner']
-            ['heroPlaylistThumbnailRenderer']['thumbnail']['thumbnails'],
-        author: data['playlistData']['ownerText']['runs'][0]['text'],
-        videoCount: data['playlistData']['numVideosText']['runs'][0]['text'],
+        playlistId: data['playlistData']['playlistId'] != null
+            ? Utils.setPlaylistId(data['playlistData']['playlistId'])
+            : null,
+        title: data['playlistData']['title'] != null
+            ? data['playlistData']['title']['simpleText']
+            : null,
+        description: data['playlistData']['descriptionText'] != null
+            ? data['playlistData']['descriptionText']['simpleText']
+            : null,
+        thumbnails: data['playlistData']['playlistHeaderBanner'] != null
+            ? data['playlistData']['playlistHeaderBanner']
+                ['heroPlaylistThumbnailRenderer']['thumbnail']['thumbnails']
+            : null,
+        author: data['playlistData']['ownerText'] != null
+            ? data['playlistData']['ownerText']['runs'][0]['text']
+            : null,
+        videoCount: data['playlistData']['numVideosText'] != null
+            ? data['playlistData']['numVideosText']['runs'][0]['text']
+            : null,
         videos: data['videos']);
   }
 }
