@@ -1,15 +1,15 @@
+import 'package:innertube_dart/models/responses/video.dart';
+
 class MusicHomeResponse {
   final String? title;
   final String? description;
-  final List<dynamic>? carouselItems;
-  final List<dynamic>? thumbnails;
+  final List<Video>? carouselVideos;
   final List<dynamic>? sections;
 
   MusicHomeResponse({
     this.title,
     this.description,
-    this.carouselItems,
-    this.thumbnails,
+    this.carouselVideos,
     this.sections,
   });
 
@@ -17,8 +17,7 @@ class MusicHomeResponse {
     return MusicHomeResponse(
       title: json['title'],
       description: json['description'],
-      carouselItems: json['carouselItems'],
-      thumbnails: json['thumbnails'],
+      carouselVideos: json['carouselItems'],
       sections: json['sections'],
     );
   }
@@ -27,8 +26,7 @@ class MusicHomeResponse {
     return {
       'title': title,
       'description': description,
-      'carouselItems': carouselItems,
-      'thumbnails': thumbnails,
+      'carouselItems': carouselVideos,
       'sections': sections,
     };
   }

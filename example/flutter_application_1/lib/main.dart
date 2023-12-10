@@ -62,12 +62,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<Channel> getChannel(String channelId) async {
     final resp = await innertube.getChannel(
-        channelId: channelId, channelSection: ChannelSection.playlists);
+        channelId: channelId, channelSection: ChannelSection.home);
     return resp;
   }
 
   Future<MusicHomeResponse> getMusicHome() async {
     final resp = await innertube.getMusicHome();
+    return resp;
+  }
+
+  Future<List<String>?> suggestQuesries(String query) async {
+    final resp = await innertube.suggestQueries(query: query);
     return resp;
   }
 
@@ -86,6 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
     /* getChannel('UC9C9A0BYvdGO_I1IwctjWGg')
         .then((value) => print(value.toJson())); */
     getMusicHome().then((value) => print(value.toJson()));
+    //suggestQuesries('elodie').then((value) => print(value));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,

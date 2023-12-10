@@ -10,6 +10,11 @@ class MusicHomeResponseMapper
 
   @override
   MusicHomeResponse toModel(Map<String, dynamic> data) {
-    return MusicHomeResponse();
+    return MusicHomeResponse(
+      title: data['metadata']['title'],
+      description: data['metadata']['description'],
+      carouselVideos: data['carouselVideos'],
+      sections: data['sections'],
+    );
   }
 }
