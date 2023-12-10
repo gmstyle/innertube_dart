@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube_adaptor.dart';
 import 'package:innertube_dart/mappers/channel_response_mapper.dart';
+import 'package:innertube_dart/mappers/music_home_response_mapper.dart';
+import 'package:innertube_dart/mappers/playlist_renderer_mapper.dart';
 import 'package:innertube_dart/mappers/playlist_response_mapper.dart';
 import 'package:innertube_dart/mappers/search_response_mapper.dart';
 import 'package:innertube_dart/mappers/trending_response_mapper.dart';
 import 'package:innertube_dart/mappers/video_response_mapper.dart';
 import 'package:innertube_dart/models/responses/channel.dart';
+import 'package:innertube_dart/models/responses/music_home_response.dart';
 import 'package:innertube_dart/models/responses/playlist.dart';
 
 import 'package:innertube_dart/models/responses/search_response.dart';
@@ -22,6 +25,10 @@ class Innertube extends InnertubeAdaptor {
   final PlaylistResponseMapper _playlistResponseMapper =
       PlaylistResponseMapper();
   final ChannelResponseMapper _channelResponseMapper = ChannelResponseMapper();
+  final PlaylistRendererMapper _playlistRendererMapper =
+      PlaylistRendererMapper();
+  final MusicHomeResponseMapper _musicHomeResponseMapper =
+      MusicHomeResponseMapper();
 
   final Locale? locale;
 
@@ -163,22 +170,67 @@ class Innertube extends InnertubeAdaptor {
     return _playlistResponseMapper.toModel(data);
   }
 
+  /// Retrieves a [Channel] based on the provided parameters.
+  ///
+  /// The [channelId] parameter is required and specifies the ID of the channel to retrieve.
+  /// The [channelSection] parameter is optional and specifies the section of the channel to retrieve.
+  /// If not provided, it defaults to [ChannelSection.home].
+  /// The [continuationToken] parameter is optional and specifies a token for pagination.
+  ///
+  /// Returns a [Future] that resolves to a [Channel] object.
+  /// Throws an exception if an error occurs during the retrieval process.
   Future<Channel> getChannel(
-      {required String channelId, String? continuationToken}) async {
+      {required String channelId,
+      ChannelSection channelSection = ChannelSection.home,
+      String? continuationToken}) async {
     final endpoint = Endpoint.browse.name;
     final params = {
       'browseId': channelId,
       'continuation': continuationToken,
+      'params': channelSection.param
     };
 
     final response = await dispatch(endpoint,
         params: Utils.filterNull(params), locale: locale);
 
+    switch (channelSection) {
+      case ChannelSection.home:
+        return _getChannelHome(response);
+      case ChannelSection.videos:
+        return _getChannelVideos(response);
+      case ChannelSection.playlists:
+        return _getChannelPlaylists(response);
+      default:
+        return _getChannelHome(response);
+    }
+  }
+
+  Future<MusicHomeResponse> getMusicHome() async {
+    final endpoint = Endpoint.browse.name;
+    final params = {
+      'browseId': ExploreSection.music.browseId,
+    };
+
+    final response = await dispatch(endpoint,
+        params: Utils.filterNull(params), locale: locale);
+
+    final carouselItems = response['contents']['twoColumnBrowseResultsRenderer']
+            ['tabs'][0]['tabRenderer']['content']['sectionListRenderer']
+        ['contents'];
+    final carouselThumbnails = response['header']['carouselHeaderRenderer']
+        ['contents'][0]['carouselItemRenderer']['paginationThumbnails'];
+
+    return _musicHomeResponseMapper.toModel(response);
+  }
+
+  Future<Channel> _getChannelHome(Map<String, dynamic> response) async {
+    final header = response['header']['c4TabbedHeaderRenderer'];
+    final metadata = response['metadata']['channelMetadataRenderer'];
+    String? continuationToken;
+
     final List<dynamic> sectionList = response['contents']
             ['twoColumnBrowseResultsRenderer']['tabs'][0]['tabRenderer']
         ['content']['sectionListRenderer']['contents'];
-
-    final header = response['header']['c4TabbedHeaderRenderer'];
 
     // Filter the contents to get only the sections with shelfRenderer.
     final sections = Utils.filterChannelContents(sectionList);
@@ -206,11 +258,88 @@ class Innertube extends InnertubeAdaptor {
               await getPlaylist(playlistId: playlistId!, getVideos: false);
           newSection['playlists'].add(playlist);
         }
+
+        if (content['continuationItemRenderer'] != null) {
+          continuationToken = content['continuationItemRenderer']
+              ['continuationEndpoint']['continuationCommand']['token'];
+        }
       }
       newSections.add(newSection);
     }
 
-    final data = {"header": header, "sections": newSections};
+    final data = {
+      "header": header,
+      'metadata': metadata,
+      "sections": newSections,
+      'continuationToken': continuationToken
+    };
+
+    return _channelResponseMapper.toModel(data);
+  }
+
+  Future<Channel> _getChannelVideos(Map<String, dynamic> response) async {
+    final header = response['header']['c4TabbedHeaderRenderer'];
+    final metadata = response['metadata']['channelMetadataRenderer'];
+    String? continuationToken;
+
+    final List<dynamic> items = response['contents']
+            ['twoColumnBrowseResultsRenderer']['tabs'][1]['tabRenderer']
+        ['content']['richGridRenderer']['contents'];
+
+    final List<Video> videos = [];
+    for (final item in items) {
+      if (item['richItemRenderer'] != null) {
+        final videoId =
+            item['richItemRenderer']['content']['videoRenderer']['videoId'];
+        final video = await getVideo(videoId: videoId);
+        videos.add(video);
+      }
+
+      if (item['continuationItemRenderer'] != null) {
+        continuationToken = item['continuationItemRenderer']
+            ['continuationEndpoint']['continuationCommand']['token'];
+      }
+    }
+
+    final data = {
+      "header": header,
+      'metadata': metadata,
+      "videos": videos,
+      'continuationToken': continuationToken
+    };
+
+    return _channelResponseMapper.toModel(data);
+  }
+
+  Future<Channel> _getChannelPlaylists(Map<String, dynamic> response) async {
+    final header = response['header']['c4TabbedHeaderRenderer'];
+    final metadata = response['metadata']['channelMetadataRenderer'];
+    String? continuationToken;
+
+    final List<dynamic> items = response['contents']
+                ['twoColumnBrowseResultsRenderer']['tabs'][4]['tabRenderer']
+            ['content']['sectionListRenderer']['contents'][0]
+        ['itemSectionRenderer']['contents'][0]['gridRenderer']['items'];
+
+    final List<Playlist> playlists = [];
+    for (final item in items) {
+      if (item['gridPlaylistRenderer'] != null) {
+        final playlist = _playlistRendererMapper.toModel(item);
+        playlists.add(playlist);
+      }
+
+      if (item['continuationItemRenderer'] != null) {
+        continuationToken = item['continuationItemRenderer']
+            ['continuationEndpoint']['continuationCommand']['token'];
+      }
+    }
+
+    final data = {
+      "header": header,
+      'metadata': metadata,
+      "playlists": playlists,
+      'continuationToken': continuationToken
+    };
 
     return _channelResponseMapper.toModel(data);
   }

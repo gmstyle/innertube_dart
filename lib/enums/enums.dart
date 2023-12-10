@@ -82,3 +82,11 @@ enum ChannelSection {
 
   const ChannelSection(this.param);
 }
+
+enum ExploreSection {
+  music('UC-9-kyTW8ZkZNDHQJ6FgpwQ');
+
+  final String browseId;
+
+  const ExploreSection(this.browseId);
+}

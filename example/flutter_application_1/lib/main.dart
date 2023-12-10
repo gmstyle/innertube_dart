@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube.dart';
 import 'package:innertube_dart/models/responses/channel.dart';
+import 'package:innertube_dart/models/responses/music_home_response.dart';
 import 'package:innertube_dart/models/responses/playlist.dart';
 import 'package:innertube_dart/models/responses/search_response.dart';
 import 'package:innertube_dart/models/responses/trending_response.dart';
@@ -59,7 +61,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<Channel> getChannel(String channelId) async {
-    final resp = await innertube.getChannel(channelId: channelId);
+    final resp = await innertube.getChannel(
+        channelId: channelId, channelSection: ChannelSection.playlists);
+    return resp;
+  }
+
+  Future<MusicHomeResponse> getMusicHome() async {
+    final resp = await innertube.getMusicHome();
     return resp;
   }
 
@@ -75,8 +83,9 @@ class _MyHomePageState extends State<MyHomePage> {
     //getTrenging().then((value) => print(value));
     /* getPlaylist('VLPLTJVqehT6SrzjjX_7jWOUMDw9kRjx7AAt')
         .then((value) => print(value.toJson())); */
-    getChannel('UC9C9A0BYvdGO_I1IwctjWGg')
-        .then((value) => print(value.toJson()));
+    /* getChannel('UC9C9A0BYvdGO_I1IwctjWGg')
+        .then((value) => print(value.toJson())); */
+    getMusicHome().then((value) => print(value.toJson()));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,

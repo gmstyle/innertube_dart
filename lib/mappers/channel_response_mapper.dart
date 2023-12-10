@@ -11,10 +11,22 @@ class ChannelResponseMapper extends BaseMapper<Channel, Map<String, dynamic>> {
   @override
   Channel toModel(Map<String, dynamic> data) {
     return Channel(
-      channelId: data['channelId'],
-      title: data['title'],
-      videoCount: data['videoCount'],
+      channelId: data['header']['channelId'],
+      title: data['header']['title'],
+      description: data['metadata']['description'],
+      videoCount: data['header']['videosCountText']['runs'][0]['text'],
       subscriberCount: data['subscriberCount'],
+      channelHandleText: data['header']['channelHandleText']['runs'][0]['text'],
+      avatars: [
+        ...data['header']['avatar']['thumbnails'],
+        ...data['metadata']['avatar']['thumbnails']
+      ],
+      banners: data['header']['banner']['thumbnails'],
+      tvBanners: data['header']['tvBanner']['thumbnails'],
+      sections: data['sections'] ?? [],
+      videos: data['videos'] ?? [],
+      playlists: data['playlists'] ?? [],
+      continuationToken: data['continuationToken'] ?? '',
     );
   }
 }
