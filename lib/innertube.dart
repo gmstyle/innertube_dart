@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube_adaptor.dart';
-import 'package:innertube_dart/mappers/channel_response_mapper.dart';
-import 'package:innertube_dart/mappers/music_home_response_mapper.dart';
-import 'package:innertube_dart/mappers/playlist_renderer_mapper.dart';
-import 'package:innertube_dart/mappers/playlist_response_mapper.dart';
-import 'package:innertube_dart/mappers/search_response_mapper.dart';
-import 'package:innertube_dart/mappers/trending_response_mapper.dart';
-import 'package:innertube_dart/mappers/video_response_mapper.dart';
 import 'package:innertube_dart/models/responses/channel.dart';
 import 'package:innertube_dart/models/responses/music_home_response.dart';
 import 'package:innertube_dart/models/responses/playlist.dart';
