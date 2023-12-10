@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:innertube_dart/enums/enums.dart';
-import 'package:innertube_dart/innertube_adaptor.dart';
+import 'package:innertube_dart/innertube_base.dart';
 import 'package:innertube_dart/mappers/video_response_mapper.dart';
 import 'package:innertube_dart/models/responses/video.dart';
 
-class VideoRequest extends InnertubeAdaptor {
+class VideoRequest extends InnertubeBase {
   final Locale? locale;
 
   VideoRequest({this.locale = const Locale('en', 'US')});

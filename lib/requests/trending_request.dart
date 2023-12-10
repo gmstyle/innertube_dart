@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:innertube_dart/enums/enums.dart';
-import 'package:innertube_dart/innertube_adaptor.dart';
+import 'package:innertube_dart/innertube_base.dart';
 import 'package:innertube_dart/mappers/trending_response_mapper.dart';
 import 'package:innertube_dart/models/responses/trending_response.dart';
 import 'package:innertube_dart/utils/utils.dart';
 
-class TrendingRequest extends InnertubeAdaptor {
+class TrendingRequest extends InnertubeBase {
   final Locale? locale;
 
   TrendingRequest({this.locale = const Locale('en', 'US')});

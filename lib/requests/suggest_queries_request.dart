@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:innertube_dart/innertube_adaptor.dart';
+import 'package:innertube_dart/innertube_base.dart';
 
-class SuggestQueriesRequests extends InnertubeAdaptor {
+class SuggestQueriesRequests extends InnertubeBase {
   final Locale? locale;
 
   SuggestQueriesRequests({this.locale = const Locale('en', 'US')});

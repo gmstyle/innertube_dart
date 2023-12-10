@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:innertube_dart/configuration/configuration.dart';
 import 'package:innertube_dart/utils/utils.dart';
 
-class InnertubeAdaptor {
+class InnertubeBase {
   final http.Client client;
 
-  InnertubeAdaptor({http.Client? client}) : client = http.Client();
+  InnertubeBase({http.Client? client}) : client = http.Client();
 
   @override
   String toString() {

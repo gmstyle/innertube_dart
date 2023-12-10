@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:innertube_dart/enums/enums.dart';
-import 'package:innertube_dart/innertube_adaptor.dart';
+import 'package:innertube_dart/innertube_base.dart';
 import 'package:innertube_dart/mappers/music_home_response_mapper.dart';
 import 'package:innertube_dart/models/responses/music_home_response.dart';
 import 'package:innertube_dart/models/responses/video.dart';
@@ -8,7 +8,7 @@ import 'package:innertube_dart/requests/playlist_request.dart';
 import 'package:innertube_dart/requests/video_request.dart';
 import 'package:innertube_dart/utils/utils.dart';
 
-class MusicHomeRequest extends InnertubeAdaptor {
+class MusicHomeRequest extends InnertubeBase {
   final Locale? locale;
 
   MusicHomeRequest({this.locale = const Locale('en', 'US')});
