@@ -68,7 +68,12 @@ class Innertube extends InnertubeBase {
 
   /// Retrieves the trending videos based on the specified [trendingCategory].
   ///
-  /// The [trendingCategory] parameter is optional and defaults to [TrendingCategory.now].
+  /// The [trendingCategory] parameter is optional and and can be used to specify the category of trending videos to retrieve:
+  /// [TrendingCategory.now] to retrieve the trending videos of the day.
+  /// [TrendingCategory.music] to retrieve the trending music videos.
+  /// [TrendingCategory.gaming] to retrieve the trending gaming videos.
+  /// [TrendingCategory.film] to retrieve the trending film videos.
+  /// If not provided, it defaults to [TrendingCategory.now].
   /// It represents the category of trending videos to retrieve.
   ///
   /// Returns a [Future] that resolves to a [TrendingResponse] object containing the trending videos.
@@ -103,7 +108,7 @@ class Innertube extends InnertubeBase {
   ///
   /// The [channelId] parameter is required and specifies the ID of the channel to retrieve.
   /// The [channelSection] parameter is optional and specifies the section of the channel to retrieve:
-  /// [ChannelSection.home] to provide the home sections of the channel.
+  /// [ChannelSection.home] to provide the home sections of the channel (good for getting the channel's page structure).
   /// [ChannelSection.videos] to provide the videos of the channel.
   /// [ChannelSection.playlists] to provide the playlists of the channel with their videos.
   /// If not provided, it defaults to [ChannelSection.home].
@@ -123,7 +128,7 @@ class Innertube extends InnertubeBase {
     return response;
   }
 
-  /// Retrieves the music home data.
+  /// Retrieves the music home data asynchronously.
   ///
   /// Returns a [Future] that resolves to a [MusicHomeResponse] object.
   Future<MusicHomeResponse> getMusicHome() async {
