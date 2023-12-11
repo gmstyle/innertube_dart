@@ -25,17 +25,11 @@ class SearchResponseMapper
     final videos = <Video>[];
     final channels = <Channel>[];
     final playlists = <Playlist>[];
+    final continuationItemRenderer = data['continuationItemRenderer'];
 
-    final List<dynamic> itemSectionRenderer = Utils.filterSearchContents(
-        data['contents']['twoColumnSearchResultsRenderer']['primaryContents']
-            ['sectionListRenderer']['contents']);
+    final List<dynamic> contents = data['contents'];
 
-    final Map<String, dynamic> continuationItemRenderer = (data['contents']
-                ['twoColumnSearchResultsRenderer']['primaryContents']
-            ['sectionListRenderer']['contents'] as List<dynamic>)
-        .last['continuationItemRenderer'];
-
-    for (final content in itemSectionRenderer) {
+    for (final content in contents) {
       if (content.containsKey('videoRenderer')) {
         videos.add(_videoRendererMapper
             .toModel(content['videoRenderer'] as Map<String, dynamic>));

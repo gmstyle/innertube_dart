@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube.dart';
@@ -46,7 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<SearchResponse> search(String query) async {
-    final resp = await innertube.search(query: query);
+    final resp = await innertube.search(query: query, continuationToken: null);
+    log('Continuation: ${resp.continuationToken}');
     return resp;
   }
 
@@ -62,7 +65,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<Channel> getChannel(String channelId) async {
     final resp = await innertube.getChannel(
-        channelId: channelId, channelSection: ChannelSection.home);
+        channelId: channelId,
+        channelSection: ChannelSection.playlists,
+        continuationToken: null);
+
+    log('Continuation: ${resp.continuationToken}');
     return resp;
   }
 
@@ -84,13 +91,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //getVideo('nHCsuf1TVOY').then((value) => print(value.toJson()));
-    //search('elodie').then((value) => print(value.toJson()));
+    search('elodie').then((value) => print(value.toJson()));
     //getTrenging().then((value) => print(value));
     /* getPlaylist('VLPLTJVqehT6SrzjjX_7jWOUMDw9kRjx7AAt')
         .then((value) => print(value.toJson())); */
     /* getChannel('UC9C9A0BYvdGO_I1IwctjWGg')
         .then((value) => print(value.toJson())); */
-    getMusicHome().then((value) => print(value.toJson()));
+    //getMusicHome().then((value) => print(value.toJson()));
     //suggestQuesries('elodie').then((value) => print(value));
     return Scaffold(
       appBar: AppBar(

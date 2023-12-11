@@ -102,7 +102,10 @@ class Innertube extends InnertubeBase {
   /// Retrieves a [Channel] based on the provided parameters.
   ///
   /// The [channelId] parameter is required and specifies the ID of the channel to retrieve.
-  /// The [channelSection] parameter is optional and specifies the section of the channel to retrieve.
+  /// The [channelSection] parameter is optional and specifies the section of the channel to retrieve:
+  /// [ChannelSection.home] to provide the home sections of the channel.
+  /// [ChannelSection.videos] to provide the videos of the channel.
+  /// [ChannelSection.playlists] to provide the playlists of the channel with their videos.
   /// If not provided, it defaults to [ChannelSection.home].
   /// The [continuationToken] parameter is optional and specifies a token for pagination.
   ///
