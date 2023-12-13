@@ -6,7 +6,6 @@ import 'package:innertube_dart/models/responses/channel.dart';
 import 'package:innertube_dart/models/responses/playlist.dart';
 import 'package:innertube_dart/models/responses/search_response.dart';
 import 'package:innertube_dart/models/responses/video.dart';
-import 'package:innertube_dart/utils/utils.dart';
 
 class SearchResponseMapper
     extends BaseMapper<SearchResponse, Map<String, dynamic>> {
