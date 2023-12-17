@@ -16,9 +16,11 @@ class VideoResponseMapper implements BaseMapper<Video, Map<String, dynamic>> {
         title: videoDetails['title'],
         description: videoDetails['shortDescription'],
         lengthSeconds: videoDetails['lengthSeconds'],
-        keywords: (videoDetails['keywords'] as List<dynamic>)
-            .map<String>((e) => e as String)
-            .toList(),
+        keywords: (videoDetails['keywords'] != null)
+            ? (videoDetails['keywords'] as List<dynamic>)
+                .map<String>((e) => e as String)
+                .toList()
+            : null,
         channelId: videoDetails['channelId'],
         thumbnails: (videoDetails['thumbnail']['thumbnails'] as List<dynamic>)
             .map<Thumbnail>((e) => Thumbnail(
