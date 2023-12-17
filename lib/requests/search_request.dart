@@ -20,9 +20,43 @@ class SearchRequest extends InnertubeBase {
       'continuation': continuationToken,
     };
 
+    List<dynamic>? itemSectionRenderer;
+    Map<String, dynamic>? continuationItemRenderer;
     final response = await dispatch(endpoint,
         params: Utils.filterNull(params), locale: locale);
 
-    return _searchResponseMapper.toModel(response);
+    if (continuationToken == null) {
+      itemSectionRenderer = Utils.filterSearchContents(response['contents']
+              ['twoColumnSearchResultsRenderer']['primaryContents']
+          ['sectionListRenderer']['contents']);
+
+      continuationItemRenderer = (response['contents']
+                  ['twoColumnSearchResultsRenderer']['primaryContents']
+              ['sectionListRenderer']['contents'] as List<dynamic>)
+          .last['continuationItemRenderer'];
+
+      final data = {
+        'contents': itemSectionRenderer,
+        'continuationItemRenderer': continuationItemRenderer
+      };
+
+      return _searchResponseMapper.toModel(data);
+    } else {
+      itemSectionRenderer = Utils.filterSearchContents(
+          response['onResponseReceivedCommands'][0]
+              ['appendContinuationItemsAction']['continuationItems']);
+
+      continuationItemRenderer = (response['onResponseReceivedCommands'][0]
+                  ['appendContinuationItemsAction']['continuationItems']
+              as List<dynamic>)
+          .last['continuationItemRenderer'];
+    }
+
+    final data = {
+      'contents': itemSectionRenderer,
+      'continuationItemRenderer': continuationItemRenderer
+    };
+
+    return _searchResponseMapper.toModel(data);
   }
 }
