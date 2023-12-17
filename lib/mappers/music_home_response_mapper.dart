@@ -1,4 +1,5 @@
 import 'package:innertube_dart/mappers/base_mapper.dart';
+import 'package:innertube_dart/models/responses/section.dart';
 import 'package:innertube_dart/models/responses/music_home_response.dart';
 
 class MusicHomeResponseMapper
@@ -14,7 +15,9 @@ class MusicHomeResponseMapper
       title: data['metadata']['title'],
       description: data['metadata']['description'],
       carouselVideos: data['carouselVideos'],
-      sections: data['sections'],
+      sections: (data['sections'] as List<dynamic>)
+          .map((e) => Section.fromJson(e))
+          .toList(),
     );
   }
 }

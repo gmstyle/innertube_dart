@@ -1,5 +1,6 @@
 import 'package:innertube_dart/mappers/base_mapper.dart';
 import 'package:innertube_dart/models/responses/channel.dart';
+import 'package:innertube_dart/models/responses/section.dart';
 import 'package:innertube_dart/models/responses/thumbnail.dart';
 
 class ChannelResponseMapper extends BaseMapper<Channel, Map<String, dynamic>> {
@@ -61,7 +62,9 @@ class ChannelResponseMapper extends BaseMapper<Channel, Map<String, dynamic>> {
                   ))
               .toList()
           : null,
-      sections: data['sections'],
+      sections: (data['sections'] as List<dynamic>?)
+          ?.map((e) => Section.fromJson(e))
+          .toList(),
       videos: data['videos'],
       playlists: data['playlists'],
       continuationToken: data['continuationToken'],

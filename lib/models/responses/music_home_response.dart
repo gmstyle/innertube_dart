@@ -1,10 +1,11 @@
+import 'package:innertube_dart/models/responses/section.dart';
 import 'package:innertube_dart/models/responses/video.dart';
 
 class MusicHomeResponse {
   final String? title;
   final String? description;
   final List<Video>? carouselVideos;
-  final List<dynamic>? sections;
+  final List<Section>? sections;
 
   MusicHomeResponse({
     this.title,

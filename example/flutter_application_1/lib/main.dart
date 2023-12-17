@@ -49,12 +49,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<SearchResponse> search(String query) async {
     final resp = await innertube.search(query: query, continuationToken: null);
-    log('Continuation: ${resp.continuationToken}');
+    log('elodie: ${resp.continuationToken}');
     return resp;
   }
 
   Future<TrendingResponse> getTrenging() async {
-    final resp = await innertube.getTrending();
+    final resp =
+        await innertube.getTrending(trendingCategory: TrendingCategory.music);
     return resp;
   }
 
@@ -65,9 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<Channel> getChannel(String channelId) async {
     final resp = await innertube.getChannel(
-        channelId: channelId,
-        channelSection: ChannelSection.home,
-        continuationToken: null);
+        channelId: channelId, continuationToken: null);
 
     log('Continuation: ${resp.continuationToken}');
     return resp;
@@ -91,12 +90,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //getVideo('nHCsuf1TVOY').then((value) => print(value.toJson()));
-    //search('elodie').then((value) => print(value.toJson()));
+    //search('notorious').then((value) => print(value.toJson()));
     //getTrenging().then((value) => print(value));
     /* getPlaylist('VLPLTJVqehT6SrzjjX_7jWOUMDw9kRjx7AAt')
         .then((value) => print(value.toJson())); */
-    getChannel('UC9C9A0BYvdGO_I1IwctjWGg')
-        .then((value) => print(value.toJson()));
+    /* getChannel('UC9C9A0BYvdGO_I1IwctjWGg')
+        .then((value) => print(value.toJson())); */
     //getMusicHome().then((value) => print(value.toJson()));
     //suggestQuesries('elodie').then((value) => print(value));
     return Scaffold(

@@ -30,13 +30,13 @@ class ChannelRendererMapper extends BaseMapper<Channel, Map<String, dynamic>> {
     return fixedUrl;
   }
 
-  List<Thumbnail> _fixThumbnails(List<Thumbnail>? thumbnails) {
+  List<Thumbnail> _fixThumbnails(List<dynamic>? thumbnails) {
     if (thumbnails == null) return [];
     return thumbnails
         .map((e) => Thumbnail(
-              url: _fixThumbnailUrl(e.url),
-              width: e.width,
-              height: e.height,
+              url: _fixThumbnailUrl(e['url']),
+              width: e['width'],
+              height: e['height'],
             ))
         .toList();
   }

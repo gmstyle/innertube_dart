@@ -1,5 +1,6 @@
 import 'package:innertube_dart/mappers/base_mapper.dart';
 import 'package:innertube_dart/models/responses/playlist.dart';
+import 'package:innertube_dart/models/responses/thumbnail.dart';
 import 'package:innertube_dart/utils/utils.dart';
 
 class PlaylistRendererMapper
@@ -16,7 +17,14 @@ class PlaylistRendererMapper
         playlistId:
             Utils.setPlaylistId(data['gridPlaylistRenderer']['playlistId']),
         title: data['gridPlaylistRenderer']['title']['runs'][0]['text'],
-        thumbnails: data['gridPlaylistRenderer']['thumbnail']['thumbnails'],
+        thumbnails: (data['gridPlaylistRenderer']['thumbnail']['thumbnails']
+                as List<dynamic>)
+            .map((e) => Thumbnail(
+                  url: e['url'],
+                  width: e['width'],
+                  height: e['height'],
+                ))
+            .toList(),
         videoCount: data['gridPlaylistRenderer']['videoCountText']['runs'][0]
             ['text'],
       );

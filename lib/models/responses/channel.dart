@@ -1,4 +1,5 @@
 import 'package:innertube_dart/models/responses/playlist.dart';
+import 'package:innertube_dart/models/responses/section.dart';
 import 'package:innertube_dart/models/responses/thumbnail.dart';
 import 'package:innertube_dart/models/responses/video.dart';
 
@@ -11,7 +12,7 @@ class Channel {
   final List<Thumbnail>? banners;
   final List<Thumbnail>? thumbnails;
   final List<Thumbnail>? tvBanners;
-  final List<dynamic>? sections;
+  final List<Section>? sections;
   final List<Video>? videos;
   final List<Playlist>? playlists;
   final String? videoCount;
@@ -60,8 +61,8 @@ class Channel {
                 .map((e) => Thumbnail.fromJson(e as Map<String, dynamic>))
                 .toList()
             : null,
-        sections: (json['contents'] as List<dynamic>?)
-            ?.map((e) => e as Map<String, dynamic>)
+        sections: (json['sections'] as List<dynamic>?)
+            ?.map((e) => Section.fromJson(e as Map<String, dynamic>))
             .toList(),
         videos:
             (json['videos'] as List<dynamic>?)?.map((e) => e as Video).toList(),
@@ -82,7 +83,7 @@ class Channel {
         'banners': banners?.map((e) => e).toList(),
         'thumbnails': thumbnails?.map((e) => e).toList(),
         'tvBanners': tvBanners?.map((e) => e).toList(),
-        'contents': sections?.map((e) => e).toList(),
+        'sections': sections?.map((e) => e).toList(),
         'videos': videos?.map((e) => e).toList(),
         'playlists': playlists?.map((e) => e).toList(),
         'videoCount': videoCount,
