@@ -1,7 +1,7 @@
 name: innertube_dart
 description: "A new Flutter package project."
 version: 0.0.1
-homepage:
+homepage: "https://example.com"
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.1.2
+  youtube_explode_dart: ^2.0.3
 
 dev_dependencies:
   flutter_test:

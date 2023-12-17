@@ -44,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<Video> getVideo(String videoId) async {
     final resp = await innertube.getVideo(videoId: videoId);
+
     return resp;
   }
 
