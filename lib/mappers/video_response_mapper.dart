@@ -12,6 +12,7 @@ class VideoResponseMapper implements BaseMapper<Video, Map<String, dynamic>> {
     return Video(
       videoId: data['videoDetails']['videoId'],
       title: data['videoDetails']['title'],
+      description: data['videoDetails']['shortDescription'],
       lengthSeconds: data['videoDetails']['lengthSeconds'],
       keywords: data['videoDetails']['keywords'],
       channelId: data['videoDetails']['channelId'],

@@ -1,7 +1,7 @@
-
 class Video {
   String? videoId;
   String? title;
+  String? description;
   String? lengthSeconds;
   List<dynamic>? keywords;
   String? channelId;
@@ -13,6 +13,7 @@ class Video {
   Video({
     this.videoId,
     this.title,
+    this.description,
     this.lengthSeconds,
     this.keywords,
     this.channelId,
@@ -25,6 +26,7 @@ class Video {
   factory Video.fromJson(Map<String, dynamic> json) => Video(
         videoId: json['videoId'] as String?,
         title: json['title'] as String?,
+        description: json['description'] as String?,
         lengthSeconds: json['lengthSeconds'] as String?,
         keywords: json['keywords'] as List<dynamic>?,
         channelId: json['channelId'] as String?,
@@ -39,6 +41,7 @@ class Video {
   Map<String, dynamic> toJson() => {
         'videoId': videoId,
         'title': title,
+        'description': description,
         'lengthSeconds': lengthSeconds,
         'keywords': keywords,
         'channelId': channelId,
