@@ -27,7 +27,7 @@ class VideoRequest extends InnertubeBase {
     final muxedStreamingUrl =
         streamingManifest.muxed.bestQuality.url.toString();
     final map = {
-      'videoDetails': response['videoDetails'],
+      'response': response,
       'muxedStreamingUrl': muxedStreamingUrl,
     };
 

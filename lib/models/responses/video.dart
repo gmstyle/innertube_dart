@@ -1,6 +1,5 @@
 import 'package:innertube_dart/models/responses/thumbnail.dart'
     as innertube_thumbnail;
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class Video {
   String? videoId;
@@ -13,6 +12,7 @@ class Video {
   String? viewCount;
   String? author;
   String? muxedStreamingUrl;
+  String? durationMs;
 
   Video({
     this.videoId,
@@ -25,6 +25,7 @@ class Video {
     this.viewCount,
     this.author,
     this.muxedStreamingUrl,
+    this.durationMs,
   });
 
   factory Video.fromJson(Map<String, dynamic> json) => Video(
@@ -55,5 +56,6 @@ class Video {
         'viewCount': viewCount,
         'author': author,
         'muxedStreamingUrl': muxedStreamingUrl,
+        'duration': durationMs,
       };
 }

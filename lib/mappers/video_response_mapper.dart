@@ -10,7 +10,7 @@ class VideoResponseMapper implements BaseMapper<Video, Map<String, dynamic>> {
 
   @override
   Video toModel(Map<String, dynamic> data) {
-    final videoDetails = data['videoDetails'];
+    final videoDetails = data['response']['videoDetails'];
     return Video(
         videoId: videoDetails['videoId'],
         title: videoDetails['title'],
@@ -29,6 +29,8 @@ class VideoResponseMapper implements BaseMapper<Video, Map<String, dynamic>> {
             .toList(),
         viewCount: videoDetails['viewCount'],
         author: videoDetails['author'],
-        muxedStreamingUrl: data['muxedStreamingUrl']);
+        muxedStreamingUrl: data['muxedStreamingUrl'],
+        durationMs: data['response']['streamingData']['formats'][0]
+            ['approxDurationMs']);
   }
 }
