@@ -10,7 +10,7 @@ class Video {
   List<Thumbnail>? thumbnails;
   String? viewCount;
   String? author;
-  Map<String, dynamic>? streamingData;
+  StreamingData? streamingData;
 
   Video({
     this.videoId,
@@ -39,7 +39,8 @@ class Video {
             : null,
         viewCount: json['viewCount'] as String?,
         author: json['author'] as String?,
-        streamingData: json['streamingData'] as Map<String, dynamic>?,
+        streamingData: StreamingData.fromJson(
+            json['streamingData'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
@@ -53,5 +54,68 @@ class Video {
         'viewCount': viewCount,
         'author': author,
         'streamingData': streamingData,
+      };
+}
+
+class StreamingData {
+  List<Format>? formats;
+  List<Format>? adaptiveFormats;
+
+  StreamingData({
+    this.formats,
+    this.adaptiveFormats,
+  });
+
+  factory StreamingData.fromJson(Map<String, dynamic> json) => StreamingData(
+        formats: (json['formats'] as List<dynamic>)
+            .map((e) => Format.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        adaptiveFormats: (json['adaptiveFormats'] as List<dynamic>)
+            .map((e) => Format.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      );
+}
+
+class Format {
+  int? width;
+  int? height;
+  String? mimeType;
+  int? bitrate;
+  String? quality;
+  String? qualityLabel;
+  int? fps;
+  String? approxDurationMs;
+
+  Format({
+    this.width,
+    this.height,
+    this.mimeType,
+    this.bitrate,
+    this.quality,
+    this.qualityLabel,
+    this.fps,
+    this.approxDurationMs,
+  });
+
+  factory Format.fromJson(Map<String, dynamic> json) => Format(
+        width: json['width'] as int?,
+        height: json['height'] as int?,
+        mimeType: json['mimeType'] as String?,
+        bitrate: json['bitrate'] as int?,
+        quality: json['quality'] as String?,
+        qualityLabel: json['qualityLabel'] as String?,
+        fps: json['fps'] as int?,
+        approxDurationMs: json['approxDurationMs'] as String?,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'width': width,
+        'height': height,
+        'mimeType': mimeType,
+        'bitrate': bitrate,
+        'quality': quality,
+        'qualityLabel': qualityLabel,
+        'fps': fps,
+        'approxDurationMs': approxDurationMs,
       };
 }
