@@ -1,4 +1,5 @@
 import 'package:innertube_dart/models/responses/playlist.dart';
+import 'package:innertube_dart/models/responses/thumbnail.dart';
 import 'package:innertube_dart/models/responses/video.dart';
 
 class Channel {
@@ -6,10 +7,10 @@ class Channel {
   final String? title;
   final String? description;
   final String? channelHandleText;
-  final List<dynamic>? avatars;
-  final List<dynamic>? banners;
-  final List<dynamic>? thumbnails;
-  final List<dynamic>? tvBanners;
+  final List<Thumbnail>? avatars;
+  final List<Thumbnail>? banners;
+  final List<Thumbnail>? thumbnails;
+  final List<Thumbnail>? tvBanners;
   final List<dynamic>? sections;
   final List<Video>? videos;
   final List<Playlist>? playlists;
@@ -39,18 +40,26 @@ class Channel {
         title: json['title'] as String?,
         description: json['description'] as String?,
         channelHandleText: json['channelHandleText'] as String?,
-        avatars: (json['avatars'] as List<dynamic>?)
-            ?.map((e) => e as Map<String, dynamic>)
-            .toList(),
-        banners: (json['banners'] as List<dynamic>?)
-            ?.map((e) => e as Map<String, dynamic>)
-            .toList(),
-        thumbnails: (json['thumbnails'] as List<dynamic>?)
-            ?.map((e) => e as Map<String, dynamic>)
-            .toList(),
-        tvBanners: (json['tvBanners'] as List<dynamic>?)
-            ?.map((e) => e as Map<String, dynamic>)
-            .toList(),
+        avatars: json['avatars'] != null
+            ? (json['avatars'] as List<dynamic>)
+                .map((e) => Thumbnail.fromJson(e as Map<String, dynamic>))
+                .toList()
+            : null,
+        banners: json['banners'] != null
+            ? (json['banners'] as List<dynamic>)
+                .map((e) => Thumbnail.fromJson(e as Map<String, dynamic>))
+                .toList()
+            : null,
+        thumbnails: json['thumbnails'] != null
+            ? (json['thumbnails'] as List<dynamic>)
+                .map((e) => Thumbnail.fromJson(e as Map<String, dynamic>))
+                .toList()
+            : null,
+        tvBanners: json['tvBanners'] != null
+            ? (json['tvBanners'] as List<dynamic>)
+                .map((e) => Thumbnail.fromJson(e as Map<String, dynamic>))
+                .toList()
+            : null,
         sections: (json['contents'] as List<dynamic>?)
             ?.map((e) => e as Map<String, dynamic>)
             .toList(),

@@ -1,5 +1,6 @@
 import 'package:innertube_dart/mappers/base_mapper.dart';
 import 'package:innertube_dart/models/responses/channel.dart';
+import 'package:innertube_dart/models/responses/thumbnail.dart';
 
 class ChannelRendererMapper extends BaseMapper<Channel, Map<String, dynamic>> {
   @override
@@ -12,8 +13,7 @@ class ChannelRendererMapper extends BaseMapper<Channel, Map<String, dynamic>> {
     return Channel(
       channelId: data['channelId'],
       title: data['title']['simpleText'],
-      thumbnails:
-          _fixThumbnails(data['thumbnail']['thumbnails'] as List<dynamic>),
+      thumbnails: _fixThumbnails(data['thumbnail']['thumbnails']),
       videoCount: data['videoCountText']['simpleText'],
       subscriberCount: data['subscriberCountText']['simpleText'],
     );
@@ -30,14 +30,14 @@ class ChannelRendererMapper extends BaseMapper<Channel, Map<String, dynamic>> {
     return fixedUrl;
   }
 
-  List<Map<String, dynamic>> _fixThumbnails(List<dynamic>? thumbnails) {
+  List<Thumbnail> _fixThumbnails(List<Thumbnail>? thumbnails) {
     if (thumbnails == null) return [];
     return thumbnails
-        .map((e) => {
-              'url': _fixThumbnailUrl(e['url'] as String),
-              'width': e['width'],
-              'height': e['height'],
-            })
+        .map((e) => Thumbnail(
+              url: _fixThumbnailUrl(e.url),
+              width: e.width,
+              height: e.height,
+            ))
         .toList();
   }
 }

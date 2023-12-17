@@ -1,4 +1,5 @@
 import 'package:innertube_dart/mappers/base_mapper.dart';
+import 'package:innertube_dart/models/responses/thumbnail.dart';
 import 'package:innertube_dart/models/responses/video.dart';
 
 class VideoRendererMapper extends BaseMapper<Video, Map<String, dynamic>> {
@@ -18,7 +19,11 @@ class VideoRendererMapper extends BaseMapper<Video, Map<String, dynamic>> {
               ['channelThumbnailWithLinkRenderer']['navigationEndpoint']
           ['browseEndpoint']['browseId'],
       thumbnails: (data['thumbnail']['thumbnails'] as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
+          .map<Thumbnail>((e) => Thumbnail(
+                url: e['url'],
+                width: e['width'],
+                height: e['height'],
+              ))
           .toList(),
       viewCount: data['viewCountText']['simpleText'],
     );

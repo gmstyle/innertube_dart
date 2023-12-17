@@ -1,5 +1,6 @@
 import 'package:innertube_dart/mappers/base_mapper.dart';
 import 'package:innertube_dart/models/responses/channel.dart';
+import 'package:innertube_dart/models/responses/thumbnail.dart';
 
 class ChannelResponseMapper extends BaseMapper<Channel, Map<String, dynamic>> {
   @override
@@ -23,16 +24,42 @@ class ChannelResponseMapper extends BaseMapper<Channel, Map<String, dynamic>> {
           ? data['header']['channelHandleText']['runs'][0]['text']
           : null,
       avatars: [
-        ...data['header'] != null ? data['header']['avatar']['thumbnails'] : [],
+        ...data['header'] != null
+            ? (data['header']['avatar']['thumbnails'] as List<dynamic>)
+                .map((e) => Thumbnail(
+                      url: e['url'],
+                      width: e['width'],
+                      height: e['height'],
+                    ))
+                .toList()
+            : [],
         ...data['metadata'] != null
-            ? data['metadata']['avatar']['thumbnails']
+            ? (data['metadata']['avatar']['thumbnails'] as List<dynamic>)
+                .map((e) => Thumbnail(
+                      url: e['url'],
+                      width: e['width'],
+                      height: e['height'],
+                    ))
+                .toList()
             : [],
       ],
       banners: data['header'] != null
-          ? data['header']['banner']['thumbnails']
+          ? (data['header']['banner']['thumbnails'] as List<dynamic>)
+              .map((e) => Thumbnail(
+                    url: e['url'],
+                    width: e['width'],
+                    height: e['height'],
+                  ))
+              .toList()
           : null,
       tvBanners: data['header'] != null
-          ? data['header']['tvBanner']['thumbnails']
+          ? (data['header']['tvBanner']['thumbnails'] as List<dynamic>)
+              .map((e) => Thumbnail(
+                    url: e['url'],
+                    width: e['width'],
+                    height: e['height'],
+                  ))
+              .toList()
           : null,
       sections: data['sections'],
       videos: data['videos'],

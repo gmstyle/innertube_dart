@@ -1,11 +1,13 @@
+import 'package:innertube_dart/models/responses/thumbnail.dart';
+
 class Video {
   String? videoId;
   String? title;
   String? description;
   String? lengthSeconds;
-  List<dynamic>? keywords;
+  List<String>? keywords;
   String? channelId;
-  List<dynamic>? thumbnails;
+  List<Thumbnail>? thumbnails;
   String? viewCount;
   String? author;
   Map<String, dynamic>? streamingData;
@@ -28,11 +30,13 @@ class Video {
         title: json['title'] as String?,
         description: json['description'] as String?,
         lengthSeconds: json['lengthSeconds'] as String?,
-        keywords: json['keywords'] as List<dynamic>?,
+        keywords: json['keywords'],
         channelId: json['channelId'] as String?,
-        thumbnails: (json['thumbnails'] as List<dynamic>?)
-            ?.map((e) => e as Map<String, dynamic>)
-            .toList(),
+        thumbnails: json['thumbnails'] != null
+            ? (json['thumbnails'] as List<dynamic>)
+                .map((e) => Thumbnail.fromJson(e as Map<String, dynamic>))
+                .toList()
+            : null,
         viewCount: json['viewCount'] as String?,
         author: json['author'] as String?,
         streamingData: json['streamingData'] as Map<String, dynamic>?,
@@ -45,8 +49,7 @@ class Video {
         'lengthSeconds': lengthSeconds,
         'keywords': keywords,
         'channelId': channelId,
-        'thumbnails':
-            thumbnails?.map((e) => e as Map<String, dynamic>).toList(),
+        'thumbnails': thumbnails?.map((e) => e.toJson()).toList(),
         'viewCount': viewCount,
         'author': author,
         'streamingData': streamingData,
