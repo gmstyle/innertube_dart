@@ -79,7 +79,7 @@ class Innertube extends InnertubeBase {
   /// Returns a [Future] that resolves to a [TrendingResponse] object containing the trending videos.
   /// The [TrendingResponse] object is mapped from the API response.
   Future<TrendingResponse> getTrending(
-      {TrendingCategory? trendingCategory = TrendingCategory.now}) async {
+      {TrendingCategory? trendingCategory}) async {
     final response = TrendingRequest(locale: locale)
         .getTrending(trendingCategory: trendingCategory);
 

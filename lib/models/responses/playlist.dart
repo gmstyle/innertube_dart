@@ -1,10 +1,11 @@
+import 'package:innertube_dart/models/responses/thumbnail.dart';
 import 'package:innertube_dart/models/responses/video.dart';
 
 class Playlist {
   String? playlistId;
   String? title;
   String? description;
-  List<dynamic>? thumbnails;
+  List<Thumbnail>? thumbnails;
   String? author;
   String? videoCount;
   List<Video>? videos;
@@ -24,7 +25,7 @@ class Playlist {
         title: json['title'] as String?,
         description: json['description'] as String?,
         thumbnails: (json['thumbnails'] as List<dynamic>?)
-            ?.map((e) => e as Map<String, dynamic>)
+            ?.map((e) => e as Thumbnail)
             .toList(),
         author: json['author'] as String?,
         videoCount: json['videoCount'] as String?,

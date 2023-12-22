@@ -1,5 +1,6 @@
 import 'package:innertube_dart/mappers/base_mapper.dart';
 import 'package:innertube_dart/models/responses/playlist.dart';
+import 'package:innertube_dart/models/responses/thumbnail.dart';
 import 'package:innertube_dart/utils/utils.dart';
 
 class PlaylistResponseMapper
@@ -22,8 +23,11 @@ class PlaylistResponseMapper
             ? data['playlistData']['descriptionText']['simpleText']
             : null,
         thumbnails: data['playlistData']['playlistHeaderBanner'] != null
-            ? data['playlistData']['playlistHeaderBanner']
-                ['heroPlaylistThumbnailRenderer']['thumbnail']['thumbnails']
+            ? (data['playlistData']['playlistHeaderBanner']
+                        ['heroPlaylistThumbnailRenderer']['thumbnail']
+                    ['thumbnails'] as List<dynamic>)
+                .map<Thumbnail>((e) => Thumbnail.fromJson(e))
+                .toList()
             : null,
         author: data['playlistData']['ownerText'] != null
             ? data['playlistData']['ownerText']['runs'][0]['text']

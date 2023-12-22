@@ -23,11 +23,7 @@ class VideoResponseMapper implements BaseMapper<Video, Map<String, dynamic>> {
             : null,
         channelId: videoDetails['channelId'],
         thumbnails: (videoDetails['thumbnail']['thumbnails'] as List<dynamic>)
-            .map<Thumbnail>((e) => Thumbnail(
-                  url: e['url'],
-                  width: e['width'],
-                  height: e['height'],
-                ))
+            .map<Thumbnail>((e) => Thumbnail.fromJson(e))
             .toList(),
         viewCount: videoDetails['viewCount'],
         author: videoDetails['author'],

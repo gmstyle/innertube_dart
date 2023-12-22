@@ -93,8 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
     getVideo('nHCsuf1TVOY').then((value) => print(value.toJson()));
     //search('notorious').then((value) => print(value.toJson()));
     //getTrenging().then((value) => print(value));
-    /* getPlaylist('VLPLTJVqehT6SrzjjX_7jWOUMDw9kRjx7AAt')
-        .then((value) => print(value.toJson())); */
+    getPlaylist('VLPLTJVqehT6SrzjjX_7jWOUMDw9kRjx7AAt')
+        .then((value) => print(value.toJson()));
     /* getChannel('UC9C9A0BYvdGO_I1IwctjWGg')
         .then((value) => print(value.toJson())); */
     //getMusicHome().then((value) => print(value.toJson()));

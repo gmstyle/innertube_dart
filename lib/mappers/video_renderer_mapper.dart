@@ -19,11 +19,7 @@ class VideoRendererMapper extends BaseMapper<Video, Map<String, dynamic>> {
               ['channelThumbnailWithLinkRenderer']['navigationEndpoint']
           ['browseEndpoint']['browseId'],
       thumbnails: (data['thumbnail']['thumbnails'] as List<dynamic>)
-          .map<Thumbnail>((e) => Thumbnail(
-                url: e['url'],
-                width: e['width'],
-                height: e['height'],
-              ))
+          .map<Thumbnail>((e) => Thumbnail.fromJson(e))
           .toList(),
       viewCount: data['viewCountText']['simpleText'],
     );
