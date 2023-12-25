@@ -45,8 +45,8 @@ class MusicHomeRequest extends InnertubeBase {
       for (final content in section['contents']) {
         if (content['gridVideoRenderer'] != null) {
           final videoId = content['gridVideoRenderer']['videoId'];
-          final video =
-              await VideoRequest(locale: locale).getVideo(videoId: videoId);
+          final video = await VideoRequest(locale: locale)
+              .getVideo(videoId: videoId, withStreamingUrl: false);
           newSection['videos'].add(video);
         }
 
@@ -65,8 +65,8 @@ class MusicHomeRequest extends InnertubeBase {
     for (final carouselItem in carouselItems) {
       final videoId = carouselItem['defaultPromoPanelRenderer']
           ['navigationEndpoint']['watchEndpoint']['videoId'];
-      final video =
-          await VideoRequest(locale: locale).getVideo(videoId: videoId);
+      final video = await VideoRequest(locale: locale)
+          .getVideo(videoId: videoId, withStreamingUrl: false);
       newCarouselIVideos.add(video);
     }
 

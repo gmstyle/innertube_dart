@@ -29,9 +29,10 @@ class Innertube extends InnertubeBase {
   /// If the video is not found, an exception is thrown.
   Future<Video> getVideo({
     required String videoId,
+    bool withStreamingUrl = true,
   }) async {
-    final response =
-        await VideoRequest(locale: locale).getVideo(videoId: videoId);
+    final response = await VideoRequest(locale: locale)
+        .getVideo(videoId: videoId, withStreamingUrl: withStreamingUrl);
 
     return response;
   }

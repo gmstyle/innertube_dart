@@ -15,6 +15,7 @@ class VideoRequest extends InnertubeBase {
 
   Future<innertube_video.Video> getVideo({
     required String videoId,
+    bool withStreamingUrl = true,
   }) async {
     final endpoint = Endpoint.player.name;
     final params = {
@@ -22,10 +23,13 @@ class VideoRequest extends InnertubeBase {
     };
     final response = await dispatch(endpoint, params: params, locale: locale);
 
-    final streamingManifest =
-        await yt.videos.streamsClient.getManifest(videoId);
-    final muxedStreamingUrl =
-        streamingManifest.muxed.bestQuality.url.toString();
+    String? muxedStreamingUrl;
+    if (withStreamingUrl) {
+      final streamingManifest =
+          await yt.videos.streamsClient.getManifest(videoId);
+      muxedStreamingUrl = streamingManifest.muxed.bestQuality.url.toString();
+    }
+
     final map = {
       'response': response,
       'muxedStreamingUrl': muxedStreamingUrl,
