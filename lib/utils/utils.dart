@@ -121,12 +121,22 @@ class Utils {
       final shelfRenderer =
           content['itemSectionRenderer']['contents'][0]['shelfRenderer'];
       if (shelfRenderer != null) {
+        final browseEndPoint = shelfRenderer['title']['runs'][0]
+            ['navigationEndpoint']['browseEndpoint'];
+        final browseId =
+            browseEndPoint != null ? browseEndPoint['browseId'] : null;
+        final horizontalListRenderer =
+            shelfRenderer['content']['horizontalListRenderer'];
+        final expandedShelfContentsRenderer =
+            shelfRenderer['content']['expandedShelfContentsRenderer'];
         final section = {
           'title': shelfRenderer['title']['runs'][0]['text'],
-          'playlistId': setPlaylistId(shelfRenderer['title']['runs'][0]
-              ['navigationEndpoint']['browseEndpoint']['browseId']),
-          'contents': shelfRenderer['content']['horizontalListRenderer']
-              ['items']
+          'playlistId': browseId != null ? setPlaylistId(browseId) : null,
+          'contents': horizontalListRenderer != null
+              ? horizontalListRenderer['items']
+              : expandedShelfContentsRenderer != null
+                  ? expandedShelfContentsRenderer['items']
+                  : null
         };
         filteredContents.add(section);
       }

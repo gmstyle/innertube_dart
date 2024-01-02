@@ -14,7 +14,9 @@ class ChannelRendererMapper extends BaseMapper<Channel, Map<String, dynamic>> {
       channelId: data['channelId'],
       title: data['title']['simpleText'],
       thumbnails: _fixThumbnails(data['thumbnail']['thumbnails']),
-      videoCount: data['videoCountText']['simpleText'],
+      videoCount: data['videoCountText'] != null
+          ? data['videoCountText']['simpleText']
+          : null,
       subscriberCount: data['subscriberCountText']['simpleText'],
     );
   }

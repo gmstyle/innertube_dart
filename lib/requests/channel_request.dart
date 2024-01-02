@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube_base.dart';
 import 'package:innertube_dart/mappers/channel_response_mapper.dart';
+import 'package:innertube_dart/mappers/channerl_renderer_mapper.dart';
 import 'package:innertube_dart/mappers/playlist_renderer_mapper.dart';
 import 'package:innertube_dart/models/responses/channel.dart';
 import 'package:innertube_dart/models/responses/playlist.dart';
@@ -16,6 +17,7 @@ class ChannelRequest extends InnertubeBase {
   ChannelRequest({this.locale = const Locale('en', 'US')});
 
   final ChannelResponseMapper _channelResponseMapper = ChannelResponseMapper();
+  final ChannelRendererMapper _channelRendererMapper = ChannelRendererMapper();
   final PlaylistRendererMapper _playlistRendererMapper =
       PlaylistRendererMapper();
 
@@ -66,7 +68,8 @@ class ChannelRequest extends InnertubeBase {
           'title': section['title'],
           'playlistId': section['playlistId'],
           'videos': [],
-          'playlists': []
+          'playlists': [],
+          'featuredChannel': null
         };
         for (final content in section['contents']) {
           if (content['gridVideoRenderer'] != null) {
@@ -82,6 +85,12 @@ class ChannelRequest extends InnertubeBase {
             final playlist = await PlaylistRequest(locale: locale)
                 .getPlaylist(playlistId: playlistId!, getVideos: false);
             newSection['playlists'].add(playlist);
+          }
+
+          if (content['channelRenderer'] != null) {
+            final featuredChannel =
+                _channelRendererMapper.toModel(content['channelRenderer']);
+            newSection['featuredChannel'] = featuredChannel;
           }
 
           if (content['continuationItemRenderer'] != null) {
