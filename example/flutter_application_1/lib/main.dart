@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
     //getTrenging().then((value) => print(value));
     /* getPlaylist('VLPLTJVqehT6SrzjjX_7jWOUMDw9kRjx7AAt')
         .then((value) => print(value.toJson())); */
-    getChannel('UCMIdeeBjp_60Jv7ROpRxK6Q')
+    getChannel('UC2pmfLm7iq6Ov1UwYrWYkZA') //  UChmFMiVx3jDpnmv3MN36SEg
         .then((value) => print(value.toJson()));
     //getMusicHome().then((value) => print(value.toJson()));
     //suggestQuesries('elodie').then((value) => print(value));
