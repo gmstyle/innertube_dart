@@ -32,9 +32,13 @@ class PlaylistRequest extends InnertubeBase {
                 ['content']['sectionListRenderer']['contents'][0]
             ['itemSectionRenderer']['contents'][0]['playlistVideoListRenderer']
         ['contents'];
-    final videoIds = playlistVideoListRenderer
-        .map((e) => e['playlistVideoRenderer']['videoId'])
-        .toList();
+
+    final videoIds = <String>[];
+    for (final item in playlistVideoListRenderer) {
+      if (item['playlistVideoRenderer'] != null) {
+        videoIds.add(item['playlistVideoRenderer']['videoId']);
+      }
+    }
     final List<Video> videos = [];
     if (getVideos) {
       for (final videoId in videoIds) {
