@@ -12,23 +12,26 @@ class VideoResponseMapper implements BaseMapper<Video, Map<String, dynamic>> {
   Video toModel(Map<String, dynamic> data) {
     final videoDetails = data['response']['videoDetails'];
     return Video(
-        videoId: videoDetails['videoId'],
-        title: videoDetails['title'],
-        description: videoDetails['shortDescription'],
-        lengthSeconds: videoDetails['lengthSeconds'],
-        keywords: (videoDetails['keywords'] != null)
-            ? (videoDetails['keywords'] as List<dynamic>)
-                .map<String>((e) => e as String)
-                .toList()
-            : null,
-        channelId: videoDetails['channelId'],
-        thumbnails: (videoDetails['thumbnail']['thumbnails'] as List<dynamic>)
-            .map<Thumbnail>((e) => Thumbnail.fromJson(e))
-            .toList(),
-        viewCount: videoDetails['viewCount'],
-        author: videoDetails['author'],
-        muxedStreamingUrl: data['muxedStreamingUrl'],
-        durationMs: data['response']['streamingData']['formats'][0]
-            ['approxDurationMs']);
+      videoId: videoDetails['videoId'],
+      title: videoDetails['title'],
+      description: videoDetails['shortDescription'],
+      lengthSeconds: videoDetails['lengthSeconds'],
+      keywords: (videoDetails['keywords'] != null)
+          ? (videoDetails['keywords'] as List<dynamic>)
+              .map<String>((e) => e as String)
+              .toList()
+          : null,
+      channelId: videoDetails['channelId'],
+      thumbnails: (videoDetails['thumbnail']['thumbnails'] as List<dynamic>)
+          .map<Thumbnail>((e) => Thumbnail.fromJson(e))
+          .toList(),
+      viewCount: videoDetails['viewCount'],
+      author: videoDetails['author'],
+      muxedStreamingUrl: data['muxedStreamingUrl'],
+      durationMs: data['response']['streamingData'] != null
+          ? data['response']['streamingData']['formats'][0]['approxDurationMs']
+          : (int.parse(videoDetails['lengthSeconds'] as String) * 1000)
+              .toString(),
+    );
   }
 }
