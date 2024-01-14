@@ -69,14 +69,14 @@ class ChannelRequest extends InnertubeBase {
           'playlistId': section['playlistId'],
           'videos': [],
           'playlists': [],
-          'featuredChannel': null
+          'featuredChannels': []
         };
         for (final content in section['contents']) {
           if (content['gridVideoRenderer'] != null) {
             final videoId = content['gridVideoRenderer']['videoId'];
             final video = await VideoRequest(locale: locale)
                 .getVideo(videoId: videoId, withStreamingUrl: false);
-            newSection['videos'].add(video);
+            (newSection['videos'] as List<dynamic>).add(video);
           }
 
           if (content['gridPlaylistRenderer'] != null) {
@@ -84,13 +84,21 @@ class ChannelRequest extends InnertubeBase {
                 content['gridPlaylistRenderer']['playlistId']);
             final playlist = await PlaylistRequest(locale: locale)
                 .getPlaylist(playlistId: playlistId!, getVideos: false);
-            newSection['playlists'].add(playlist);
+            (newSection['playlists'] as List<dynamic>).add(playlist);
           }
 
           if (content['channelRenderer'] != null) {
             final featuredChannel =
                 _channelRendererMapper.toModel(content['channelRenderer']);
-            newSection['featuredChannel'] = featuredChannel;
+            (newSection['featuredChannels'] as List<dynamic>)
+                .add(featuredChannel);
+          }
+
+          if (content['gridChannelRenderer'] != null) {
+            final featuredChannel =
+                _channelRendererMapper.toModel(content['gridChannelRenderer']);
+            (newSection['featuredChannels'] as List<dynamic>)
+                .add(featuredChannel);
           }
 
           if (content['continuationItemRenderer'] != null) {

@@ -93,10 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
     //getVideo('nHCsuf1TVOY').then((value) => print(value.toJson()));
     //search('2pac').then((value) => print(value.toJson()));
     //getTrenging().then((value) => print(value));
-    getPlaylist('VLOLAK5uy_mz75gIl3crnEJKFQM7Pr8VXmBhQ5WSd48')
-        .then((value) => print(value.toJson()));
-    /* getChannel('UC2pmfLm7iq6Ov1UwYrWYkZA') 
+    /* getPlaylist('VLOLAK5uy_mz75gIl3crnEJKFQM7Pr8VXmBhQ5WSd48')
         .then((value) => print(value.toJson())); */
+    getChannel('UCfM3zsQsOnfWNUppiycmBuw')
+        .then((value) => print(value.toJson()));
     //getMusicHome().then((value) => print(value.toJson()));
     //suggestQuesries('elodie').then((value) => print(value));
     return Scaffold(

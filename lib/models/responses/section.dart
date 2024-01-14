@@ -7,14 +7,14 @@ class Section {
   String? playlistId;
   List<Video>? videos;
   List<Playlist>? playlists;
-  Channel? featuredChannel;
+  List<Channel>? featuredChannels;
 
   Section({
     this.title,
     this.playlistId,
     this.videos,
     this.playlists,
-    this.featuredChannel,
+    this.featuredChannels,
   });
 
   factory Section.fromJson(Map<String, dynamic> json) {
@@ -24,8 +24,10 @@ class Section {
       videos: (json['videos'] as List<dynamic>).map<Video>((e) => e).toList(),
       playlists:
           (json['playlists'] as List<dynamic>).map<Playlist>((e) => e).toList(),
-      featuredChannel: json['featuredChannel'] != null
-          ? json['featuredChannel'] as Channel
+      featuredChannels: json['featuredChannels'] != null
+          ? (json['featuredChannels'] as List<dynamic>)
+              .map<Channel>((e) => e)
+              .toList()
           : null,
     );
   }
@@ -36,7 +38,7 @@ class Section {
       'playlistId': playlistId,
       'videos': videos?.map((e) => e.toJson()).toList(),
       'playlists': playlists?.map((e) => e.toJson()).toList(),
-      'featuredChannel': featuredChannel?.toJson(),
+      'featuredChannels': featuredChannels?.map((e) => e.toJson()).toList(),
     };
   }
 }
