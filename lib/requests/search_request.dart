@@ -20,36 +20,24 @@ class SearchRequest extends InnertubeBase {
       'continuation': continuationToken,
     };
 
-    List<dynamic>? itemSectionRenderer;
-    Map<String, dynamic>? continuationItemRenderer;
     final response = await dispatch(endpoint,
         params: Utils.filterNull(params), locale: locale);
 
+    List<dynamic>? itemSectionRenderer;
+    Map<String, dynamic>? continuationItemRenderer;
+
     if (continuationToken == null) {
-      itemSectionRenderer = Utils.filterSearchContents(response['contents']
-              ['twoColumnSearchResultsRenderer']['primaryContents']
-          ['sectionListRenderer']['contents']);
-
-      continuationItemRenderer = (response['contents']
-                  ['twoColumnSearchResultsRenderer']['primaryContents']
-              ['sectionListRenderer']['contents'] as List<dynamic>)
-          .last['continuationItemRenderer'];
-
-      final data = {
-        'contents': itemSectionRenderer,
-        'continuationItemRenderer': continuationItemRenderer
-      };
-
-      return _searchResponseMapper.toModel(data);
+      final contents = response['contents']['twoColumnSearchResultsRenderer']
+          ['primaryContents']['sectionListRenderer']['contents'];
+      itemSectionRenderer = Utils.filterSearchContents(contents);
+      continuationItemRenderer =
+          (contents as List<dynamic>).last['continuationItemRenderer'];
     } else {
-      itemSectionRenderer = Utils.filterSearchContents(
-          response['onResponseReceivedCommands'][0]
-              ['appendContinuationItemsAction']['continuationItems']);
-
-      continuationItemRenderer = (response['onResponseReceivedCommands'][0]
-                  ['appendContinuationItemsAction']['continuationItems']
-              as List<dynamic>)
-          .last['continuationItemRenderer'];
+      final continuationItems = response['onResponseReceivedCommands'][0]
+          ['appendContinuationItemsAction']['continuationItems'];
+      itemSectionRenderer = Utils.filterSearchContents(continuationItems);
+      continuationItemRenderer =
+          (continuationItems as List<dynamic>).last['continuationItemRenderer'];
     }
 
     final data = {

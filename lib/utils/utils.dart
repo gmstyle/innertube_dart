@@ -36,18 +36,18 @@ class Utils {
   /// Returns:
   /// A new list containing only the desired content types.
   static List<dynamic> filterSearchContents(List<dynamic> contents) {
-    final List<dynamic> filteredContents = [];
-    for (final content in contents) {
+    return contents.expand((content) {
       if (content['itemSectionRenderer'] != null) {
-        filteredContents.addAll(filterSearchContents(
-            content['itemSectionRenderer']['contents'] as List<dynamic>));
+        return filterSearchContents(
+            content['itemSectionRenderer']['contents'] as List<dynamic>);
       } else if (content['videoRenderer'] != null ||
           content['channelRenderer'] != null ||
           content['playlistRenderer'] != null) {
-        filteredContents.add(content);
+        return [content];
+      } else {
+        return [];
       }
-    }
-    return filteredContents;
+    }).toList();
   }
 
   /// Sets the playlist ID based on the provided ID.

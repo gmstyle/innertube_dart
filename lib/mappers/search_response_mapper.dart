@@ -28,7 +28,7 @@ class SearchResponseMapper
 
     final List<dynamic> contents = data['contents'];
 
-    for (final content in contents) {
+    for (final Map content in contents) {
       if (content.containsKey('videoRenderer')) {
         videos.add(_videoRendererMapper
             .toModel(content['videoRenderer'] as Map<String, dynamic>));
