@@ -67,9 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<Channel> getChannel(String channelId) async {
     final resp = await innertube.getChannel(
-        channelId: channelId,
-        continuationToken: null,
-        channelSection: ChannelSection.playlists);
+      channelId: channelId,
+      continuationToken: null,
+    );
 
     log('Continuation: ${resp.continuationToken}');
     return resp;

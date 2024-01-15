@@ -12,59 +12,20 @@ class ChannelResponseMapper extends BaseMapper<Channel, Map<String, dynamic>> {
 
   @override
   Channel toModel(Map<String, dynamic> data) {
+    final header = data['header'];
+    final metadata = data['metadata'];
+
     return Channel(
-      channelId: data['header'] != null ? data['header']['channelId'] : null,
-      title: data['header'] != null ? data['header']['title'] : null,
-      description:
-          data['metadata'] != null ? data['metadata']['description'] : null,
-      videoCount: data['header']['videosCountText'] != null
-          ? data['header']['videosCountText']['runs'][0]['text']
-          : null,
-      subscriberCount: data['header'] != null &&
-              data['header']['subscriberCountText'] != null
-          ? data['header']['subscriberCountText']['simpleText']
-          : null,
-      channelHandleText: data['header'] != null
-          ? data['header']['channelHandleText']['runs'][0]['text']
-          : null,
-      avatars: [
-        ...data['header'] != null && data['header']['avatar'] != null
-            ? (data['header']['avatar']['thumbnails'] as List<dynamic>)
-                .map((e) => Thumbnail(
-                      url: e['url'],
-                      width: e['width'],
-                      height: e['height'],
-                    ))
-                .toList()
-            : [],
-        ...data['metadata'] != null && data['metadata']['avatar'] != null
-            ? (data['metadata']['avatar']['thumbnails'] as List<dynamic>)
-                .map((e) => Thumbnail(
-                      url: e['url'],
-                      width: e['width'],
-                      height: e['height'],
-                    ))
-                .toList()
-            : [],
-      ],
-      banners: data['header'] != null && data['header']['banner'] != null
-          ? (data['header']['banner']['thumbnails'] as List<dynamic>)
-              .map((e) => Thumbnail(
-                    url: e['url'],
-                    width: e['width'],
-                    height: e['height'],
-                  ))
-              .toList()
-          : null,
-      tvBanners: data['header'] != null && data['header']['tvBanner'] != null
-          ? (data['header']['tvBanner']['thumbnails'] as List<dynamic>)
-              .map((e) => Thumbnail(
-                    url: e['url'],
-                    width: e['width'],
-                    height: e['height'],
-                  ))
-              .toList()
-          : null,
+      channelId: header?['channelId'],
+      title: header?['title'],
+      description: metadata?['description'],
+      videoCount: header?['videosCountText']?['runs']?[0]['text'],
+      subscriberCount: header?['subscriberCountText']?['simpleText'],
+      channelHandleText: header?['channelHandleText']?['runs']?[0]['text'],
+      avatars:
+          _getThumbnails(header, 'avatar') + _getThumbnails(metadata, 'avatar'),
+      banners: _getThumbnails(header, 'banner'),
+      tvBanners: _getThumbnails(header, 'tvBanner'),
       sections: (data['sections'] as List<dynamic>?)
           ?.map((e) => Section.fromJson(e))
           .toList(),
@@ -72,5 +33,17 @@ class ChannelResponseMapper extends BaseMapper<Channel, Map<String, dynamic>> {
       playlists: data['playlists'],
       continuationToken: data['continuationToken'],
     );
+  }
+
+  List<Thumbnail> _getThumbnails(Map<String, dynamic>? data, String key) {
+    return data != null && data[key] != null
+        ? (data[key]['thumbnails'] as List<dynamic>)
+            .map((e) => Thumbnail(
+                  url: e['url'],
+                  width: e['width'],
+                  height: e['height'],
+                ))
+            .toList()
+        : [];
   }
 }
