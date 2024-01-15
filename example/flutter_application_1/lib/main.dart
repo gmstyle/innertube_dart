@@ -67,7 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<Channel> getChannel(String channelId) async {
     final resp = await innertube.getChannel(
-        channelId: channelId, continuationToken: null);
+        channelId: channelId,
+        continuationToken: null,
+        channelSection: ChannelSection.playlists);
 
     log('Continuation: ${resp.continuationToken}');
     return resp;
@@ -93,10 +95,10 @@ class _MyHomePageState extends State<MyHomePage> {
     //getVideo('nHCsuf1TVOY').then((value) => print(value.toJson()));
     //search('2pac').then((value) => print(value.toJson()));
     //getTrenging().then((value) => print(value));
-    getPlaylist('VLOLAK5uy_mz75gIl3crnEJKFQM7Pr8VXmBhQ5WSd48')
-        .then((value) => print(value.toJson()));
-    /* getChannel('UCNgo6ExSvJM7XIMJL_rXloQ')
+    /* getPlaylist('VLOLAK5uy_mz75gIl3crnEJKFQM7Pr8VXmBhQ5WSd48')
         .then((value) => print(value.toJson())); */
+    getChannel('UC9C9A0BYvdGO_I1IwctjWGg')
+        .then((value) => print(value.toJson()));
     //getMusicHome().then((value) => print(value.toJson()));
     //suggestQuesries('elodie').then((value) => print(value));
     return Scaffold(

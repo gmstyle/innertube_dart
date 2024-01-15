@@ -50,258 +50,214 @@ class ChannelRequest extends InnertubeBase {
   Future<Channel> _getChannelHome(
       Map<String, dynamic> response, String? continuationToken) async {
     String? continuationTokenNew;
+    List<dynamic> sectionList;
 
+    Map<String, dynamic>? header;
+    Map<String, dynamic>? metadata;
     if (continuationToken == null) {
-      final header = response['header']['c4TabbedHeaderRenderer'];
-      final metadata = response['metadata']['channelMetadataRenderer'];
-      final List<dynamic> sectionList = response['contents']
-              ['twoColumnBrowseResultsRenderer']['tabs'][0]['tabRenderer']
-          ['content']['sectionListRenderer']['contents'];
-
-      // Filter the contents to get only the sections with shelfRenderer.
-      final sections = Utils.filterChannelContents(sectionList);
-
-      // Iterate over each section and get the videos and playlists.
-      final List<dynamic> newSections = [];
-      for (final section in sections) {
-        final newSection = {
-          'title': section['title'],
-          'playlistId': section['playlistId'],
-          'videos': [],
-          'playlists': [],
-          'featuredChannels': []
-        };
-        for (final content in section['contents']) {
-          if (content['gridVideoRenderer'] != null) {
-            final videoId = content['gridVideoRenderer']['videoId'];
-            final video = await VideoRequest(locale: locale)
-                .getVideo(videoId: videoId, withStreamingUrl: false);
-            (newSection['videos'] as List<dynamic>).add(video);
-          }
-
-          if (content['gridPlaylistRenderer'] != null) {
-            final playlistId = Utils.setPlaylistId(
-                content['gridPlaylistRenderer']['playlistId']);
-            final playlist = await PlaylistRequest(locale: locale)
-                .getPlaylist(playlistId: playlistId!, getVideos: false);
-            (newSection['playlists'] as List<dynamic>).add(playlist);
-          }
-
-          if (content['channelRenderer'] != null) {
-            final featuredChannel =
-                _channelRendererMapper.toModel(content['channelRenderer']);
-            (newSection['featuredChannels'] as List<dynamic>)
-                .add(featuredChannel);
-          }
-
-          if (content['gridChannelRenderer'] != null) {
-            final featuredChannel =
-                _channelRendererMapper.toModel(content['gridChannelRenderer']);
-            (newSection['featuredChannels'] as List<dynamic>)
-                .add(featuredChannel);
-          }
-
-          if (content['continuationItemRenderer'] != null) {
-            continuationTokenNew = content['continuationItemRenderer']
-                ['continuationEndpoint']['continuationCommand']['token'];
-          }
-        }
-        newSections.add(newSection);
-      }
-
-      final data = {
-        "header": header,
-        'metadata': metadata,
-        "sections": newSections,
-        'continuationToken': continuationTokenNew
-      };
-
-      return _channelResponseMapper.toModel(data);
+      header = response['header']['c4TabbedHeaderRenderer'];
+      metadata = response['metadata']['channelMetadataRenderer'];
+      sectionList = response['contents']['twoColumnBrowseResultsRenderer']
+              ['tabs'][0]['tabRenderer']['content']['sectionListRenderer']
+          ['contents'];
     } else {
       //TODO: To be tested because never happens before.
-
-      final List<dynamic> items = response['onResponseReceivedActions'][0]
+      sectionList = response['onResponseReceivedActions'][0]
           ['appendContinuationItemsAction']['continuationItems'];
-
-      // Filter the contents to get only the sections with shelfRenderer.
-      final sections = Utils.filterChannelContents(items);
-
-      // Iterate over each section and get the videos and playlists.
-      final List<dynamic> newSections = [];
-      for (final section in sections) {
-        final newSection = {
-          'title': section['title'],
-          'playlistId': section['playlistId'],
-          'videos': [],
-          'playlists': [],
-          'featuredChannels': []
-        };
-        for (final content in section['contents']) {
-          if (content['gridVideoRenderer'] != null) {
-            final videoId = content['gridVideoRenderer']['videoId'];
-            final video = await VideoRequest(locale: locale)
-                .getVideo(videoId: videoId, withStreamingUrl: false);
-            (newSection['videos'] as List<dynamic>).add(video);
-          }
-
-          if (content['gridPlaylistRenderer'] != null) {
-            final playlistId = Utils.setPlaylistId(
-                content['gridPlaylistRenderer']['playlistId']);
-            final playlist = await PlaylistRequest(locale: locale)
-                .getPlaylist(playlistId: playlistId!, getVideos: false);
-            (newSection['playlists'] as List<dynamic>).add(playlist);
-          }
-
-          if (content['channelRenderer'] != null) {
-            final featuredChannel =
-                _channelRendererMapper.toModel(content['channelRenderer']);
-            (newSection['featuredChannels'] as List<dynamic>)
-                .add(featuredChannel);
-          }
-
-          if (content['gridChannelRenderer'] != null) {
-            final featuredChannel =
-                _channelRendererMapper.toModel(content['gridChannelRenderer']);
-            (newSection['featuredChannels'] as List<dynamic>)
-                .add(featuredChannel);
-          }
-
-          if (content['continuationItemRenderer'] != null) {
-            continuationTokenNew = content['continuationItemRenderer']
-                ['continuationEndpoint']['continuationCommand']['token'];
-          }
-        }
-        newSections.add(newSection);
-      }
-
-      final data = {
-        "sections": newSections,
-        'continuationToken': continuationTokenNew
-      };
-
-      return _channelResponseMapper.toModel(data);
     }
+
+    // Filter the contents to get only the sections with shelfRenderer.
+    final sections = Utils.filterChannelContents(sectionList);
+
+    // Iterate over each section and get the videos and playlists.
+    final List<dynamic> newSections = [];
+    for (final section in sections) {
+      final newSection = await _processSection(section);
+      continuationTokenNew = await _getContinuationToken(section);
+      newSections.add(newSection);
+    }
+
+    final data = {
+      if (continuationToken == null) "header": header,
+      if (continuationToken == null) 'metadata': metadata,
+      "sections": newSections,
+      'continuationToken': continuationTokenNew
+    };
+
+    return _channelResponseMapper.toModel(data);
   }
 
   Future<Channel> _getChannelVideos(
       Map<String, dynamic> response, String? continuationToken) async {
     String? newContinuationToken;
 
+    Map<String, dynamic>? header;
+    Map<String, dynamic>? metadata;
+    List<dynamic> items;
     if (continuationToken == null) {
-      final header = response['header']['c4TabbedHeaderRenderer'];
-      final metadata = response['metadata']['channelMetadataRenderer'];
-      final List<dynamic> items = response['contents']
-              ['twoColumnBrowseResultsRenderer']['tabs'][1]['tabRenderer']
-          ['content']['richGridRenderer']['contents'];
-
-      final List<Video> videos = [];
-      for (final item in items) {
-        if (item['richItemRenderer'] != null) {
-          final videoId =
-              item['richItemRenderer']['content']['videoRenderer']['videoId'];
-          final video = await VideoRequest(locale: locale)
-              .getVideo(videoId: videoId, withStreamingUrl: false);
-          videos.add(video);
-        }
-
-        if (item['continuationItemRenderer'] != null) {
-          newContinuationToken = item['continuationItemRenderer']
-              ['continuationEndpoint']['continuationCommand']['token'];
-        }
-      }
-
-      final data = {
-        "header": header,
-        'metadata': metadata,
-        "videos": videos,
-        'continuationToken': newContinuationToken
-      };
-
-      return _channelResponseMapper.toModel(data);
+      header = response['header']['c4TabbedHeaderRenderer'];
+      metadata = response['metadata']['channelMetadataRenderer'];
+      items = response['contents']['twoColumnBrowseResultsRenderer']['tabs'][1]
+          ['tabRenderer']['content']['richGridRenderer']['contents'];
     } else {
-      final List<dynamic> items = response['onResponseReceivedActions'][0]
+      items = response['onResponseReceivedActions'][0]
           ['appendContinuationItemsAction']['continuationItems'];
-      final List<Video> videos = [];
-      for (final item in items) {
-        if (item['richItemRenderer'] != null) {
-          final videoId =
-              item['richItemRenderer']['content']['videoRenderer']['videoId'];
-          final video = await VideoRequest(locale: locale)
-              .getVideo(videoId: videoId, withStreamingUrl: false);
-          videos.add(video);
-        }
-
-        if (item['continuationItemRenderer'] != null) {
-          newContinuationToken = item['continuationItemRenderer']
-              ['continuationEndpoint']['continuationCommand']['token'];
-        }
-      }
-
-      final data = {
-        "videos": videos,
-        'continuationToken': newContinuationToken
-      };
-
-      return _channelResponseMapper.toModel(data);
     }
+
+    final List<Video> videos = await _processItems(items!);
+    for (final item in items) {
+      /* if (item['continuationItemRenderer'] != null) {
+        newContinuationToken = item['continuationItemRenderer']
+            ['continuationEndpoint']['continuationCommand']['token'];
+      } */
+      newContinuationToken = await _getContinuationToken(item);
+    }
+
+    final data = {
+      if (continuationToken == null) "header": header,
+      if (continuationToken == null) 'metadata': metadata,
+      "videos": videos,
+      'continuationToken': newContinuationToken
+    };
+
+    return _channelResponseMapper.toModel(data);
   }
 
   Future<Channel> _getChannelPlaylists(
       Map<String, dynamic> response, String? continuationToken) async {
     String? newContinuationToken;
 
+    Map<String, dynamic>? header;
+    Map<String, dynamic>? metadata;
+    List<dynamic> items = [];
     if (continuationToken == null) {
-      final header = response['header']['c4TabbedHeaderRenderer'];
-      final metadata = response['metadata']['channelMetadataRenderer'];
-      final List<dynamic> items = response['contents']
-                  ['twoColumnBrowseResultsRenderer']['tabs'][4]['tabRenderer']
-              ['content']['sectionListRenderer']['contents'][0]
-          ['itemSectionRenderer']['contents'][0]['gridRenderer']['items'];
-
-      final List<Playlist> playlists = [];
-      for (final item in items) {
-        if (item['gridPlaylistRenderer'] != null) {
-          final playlist = _playlistRendererMapper.toModel(item);
-          playlists.add(playlist);
-        }
-
-        if (item['continuationItemRenderer'] != null) {
-          newContinuationToken = item['continuationItemRenderer']
-              ['continuationEndpoint']['continuationCommand']['token'];
+      final tabs =
+          response['contents']['twoColumnBrowseResultsRenderer']['tabs'];
+      for (final tab in tabs) {
+        if (tab['tabRenderer'] != null) {
+          if (tab['tabRenderer']['title'] == 'Playlist') {
+            items = tab['tabRenderer']['content']['sectionListRenderer']
+                    ['contents'][0]['itemSectionRenderer']['contents'][0]
+                ['gridRenderer']['items'];
+          }
         }
       }
 
-      final data = {
-        "header": header,
-        'metadata': metadata,
-        "playlists": playlists,
-        'continuationToken': newContinuationToken
-      };
-
-      return _channelResponseMapper.toModel(data);
+      header = response['header']['c4TabbedHeaderRenderer'];
+      metadata = response['metadata']['channelMetadataRenderer'];
     } else {
       //TODO: To be tested because never happens before.
-      final List<dynamic> items = response['onResponseReceivedActions'][0]
+      items = response['onResponseReceivedActions'][0]
           ['appendContinuationItemsAction']['continuationItems'];
-      final List<Playlist> playlists = [];
-      for (final item in items) {
-        if (item['gridPlaylistRenderer'] != null) {
-          final playlist = _playlistRendererMapper.toModel(item);
-          playlists.add(playlist);
-        }
+    }
 
-        if (item['continuationItemRenderer'] != null) {
-          newContinuationToken = item['continuationItemRenderer']
+    final List<Playlist> playlists = _processPlaylistItems(items);
+    for (final item in items) {
+      newContinuationToken = await _getContinuationToken(item);
+    }
+
+    final data = {
+      if (continuationToken == null) "header": header,
+      if (continuationToken == null) 'metadata': metadata,
+      "playlists": playlists,
+      'continuationToken': newContinuationToken
+    };
+
+    return _channelResponseMapper.toModel(data);
+  }
+
+  Future<List<Video>> _processItems(List<dynamic> items) async {
+    final futures = <Future<Video>>[];
+    for (final item in items) {
+      if (item['richItemRenderer'] != null) {
+        final videoId =
+            item['richItemRenderer']['content']['videoRenderer']['videoId'];
+        futures.add(VideoRequest(locale: locale)
+            .getVideo(videoId: videoId, withStreamingUrl: false));
+      }
+    }
+    return await Future.wait(futures);
+  }
+
+  List<Playlist> _processPlaylistItems(List<dynamic> items) {
+    final playlists = <Playlist>[];
+    for (final item in items) {
+      if (item['gridPlaylistRenderer'] != null) {
+        final playlist = _playlistRendererMapper.toModel(item);
+        playlists.add(playlist);
+      }
+    }
+    return playlists;
+  }
+
+  Future<Map<String, dynamic>> _processSection(
+      Map<String, dynamic> section) async {
+    final newSection = {
+      'title': section['title'],
+      'playlistId': section['playlistId'],
+      'videos': [],
+      'playlists': [],
+      'featuredChannels': []
+    };
+    final futures = <Future>[];
+    for (final content in section['contents']) {
+      if (content['gridVideoRenderer'] != null) {
+        final videoId = content['gridVideoRenderer']['videoId'];
+        futures.add(_processVideo(newSection, videoId));
+      }
+
+      if (content['gridPlaylistRenderer'] != null) {
+        final playlistId =
+            Utils.setPlaylistId(content['gridPlaylistRenderer']['playlistId']);
+        futures.add(_processPlaylist(newSection, playlistId!));
+      }
+
+      if (content['channelRenderer'] != null) {
+        final featuredChannel =
+            _channelRendererMapper.toModel(content['channelRenderer']);
+        (newSection['featuredChannels'] as List<dynamic>).add(featuredChannel);
+      }
+
+      if (content['gridChannelRenderer'] != null) {
+        final featuredChannel =
+            _channelRendererMapper.toModel(content['gridChannelRenderer']);
+        (newSection['featuredChannels'] as List<dynamic>).add(featuredChannel);
+      }
+    }
+    await Future.wait(futures);
+    return newSection;
+  }
+
+  Future _getContinuationToken(Map<String, dynamic> data) async {
+    String? continuationToken;
+    // case 1: the continuation token is in the sections
+    if (data['contents'] != null) {
+      for (final content in data['contents']) {
+        if (content['continuationItemRenderer'] != null) {
+          continuationToken = content['continuationItemRenderer']
               ['continuationEndpoint']['continuationCommand']['token'];
         }
       }
-
-      final data = {
-        "playlists": playlists,
-        'continuationToken': newContinuationToken
-      };
-
-      return _channelResponseMapper.toModel(data);
     }
+
+    // case 2: the continuation token is in the item
+    if (data['continuationItemRenderer'] != null) {
+      continuationToken = data['continuationItemRenderer']
+          ['continuationEndpoint']['continuationCommand']['token'];
+    }
+    return continuationToken;
+  }
+
+  Future _processVideo(Map<String, dynamic> newSection, String videoId) async {
+    final video = await VideoRequest(locale: locale)
+        .getVideo(videoId: videoId, withStreamingUrl: false);
+    (newSection['videos'] as List<dynamic>).add(video);
+  }
+
+  Future _processPlaylist(
+      Map<String, dynamic> newSection, String playlistId) async {
+    final playlist = await PlaylistRequest(locale: locale)
+        .getPlaylist(playlistId: playlistId, getVideos: false);
+    (newSection['playlists'] as List<dynamic>).add(playlist);
   }
 }
