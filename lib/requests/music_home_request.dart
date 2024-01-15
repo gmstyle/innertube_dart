@@ -3,6 +3,7 @@ import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube_base.dart';
 import 'package:innertube_dart/mappers/music_home_response_mapper.dart';
 import 'package:innertube_dart/models/responses/music_home_response.dart';
+import 'package:innertube_dart/models/responses/playlist.dart';
 import 'package:innertube_dart/models/responses/video.dart';
 import 'package:innertube_dart/requests/playlist_request.dart';
 import 'package:innertube_dart/requests/video_request.dart';
@@ -42,33 +43,35 @@ class MusicHomeRequest extends InnertubeBase {
         'videos': [],
         'playlists': []
       };
+      final videoRequests = <Future<Video>>[];
+      final playlistRequests = <Future<Playlist>>[];
       for (final content in section['contents']) {
         if (content['gridVideoRenderer'] != null) {
           final videoId = content['gridVideoRenderer']['videoId'];
-          final video = await VideoRequest(locale: locale)
-              .getVideo(videoId: videoId, withStreamingUrl: false);
-          newSection['videos'].add(video);
+          videoRequests.add(VideoRequest(locale: locale)
+              .getVideo(videoId: videoId, withStreamingUrl: false));
         }
 
         if (content['gridPlaylistRenderer'] != null) {
           final playlistId = Utils.setPlaylistId(
               content['gridPlaylistRenderer']['playlistId']);
-          final playlist = await PlaylistRequest(locale: locale)
-              .getPlaylist(playlistId: playlistId!, getVideos: false);
-          newSection['playlists'].add(playlist);
+          playlistRequests.add(PlaylistRequest(locale: locale)
+              .getPlaylist(playlistId: playlistId!, getVideos: false));
         }
       }
+      newSection['videos'] = await Future.wait(videoRequests);
+      newSection['playlists'] = await Future.wait(playlistRequests);
       newSections.add(newSection);
     }
 
-    final List<Video> newCarouselIVideos = [];
-    for (final carouselItem in carouselItems) {
+    final videoRequests = carouselItems.map((carouselItem) {
       final videoId = carouselItem['defaultPromoPanelRenderer']
           ['navigationEndpoint']['watchEndpoint']['videoId'];
-      final video = await VideoRequest(locale: locale)
+      return VideoRequest(locale: locale)
           .getVideo(videoId: videoId, withStreamingUrl: false);
-      newCarouselIVideos.add(video);
-    }
+    }).toList();
+
+    final List<Video> newCarouselIVideos = await Future.wait(videoRequests);
 
     final data = {
       'metadata': metadata,
