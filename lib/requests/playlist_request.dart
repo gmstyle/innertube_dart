@@ -39,13 +39,11 @@ class PlaylistRequest extends InnertubeBase {
         videoIds.add(item['playlistVideoRenderer']['videoId']);
       }
     }
-    final List<Video> videos = [];
+    List<Video> videos = [];
     if (getVideos) {
-      for (final videoId in videoIds) {
-        final video =
-            await VideoRequest(locale: locale).getVideo(videoId: videoId);
-        videos.add(video);
-      }
+      final videoRequests = videoIds.map(
+          (videoId) => VideoRequest(locale: locale).getVideo(videoId: videoId));
+      videos = await Future.wait(videoRequests);
     }
 
     final data = {

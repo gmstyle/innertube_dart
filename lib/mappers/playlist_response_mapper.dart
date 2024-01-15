@@ -12,28 +12,29 @@ class PlaylistResponseMapper
 
   @override
   Playlist toModel(Map<String, dynamic> data) {
+    var playlistData = data['playlistData'];
     return Playlist(
-        playlistId: data['playlistData']['playlistId'] != null
-            ? Utils.setPlaylistId(data['playlistData']['playlistId'])
+        playlistId: playlistData['playlistId'] != null
+            ? Utils.setPlaylistId(playlistData['playlistId'])
             : null,
-        title: data['playlistData']['title'] != null
-            ? data['playlistData']['title']['simpleText']
+        title: playlistData['title'] != null
+            ? playlistData['title']['simpleText']
             : null,
-        description: data['playlistData']['descriptionText'] != null
-            ? data['playlistData']['descriptionText']['simpleText']
+        description: playlistData['descriptionText'] != null
+            ? playlistData['descriptionText']['simpleText']
             : null,
-        thumbnails: data['playlistData']['playlistHeaderBanner'] != null
-            ? (data['playlistData']['playlistHeaderBanner']
+        thumbnails: playlistData['playlistHeaderBanner'] != null
+            ? (playlistData['playlistHeaderBanner']
                         ['heroPlaylistThumbnailRenderer']['thumbnail']
                     ['thumbnails'] as List<dynamic>)
                 .map<Thumbnail>((e) => Thumbnail.fromJson(e))
                 .toList()
             : null,
-        author: data['playlistData']['ownerText'] != null
-            ? data['playlistData']['ownerText']['runs'][0]['text']
+        author: playlistData['ownerText'] != null
+            ? playlistData['ownerText']['runs'][0]['text']
             : null,
-        videoCount: data['playlistData']['numVideosText'] != null
-            ? data['playlistData']['numVideosText']['runs'][0]['text']
+        videoCount: playlistData['numVideosText'] != null
+            ? playlistData['numVideosText']['runs'][0]['text']
             : null,
         videos: data['videos']);
   }
