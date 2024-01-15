@@ -17,7 +17,7 @@ class ChannelResponseMapper extends BaseMapper<Channel, Map<String, dynamic>> {
       title: data['header'] != null ? data['header']['title'] : null,
       description:
           data['metadata'] != null ? data['metadata']['description'] : null,
-      videoCount: data['header'] != null
+      videoCount: data['header']['videosCountText'] != null
           ? data['header']['videosCountText']['runs'][0]['text']
           : null,
       subscriberCount: data['header'] != null &&
