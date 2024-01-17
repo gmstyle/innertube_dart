@@ -14,15 +14,21 @@ class TrendingResponseMapper
   @override
   TrendingResponse toModel(Map<String, dynamic> data) {
     final videos = <Video>[];
-    final List<dynamic> items = data['tabRenderer']['content']
-                ['sectionListRenderer']['contents'][0]['itemSectionRenderer']
-            ['contents'][0]['shelfRenderer']['content']
-        ['expandedShelfContentsRenderer']['items'];
+    final List<dynamic> itemSectionRenderers =
+        data['tabRenderer']['content']['sectionListRenderer']['contents'];
 
-    for (Map<String, dynamic> item in items) {
-      if (item.containsKey('videoRenderer')) {
-        videos.add(_videoRendererMapper
-            .toModel(item['videoRenderer'] as Map<String, dynamic>));
+    for (var map in itemSectionRenderers) {
+      final expandedShelfContentsRenderer = map['itemSectionRenderer']
+              ['contents'][0]['shelfRenderer']['content']
+          ['expandedShelfContentsRenderer'];
+      if (expandedShelfContentsRenderer != null) {
+        for (var item in expandedShelfContentsRenderer['items']) {
+          final videoRenderer = item['videoRenderer'];
+          if (videoRenderer != null) {
+            videos.add(_videoRendererMapper
+                .toModel(videoRenderer as Map<String, dynamic>));
+          }
+        }
       }
     }
 
