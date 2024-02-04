@@ -104,7 +104,7 @@ class ChannelRequest extends InnertubeBase {
           ['appendContinuationItemsAction']['continuationItems'];
     }
 
-    final List<Video> videos = await _processItems(items!);
+    final List<Video> videos = await _processItems(items);
     for (final item in items) {
       /* if (item['continuationItemRenderer'] != null) {
         newContinuationToken = item['continuationItemRenderer']
