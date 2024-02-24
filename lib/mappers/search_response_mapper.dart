@@ -45,8 +45,10 @@ class SearchResponseMapper
       videos: videos,
       channels: channels,
       playlists: playlists,
-      continuationToken: continuationItemRenderer['continuationEndpoint']
-          ['continuationCommand']['token'],
+      continuationToken: continuationItemRenderer != null
+          ? continuationItemRenderer['continuationEndpoint']
+              ['continuationCommand']['token']
+          : null,
     );
   }
 }

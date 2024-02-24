@@ -48,9 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return resp;
   }
 
-  Future<SearchResponse> search(String query) async {
-    final resp = await innertube.search(query: query, continuationToken: null);
-    log('elodie: ${resp.continuationToken}');
+  Future<SearchResponse> search(String query, String? continuation) async {
+    final resp =
+        await innertube.search(query: query, continuationToken: continuation);
+
     return resp;
   }
 
@@ -93,13 +94,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //getVideo('nHCsuf1TVOY').then((value) => print(value.toJson()));
-    //search('2pac').then((value) => print(value.toJson()));
+    search('dgsdsdkfhasdkfvasdfa playlist', null)
+        .then((value) => print(value.toJson()));
     //getTrenging().then((value) => print(value));
     /* getPlaylist('VLOLAK5uy_mz75gIl3crnEJKFQM7Pr8VXmBhQ5WSd48')
         .then((value) => print(value.toJson())); */
     /* getChannel('UCNgo6ExSvJM7XIMJL_rXloQ')
         .then((value) => print(value.toJson())); */
-    getMusicHome().then((value) => print(value.toJson()));
+    //getMusicHome().then((value) => print(value.toJson()));
     //suggestQuesries('elodie').then((value) => print(value));
     return Scaffold(
       appBar: AppBar(

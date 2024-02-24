@@ -12,7 +12,7 @@ class ChannelRendererMapper extends BaseMapper<Channel, Map<String, dynamic>> {
   Channel toModel(Map<String, dynamic> data) {
     return Channel(
       channelId: data['channelId'],
-      title: data['title']['simpleText'],
+      title: data['title'] != null ? data['title']['simpleText'] : null,
       thumbnails: _fixThumbnails(data['thumbnail']['thumbnails']),
       videoCount: data['videoCountText'] != null
           ? data['videoCountText']['simpleText']

@@ -33,11 +33,17 @@ class SearchRequest extends InnertubeBase {
       continuationItemRenderer =
           (contents as List<dynamic>).last['continuationItemRenderer'];
     } else {
-      final continuationItems = response['onResponseReceivedCommands'][0]
-          ['appendContinuationItemsAction']['continuationItems'];
-      itemSectionRenderer = Utils.filterSearchContents(continuationItems);
-      continuationItemRenderer =
-          (continuationItems as List<dynamic>).last['continuationItemRenderer'];
+      if (response['onResponseReceivedCommands'] != null &&
+          response['onResponseReceivedCommands'].isNotEmpty) {
+        final continuationItems = response['onResponseReceivedCommands'][0]
+            ['appendContinuationItemsAction']['continuationItems'];
+        itemSectionRenderer = Utils.filterSearchContents(continuationItems);
+        continuationItemRenderer = (continuationItems as List<dynamic>)
+            .last['continuationItemRenderer'];
+      } else {
+        itemSectionRenderer = [];
+        continuationItemRenderer = {};
+      }
     }
 
     final data = {

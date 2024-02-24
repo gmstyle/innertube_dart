@@ -32,7 +32,7 @@ class PlaylistRendererMapper
       // data['playlistRenderer]
       return Playlist(
         playlistId: Utils.setPlaylistId(data['playlistId']),
-        title: data['title']['simpleText'],
+        title: data['title'] != null ? data['title']['simpleText'] : null,
         thumbnails: (data['thumbnails'][0]['thumbnails'] as List<dynamic>)
             .map((e) => Thumbnail(
                   url: e['url'],
