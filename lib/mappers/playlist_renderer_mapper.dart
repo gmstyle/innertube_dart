@@ -17,6 +17,9 @@ class PlaylistRendererMapper
         playlistId:
             Utils.setPlaylistId(data['gridPlaylistRenderer']['playlistId']),
         title: data['gridPlaylistRenderer']['title']['runs'][0]['text'],
+        author: data['gridPlaylistRenderer']['shortBylineText'] != null
+            ? data['gridPlaylistRenderer']['shortBylineText']['runs'][0]['text']
+            : null,
         thumbnails: (data['gridPlaylistRenderer']['thumbnail']['thumbnails']
                 as List<dynamic>)
             .map((e) => Thumbnail(
@@ -33,6 +36,9 @@ class PlaylistRendererMapper
       return Playlist(
         playlistId: Utils.setPlaylistId(data['playlistId']),
         title: data['title'] != null ? data['title']['simpleText'] : null,
+        author: data['shortBylineText'] != null
+            ? data['shortBylineText']['runs'][0]['text']
+            : null,
         thumbnails: (data['thumbnails'][0]['thumbnails'] as List<dynamic>)
             .map((e) => Thumbnail(
                   url: e['url'],
