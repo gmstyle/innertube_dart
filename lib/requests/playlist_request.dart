@@ -41,9 +41,20 @@ class PlaylistRequest extends InnertubeBase {
     }
     List<Video> videos = [];
     if (getVideos) {
-      final videoRequests = videoIds.map(
-          (videoId) => VideoRequest(locale: locale).getVideo(videoId: videoId));
-      videos = await Future.wait(videoRequests);
+      const batchSize = 20;
+      final videoIdsBatches = [
+        for (var i = 0; i < videoIds.length; i += batchSize)
+          videoIds.sublist(i,
+              i + batchSize > videoIds.length ? videoIds.length : i + batchSize)
+      ];
+
+      final videos = <Video>[];
+      for (final batch in videoIdsBatches) {
+        final videoRequests = batch.map((videoId) =>
+            VideoRequest(locale: locale).getVideo(videoId: videoId));
+        final batchVideos = await Future.wait(videoRequests);
+        videos.addAll(batchVideos);
+      }
     }
 
     final data = {
