@@ -121,8 +121,11 @@ class Utils {
       final shelfRenderer =
           content['itemSectionRenderer']['contents'][0]['shelfRenderer'];
       if (shelfRenderer != null) {
-        final browseEndPoint = shelfRenderer['title']['runs'][0]
-            ['navigationEndpoint']['browseEndpoint'];
+        final titleRuns = shelfRenderer['title']['runs'];
+        final browseEndPoint = titleRuns != null
+            ? shelfRenderer['title']['runs'][0]['navigationEndpoint']
+                ['browseEndpoint']
+            : null;
         final browseId =
             browseEndPoint != null ? browseEndPoint['browseId'] : null;
         final horizontalListRenderer =
@@ -130,7 +133,9 @@ class Utils {
         final expandedShelfContentsRenderer =
             shelfRenderer['content']['expandedShelfContentsRenderer'];
         final section = {
-          'title': shelfRenderer['title']['runs'][0]['text'],
+          'title': titleRuns != null
+              ? titleRuns[0]['text']
+              : shelfRenderer['title']['simpleText'],
           'playlistId': browseId != null ? setPlaylistId(browseId) : null,
           'contents': horizontalListRenderer != null
               ? horizontalListRenderer['items']

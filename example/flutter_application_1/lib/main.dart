@@ -97,9 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
     //search('dgsdsdkfhasdkfvasdfa playlist', null)
     //  .then((value) => print(value.toJson()));
     //getTrenging().then((value) => print(value));
-    getPlaylist('VLPL7E436F1EC114B001').then((value) => print(value.toJson()));
-    /* getChannel('UCNgo6ExSvJM7XIMJL_rXloQ')
-        .then((value) => print(value.toJson())); */
+    //getPlaylist('VLPL7E436F1EC114B001').then((value) => print(value.toJson()));
+    getChannel('UChE4aVxHHk5Mx9fZ2DaPJGw')
+        .then((value) => print(value.toJson()));
     //getMusicHome().then((value) => print(value.toJson()));
     //suggestQuesries('elodie').then((value) => print(value));
     return Scaffold(
