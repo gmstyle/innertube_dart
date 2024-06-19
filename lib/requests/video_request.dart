@@ -31,7 +31,6 @@ class VideoRequest extends InnertubeBase {
         muxedStreamingUrl = streamingManifest.muxed.bestQuality.url.toString();
       } catch (e) {
         print(e);
-        
       }
       
     }
