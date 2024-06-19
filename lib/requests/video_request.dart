@@ -25,9 +25,15 @@ class VideoRequest extends InnertubeBase {
 
     String? muxedStreamingUrl;
     if (withStreamingUrl) {
-      final streamingManifest =
-          await yt.videos.streamsClient.getManifest(videoId);
-      muxedStreamingUrl = streamingManifest.muxed.bestQuality.url.toString();
+      try {
+        final streamingManifest =
+        await yt.videos.streamsClient.getManifest(videoId);
+        muxedStreamingUrl = streamingManifest.muxed.bestQuality.url.toString();
+      } catch (e) {
+        print(e);
+        
+      }
+      
     }
 
     final map = {
