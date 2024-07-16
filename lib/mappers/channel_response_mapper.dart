@@ -16,8 +16,8 @@ class ChannelResponseMapper extends BaseMapper<Channel, Map<String, dynamic>> {
     final metadata = data['metadata'];
 
     return Channel(
-      channelId: header?['channelId'],
-      title: header?['title'],
+      channelId: metadata?['externalId'],
+      title: metadata?['title'],
       description: metadata?['description'],
       videoCount: header?['videosCountText']?['runs']?[0]['text'],
       subscriberCount: header?['subscriberCountText']?['simpleText'],

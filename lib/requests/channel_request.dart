@@ -55,7 +55,7 @@ class ChannelRequest extends InnertubeBase {
     Map<String, dynamic>? header;
     Map<String, dynamic>? metadata;
     if (continuationToken == null) {
-      header = response['header']['c4TabbedHeaderRenderer'];
+      header = response['header']['pageHeaderRenderer'];
       metadata = response['metadata']['channelMetadataRenderer'];
       sectionList = response['contents']['twoColumnBrowseResultsRenderer']
               ['tabs'][0]['tabRenderer']['content']['sectionListRenderer']
