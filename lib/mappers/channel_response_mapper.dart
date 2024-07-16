@@ -19,9 +19,15 @@ class ChannelResponseMapper extends BaseMapper<Channel, Map<String, dynamic>> {
       channelId: metadata?['externalId'],
       title: metadata?['title'],
       description: metadata?['description'],
-      videoCount: header?['videosCountText']?['runs']?[0]['text'],
-      subscriberCount: header?['subscriberCountText']?['simpleText'],
-      channelHandleText: header?['channelHandleText']?['runs']?[0]['text'],
+      videoCount: header?['content']?['pageHeaderViewModel']?['metadata']
+              ['contentMetadataViewModel']['metadataRows'][1]['metadataParts']
+          [1]['text']['content'],
+      subscriberCount: header?['content']?['pageHeaderViewModel']?['metadata']
+              ['contentMetadataViewModel']['metadataRows'][1]['metadataParts']
+          [0]['text']['content'],
+      channelHandleText: header?['content']?['pageHeaderViewModel']?['metadata']
+              ['contentMetadataViewModel']['metadataRows'][0]['metadataParts']
+          [0]['text']['content'],
       avatars:
           _getThumbnails(header, 'avatar') + _getThumbnails(metadata, 'avatar'),
       banners: _getThumbnails(header, 'banner'),
