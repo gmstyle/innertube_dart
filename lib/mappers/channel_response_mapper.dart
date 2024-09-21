@@ -15,16 +15,28 @@ class ChannelResponseMapper extends BaseMapper<Channel, Map<String, dynamic>> {
     final header = data['header'];
     final metadata = data['metadata'];
 
+    final metadataParts = header?['content']?['pageHeaderViewModel']
+            ?['metadata']['contentMetadataViewModel']['metadataRows'][1]
+        ['metadataParts'];
+
+    String? videoCount;
+    String? subscriberCount;
+
+    if (metadataParts != null) {
+      if (metadataParts.length == 1) {
+        videoCount = metadataParts[0]['text']['content'];
+      } else if (metadataParts.length == 2) {
+        subscriberCount = metadataParts[0]['text']['content'];
+        videoCount = metadataParts[1]['text']['content'];
+      }
+    }
+
     return Channel(
       channelId: metadata?['externalId'],
       title: metadata?['title'],
       description: metadata?['description'],
-      videoCount: header?['content']?['pageHeaderViewModel']?['metadata']
-              ['contentMetadataViewModel']['metadataRows'][1]['metadataParts']
-          [1]['text']['content'],
-      subscriberCount: header?['content']?['pageHeaderViewModel']?['metadata']
-              ['contentMetadataViewModel']['metadataRows'][1]['metadataParts']
-          [0]['text']['content'],
+      videoCount: videoCount,
+      subscriberCount: subscriberCount,
       channelHandleText: header?['content']?['pageHeaderViewModel']?['metadata']
               ['contentMetadataViewModel']['metadataRows'][0]['metadataParts']
           [0]['text']['content'],

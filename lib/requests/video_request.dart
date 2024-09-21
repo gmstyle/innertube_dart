@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:innertube_dart/enums/enums.dart';
 import 'package:innertube_dart/innertube_base.dart';
@@ -27,12 +29,11 @@ class VideoRequest extends InnertubeBase {
     if (withStreamingUrl) {
       try {
         final streamingManifest =
-        await yt.videos.streamsClient.getManifest(videoId);
+            await yt.videos.streamsClient.getManifest(videoId);
         muxedStreamingUrl = streamingManifest.muxed.bestQuality.url.toString();
       } catch (e) {
-        print(e);
+        log('Error getting streaming url: $e');
       }
-      
     }
 
     final map = {
