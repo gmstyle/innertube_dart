@@ -1,6 +1,6 @@
 name: innertube_dart
 description: "Dart porting of innertube."
-version: 0.0.1
+version: 1.0.0
 homepage: "https://github.com/gmstyle/innertube_dart"
 
 environment:
@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.2.1
-  youtube_explode_dart: ^2.2.1
+  youtube_explode_dart: ^2.2.2
 
 dev_dependencies:
   flutter_test:
