@@ -12,11 +12,14 @@ class PlaylistResponseMapper
 
   @override
   Playlist toModel(Map<String, dynamic> data) {
-    var playlistData = data['playlistData'];
+    final playlistData = data['playlistData'];
+
+    final id = playlistData['playlistId'] != null
+        ? Utils.setPlaylistId(playlistData['playlistId'])
+        : null;
+
     return Playlist(
-        playlistId: playlistData['playlistId'] != null
-            ? Utils.setPlaylistId(playlistData['playlistId'])
-            : null,
+        playlistId: id,
         title: playlistData['title'] != null
             ? playlistData['title']['simpleText']
             : null,

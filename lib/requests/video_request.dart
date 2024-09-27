@@ -30,7 +30,13 @@ class VideoRequest extends InnertubeBase {
       try {
         final streamingManifest =
             await yt.videos.streamsClient.getManifest(videoId);
-        muxedStreamingUrl = streamingManifest.muxed.bestQuality.url.toString();
+
+        if (streamingManifest.muxed.isNotEmpty) {
+          muxedStreamingUrl =
+              streamingManifest.muxed.bestQuality.url.toString();
+        } else if (streamingManifest.audioOnly.isNotEmpty) {
+          muxedStreamingUrl = streamingManifest.audioOnly.first.url.toString();
+        }
       } catch (e) {
         log('Error getting streaming url: $e');
       }

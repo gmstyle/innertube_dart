@@ -28,10 +28,27 @@ class VideoResponseMapper implements BaseMapper<Video, Map<String, dynamic>> {
       viewCount: videoDetails['viewCount'],
       author: videoDetails['author'],
       muxedStreamingUrl: data['muxedStreamingUrl'],
-      durationMs: data['response']['streamingData'] != null
-          ? data['response']['streamingData']['formats'][0]['approxDurationMs']
-          : (int.parse(videoDetails['lengthSeconds'] as String) * 1000)
-              .toString(),
+      durationMs: getDuration(data, videoDetails),
     );
+  }
+
+  String? getDuration(Map<String, dynamic> data, videoDetails) {
+    String? duration;
+
+    if (data['response']['streamingData'] != null) {
+      if (data['response']['streamingData']['formats'] != null) {
+        if (data['response']['streamingData']['formats'] != null) {
+          duration = data['response']['streamingData']['formats'][0]
+              ['approxDurationMs'];
+        } else {
+          duration = data['response']['streamingData']['adaptiveFormats'][0]
+              ['approxDurationMs'];
+        }
+      } else {
+        duration = (int.parse(videoDetails['lengthSeconds'] as String) * 1000)
+            .toString();
+      }
+    }
+    return duration;
   }
 }
