@@ -46,10 +46,12 @@ class PlaylistRequest extends InnertubeBase {
       videos = await Future.wait(videoRequests);
     }
 
-    final data = {
-      "playlistData": response['header']['playlistHeaderRenderer'],
-      "videos": videos
-    };
+    //videos.removeWhere((element) => element.muxedStreamingUrl == null);
+
+    final playlistData = response['header']['playlistHeaderRenderer'] ??
+        response['header']['pageHeaderRenderer'];
+
+    final data = {"playlistData": playlistData, "videos": videos};
 
     return _playlistResponseMapper.toModel(data);
   }
