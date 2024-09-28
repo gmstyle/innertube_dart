@@ -3,8 +3,7 @@ import 'package:innertube_dart/models/responses/playlist.dart';
 import 'package:innertube_dart/models/responses/thumbnail.dart';
 import 'package:innertube_dart/utils/utils.dart';
 
-class PlaylistResponseMapper
-    extends BaseMapper<Playlist, Map<String, dynamic>> {
+class PlaylistResponseMapper extends BaseMapper<Playlist, Map<String, dynamic>> {
   @override
   Map<String, dynamic> toData(Playlist model) {
     throw UnimplementedError();
@@ -20,61 +19,56 @@ class PlaylistResponseMapper
           : null;
 
       return Playlist(
-          playlistId: id,
-          title: playlistData['title'] != null
-              ? playlistData['title']['simpleText']
-              : null,
-          description: playlistData['descriptionText'] != null
-              ? playlistData['descriptionText']['simpleText']
-              : null,
-          thumbnails: playlistData['playlistHeaderBanner'] != null
-              ? (playlistData['playlistHeaderBanner']
-                          ['heroPlaylistThumbnailRenderer']['thumbnail']
-                      ['thumbnails'] as List<dynamic>)
-                  .map<Thumbnail>((e) => Thumbnail.fromJson(e))
-                  .toList()
-              : null,
-          author: playlistData['ownerText'] != null
-              ? playlistData['ownerText']['runs'][0]['text']
-              : null,
-          videoCount: playlistData['numVideosText'] != null
-              ? playlistData['numVideosText']['runs'][0]['text']
-              : null,
-          videos: data['videos']);
+        playlistId: id,
+        title: playlistData['title']?['simpleText'],
+        description: playlistData['descriptionText']?['simpleText'],
+        thumbnails: _extractThumbnails(playlistData['playlistHeaderBanner']),
+        author: playlistData['ownerText']?['runs']?[0]?['text'],
+        videoCount: playlistData['numVideosText']?['runs']?[0]?['text'],
+        videos: data['videos'],
+      );
     } else {
-      // playlistData['pageTitle']
-
-      var viewModel = playlistData['content']['pageHeaderViewModel'];
+      final viewModel = playlistData['content']['pageHeaderViewModel'];
       final id = viewModel['actions']['flexibleActionsViewModel']['actionsRows']
                       [0]['actions'][0]['buttonViewModel']['onTap']
                   ['innertubeCommand']['watchEndpoint']['playlistId'] !=
               null
-          ? Utils.setPlaylistId(playlistData['content']['pageHeaderViewModel']
-                      ['actions']['flexibleActionsViewModel']['actionsRows'][0]
-                  ['actions'][0]['buttonViewModel']['onTap']['innertubeCommand']
-              ['watchEndpoint']['playlistId'])
+          ? Utils.setPlaylistId(viewModel['actions']['flexibleActionsViewModel']
+                      ['actionsRows'][0]['actions'][0]['buttonViewModel']
+                  ['onTap']['innertubeCommand']['watchEndpoint']['playlistId'])
           : null;
 
-      final playlist = Playlist(
+      return Playlist(
         playlistId: id,
         title: playlistData['pageTitle'],
         description: null,
-        thumbnails: viewModel['heroImage']['contentPreviewImageViewModel']
-                    ['image']['sources'] !=
-                null
-            ? (viewModel['heroImage']['contentPreviewImageViewModel']['image']
-                    ['sources'] as List<dynamic>)
-                .map<Thumbnail>((e) => Thumbnail.fromJson(e))
-                .toList()
-            : null,
+        thumbnails: _extractThumbnails(viewModel['heroImage']
+            ['contentPreviewImageViewModel']['image']),
         author: null,
-        videoCount: viewModel['metadata']['contentMetadataViewModel']
-                ['metadataRows'][1]['metadataParts'][1]['text']['content'] ??
-            data['videos'].length.toString(),
+        videoCount: _extractVideoCount(viewModel, data['videos']),
         videos: data['videos'],
       );
-
-      return playlist;
     }
+  }
+
+  List<Thumbnail>? _extractThumbnails(dynamic thumbnailData) {
+    if (thumbnailData == null) return null;
+    final thumbnails = thumbnailData['heroPlaylistThumbnailRenderer']
+            ?['thumbnail']?['thumbnails'] ??
+        thumbnailData['sources'];
+    return thumbnails != null
+        ? (thumbnails as List<dynamic>)
+            .map<Thumbnail>((e) => Thumbnail.fromJson(e))
+            .toList()
+        : null;
+  }
+
+  String? _extractVideoCount(dynamic viewModel, List<dynamic> videos) {
+    final metadataParts = viewModel['metadata']['contentMetadataViewModel']
+        ['metadataRows'][1]['metadataParts'];
+    if (metadataParts == null) return videos.length.toString();
+    return metadataParts.length == 1
+        ? metadataParts[0]['text']['content']
+        : metadataParts[1]['text']['content'] ?? videos.length.toString();
   }
 }
