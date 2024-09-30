@@ -58,6 +58,14 @@ class MusicHomeRequest extends InnertubeBase {
           playlistRequests.add(PlaylistRequest(locale: locale)
               .getPlaylist(playlistId: playlistId!, getVideos: false));
         }
+
+        if (content['compactStationRenderer'] != null) {
+          final playlistId = Utils.setPlaylistId(
+              content['compactStationRenderer']['navigationEndpoint']
+                  ['watchPlaylistEndpoint']['playlistId']);
+          playlistRequests.add(PlaylistRequest(locale: locale)
+              .getPlaylist(playlistId: playlistId!, getVideos: false));
+        }
       }
       newSection['videos'] = await Future.wait(videoRequests);
       newSection['playlists'] = await Future.wait(playlistRequests);

@@ -12,7 +12,7 @@ class MusicHomeResponseMapper
   @override
   MusicHomeResponse toModel(Map<String, dynamic> data) {
     final metadata = data['metadata'];
-    return MusicHomeResponse(
+    final musicHome = MusicHomeResponse(
       title: metadata['title'],
       description: metadata['description'],
       carouselVideos: data['carouselVideos'],
@@ -20,5 +20,7 @@ class MusicHomeResponseMapper
           .map((e) => Section.fromJson(e))
           .toList(),
     );
+
+    return musicHome;
   }
 }

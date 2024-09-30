@@ -97,11 +97,11 @@ class _MyHomePageState extends State<MyHomePage> {
     //search('dgsdsdkfhasdkfvasdfa playlist', null)
     //  .then((value) => print(value.toJson()));
     //getTrenging().then((value) => print(value));
-    getPlaylist('VLPLn4g4V6ZEYKPRqsOT0YiD4G5em8lcI0Of')
-        .then((value) => print(value.toJson()));
+    /* getPlaylist('VLPLn4g4V6ZEYKPRqsOT0YiD4G5em8lcI0Of')
+        .then((value) => print(value.toJson())); */
     /* getChannel('UCfM3zsQsOnfWNUppiycmBuw')
         .then((value) => print(value.toJson())); */
-    //getMusicHome().then((value) => print(value.toJson()));
+    getMusicHome().then((value) => print(value.toJson()));
     //suggestQuesries('elodie').then((value) => print(value));
     return Scaffold(
       appBar: AppBar(
