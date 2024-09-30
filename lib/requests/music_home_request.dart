@@ -30,10 +30,10 @@ class MusicHomeRequest extends InnertubeBase {
     final carouselItems = response['header']['carouselHeaderRenderer']
             ['contents'][0]['carouselItemRenderer']['carouselItems']
         as List<dynamic>;
+
     final sectionList = response['contents']['twoColumnBrowseResultsRenderer']
             ['tabs'][0]['tabRenderer']['content']['sectionListRenderer']
         ['contents'];
-
     final List<dynamic> sections = Utils.filterMusicContents(sectionList);
 
     final newSections = [];
@@ -41,45 +41,50 @@ class MusicHomeRequest extends InnertubeBase {
       final newSection = {
         'title': section['title'],
         'videos': [],
-        'playlists': []
+        'playlists': [],
       };
+
       final videoRequests = <Future<Video>>[];
       final playlistRequests = <Future<Playlist>>[];
+      final videoIds = <String>[];
+      final playlistIds = <String>[];
+
       for (final content in section['contents']) {
         if (content['gridVideoRenderer'] != null) {
           final videoId = content['gridVideoRenderer']['videoId'];
-          videoRequests.add(VideoRequest(locale: locale)
-              .getVideo(videoId: videoId, withStreamingUrl: false));
+          videoIds.add(videoId);
         }
 
-        if (content['gridPlaylistRenderer'] != null) {
+        if (content['gridPlaylistRenderer'] != null ||
+            content['compactStationRenderer'] != null) {
           final playlistId = Utils.setPlaylistId(
-              content['gridPlaylistRenderer']['playlistId']);
-          playlistRequests.add(PlaylistRequest(locale: locale)
-              .getPlaylist(playlistId: playlistId!, getVideos: false));
-        }
-
-        if (content['compactStationRenderer'] != null) {
-          final playlistId = Utils.setPlaylistId(
-              content['compactStationRenderer']['navigationEndpoint']
-                  ['watchPlaylistEndpoint']['playlistId']);
-          playlistRequests.add(PlaylistRequest(locale: locale)
-              .getPlaylist(playlistId: playlistId!, getVideos: false));
+              content['gridPlaylistRenderer'] != null
+                  ? content['gridPlaylistRenderer']['playlistId']
+                  : content['compactStationRenderer']['navigationEndpoint']
+                      ['watchPlaylistEndpoint']['playlistId']);
+          playlistIds.add(playlistId!);
         }
       }
+
+      videoRequests.addAll(videoIds.map((id) => VideoRequest(locale: locale)
+          .getVideo(videoId: id, withStreamingUrl: false)));
+      playlistRequests.addAll(playlistIds.map((id) =>
+          PlaylistRequest(locale: locale)
+              .getPlaylist(playlistId: id, getVideos: false)));
+
       newSection['videos'] = await Future.wait(videoRequests);
       newSection['playlists'] = await Future.wait(playlistRequests);
       newSections.add(newSection);
     }
 
-    final videoRequests = carouselItems.map((carouselItem) {
-      final videoId = carouselItem['defaultPromoPanelRenderer']
-          ['navigationEndpoint']['watchEndpoint']['videoId'];
-      return VideoRequest(locale: locale)
-          .getVideo(videoId: videoId, withStreamingUrl: false);
-    }).toList();
+    final carouselVideoRequests = carouselItems.map((carouselItem) =>
+        VideoRequest(locale: locale).getVideo(
+            videoId: carouselItem['defaultPromoPanelRenderer']
+                ['navigationEndpoint']['watchEndpoint']['videoId'],
+            withStreamingUrl: false));
 
-    final List<Video> newCarouselIVideos = await Future.wait(videoRequests);
+    final newCarouselIVideos =
+        await Future.wait(carouselVideoRequests.toList());
 
     final data = {
       'metadata': metadata,
