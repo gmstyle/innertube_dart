@@ -3,7 +3,8 @@ import 'package:innertube_dart/models/responses/playlist.dart';
 import 'package:innertube_dart/models/responses/thumbnail.dart';
 import 'package:innertube_dart/utils/utils.dart';
 
-class PlaylistResponseMapper extends BaseMapper<Playlist, Map<String, dynamic>> {
+class PlaylistResponseMapper
+    extends BaseMapper<Playlist, Map<String, dynamic>> {
   @override
   Map<String, dynamic> toData(Playlist model) {
     throw UnimplementedError();
@@ -34,16 +35,16 @@ class PlaylistResponseMapper extends BaseMapper<Playlist, Map<String, dynamic>> 
                   ['innertubeCommand']['watchEndpoint']['playlistId'] !=
               null
           ? Utils.setPlaylistId(viewModel['actions']['flexibleActionsViewModel']
-                      ['actionsRows'][0]['actions'][0]['buttonViewModel']
-                  ['onTap']['innertubeCommand']['watchEndpoint']['playlistId'])
+                  ['actionsRows'][0]['actions'][0]['buttonViewModel']['onTap']
+              ['innertubeCommand']['watchEndpoint']['playlistId'])
           : null;
 
       return Playlist(
         playlistId: id,
         title: playlistData['pageTitle'],
         description: null,
-        thumbnails: _extractThumbnails(viewModel['heroImage']
-            ['contentPreviewImageViewModel']['image']),
+        thumbnails: _extractThumbnails(
+            viewModel['heroImage']['contentPreviewImageViewModel']['image']),
         author: null,
         videoCount: _extractVideoCount(viewModel, data['videos']),
         videos: data['videos'],
@@ -65,8 +66,8 @@ class PlaylistResponseMapper extends BaseMapper<Playlist, Map<String, dynamic>> 
 
   String? _extractVideoCount(dynamic viewModel, List<dynamic> videos) {
     final metadataParts = viewModel['metadata']['contentMetadataViewModel']
-        ['metadataRows'][1]['metadataParts'];
-    if (metadataParts == null) return videos.length.toString();
+        ['metadataRows'][1]['metadataParts'] as List<dynamic>?;
+    if (metadataParts == null) return '${videos.length} videos';
     return metadataParts.length == 1
         ? metadataParts[0]['text']['content']
         : metadataParts[1]['text']['content'] ?? videos.length.toString();
