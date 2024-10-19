@@ -18,6 +18,10 @@ class TrendingResponseMapper
         data['tabRenderer']['content']['sectionListRenderer']['contents'];
 
     for (var map in itemSectionRenderers) {
+      if (map['itemSectionRenderer']['contents'][0]['reelShelfRenderer'] !=
+          null) {
+        continue;
+      }
       final expandedShelfContentsRenderer = map['itemSectionRenderer']
               ['contents'][0]['shelfRenderer']['content']
           ['expandedShelfContentsRenderer'];
