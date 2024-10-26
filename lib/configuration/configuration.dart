@@ -1,9 +1,10 @@
 // ignore_for_file: constant_identifier_names
 
-const API_BASE_URL = 'https://youtubei.googleapis.com/youtubei/v1/';
+//const API_BASE_URL = 'https://youtubei.googleapis.com/youtubei/v1/';
+const API_BASE_URL = 'https://www.youtube.com/youtubei/v1/';
 const API_KEY = 'AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
 const WEB_CLIENT_NAME = 'WEB';
-const WEB_CLIENT_VERSION = '2.20230206.06.00';
+const WEB_CLIENT_VERSION = '2.20240726.00.00';
 const HOST = 'www.youtube.com';
 const REFERER_YOUTUBE = 'https://www.youtube.com/';
 const REFERER_YOUTUBE_MOBILE = 'https://m.youtube.com/';
@@ -14,13 +15,16 @@ const REFERER_YOUTUBE_ANALYTICS = 'https://analytics.youtube.com/';
 const REFER_GOOGLE_ASSISTANT = 'https://assistant.google.com/';
 
 const ANDROID_CLIENT_NAME = 'ANDROID';
-const ANDROID_CLIENT_VERSION = '18.06.35';
+const ANDROID_CLIENT_VERSION = '19.09.37';
 const ANDROID_API_KEY = 'AIzaSyDCU8hByM-4DrUqRUYnGn-3llEO78bcxq8';
 
+const TV_CLIENT_NAME = 'TVHTML5';
+const TV_CLIENT_VERSION = '7.20240724.13.00';
+
 const USER_AGENT_WEB =
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36';
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15,gzip(gfe)';
 const USER_AGENT_ANDROID =
-    'com.google.android.youtube/17.10.35 (Linux; U; Android 12; GB) gzip';
+    'com.google.ios.youtube/19.29.1 (iPhone16,2; U; CPU iOS 17_5_1 like Mac OS X;)';
 const USER_AGENT_IOS =
     'Mozilla/5.0 (iPhone; CPU iPhone OS 15_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/98.2  Mobile/15E148 Safari/605.1.15';
 const USER_AGENT_TV_HTML5 =
