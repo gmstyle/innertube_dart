@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:innertube_dart/configuration/configuration.dart';
 import 'package:innertube_dart/utils/utils.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class InnertubeBase {
   final http.Client client;
+  final YoutubeExplode yt = YoutubeExplode();
 
   InnertubeBase({http.Client? client}) : client = http.Client();
 
@@ -29,8 +31,10 @@ class InnertubeBase {
         "client": {
           "hl": hl,
           "gl": gl,
-          "clientName": WEB_CLIENT_NAME,
-          "clientVersion": WEB_CLIENT_VERSION
+          "clientName": TV_CLIENT_NAME,
+          "clientVersion": TV_CLIENT_VERSION,
+          "timeZone": "UTC",
+          'utcOffsetMinutes': 0,
         }
       },
       "racyCheckOk": true,

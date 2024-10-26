@@ -9,7 +9,6 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class VideoRequest extends InnertubeBase {
   final Locale? locale;
-  final yt = YoutubeExplode();
 
   VideoRequest({this.locale = const Locale('en', 'US')});
 
@@ -28,8 +27,7 @@ class VideoRequest extends InnertubeBase {
     String? muxedStreamingUrl;
     if (withStreamingUrl) {
       try {
-        final streamingManifest =
-            await yt.videos.streamsClient.getManifest(videoId);
+        final streamingManifest = await yt.videos.streams.getManifest(videoId);
 
         if (streamingManifest.muxed.isNotEmpty) {
           muxedStreamingUrl =
