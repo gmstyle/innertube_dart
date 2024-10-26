@@ -31,8 +31,8 @@ class InnertubeBase {
         "client": {
           "hl": hl,
           "gl": gl,
-          "clientName": TV_CLIENT_NAME,
-          "clientVersion": TV_CLIENT_VERSION,
+          "clientName": WEB_CLIENT_NAME,
+          "clientVersion": WEB_CLIENT_VERSION,
           "timeZone": "UTC",
           'utcOffsetMinutes': 0,
         }
