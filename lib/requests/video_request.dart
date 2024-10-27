@@ -27,13 +27,15 @@ class VideoRequest extends InnertubeBase {
     String? muxedStreamingUrl;
     if (withStreamingUrl) {
       try {
-        final streamingManifest = await yt.videos.streams.getManifest(videoId);
+        final streamingManifest = await yt.videos.streams
+            .getManifest(videoId, ytClients: [YoutubeApiClient.androidVr]);
 
         if (streamingManifest.muxed.isNotEmpty) {
           muxedStreamingUrl =
               streamingManifest.muxed.bestQuality.url.toString();
         } else if (streamingManifest.audioOnly.isNotEmpty) {
-          muxedStreamingUrl = streamingManifest.audioOnly.first.url.toString();
+          muxedStreamingUrl =
+              streamingManifest.audioOnly.withHighestBitrate().url.toString();
         }
       } catch (e) {
         log('Error getting streaming url: $e');
@@ -44,6 +46,8 @@ class VideoRequest extends InnertubeBase {
       'response': response,
       'muxedStreamingUrl': muxedStreamingUrl,
     };
+
+    yt.close();
 
     return _videoResponseMapper.toModel(map);
   }
