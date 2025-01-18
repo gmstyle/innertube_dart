@@ -64,6 +64,15 @@ class MusicHomeRequest extends InnertubeBase {
                       ['watchPlaylistEndpoint']['playlistId']);
           playlistIds.add(playlistId!);
         }
+
+        if (content['lockupViewModel'] != null) {
+          if (content['lockupViewModel']['contentType'] ==
+              'LOCKUP_CONTENT_TYPE_ALBUM') {
+            final playlistId =
+                Utils.setPlaylistId(content['lockupViewModel']['contentId']);
+            playlistIds.add(playlistId!);
+          }
+        }
       }
 
       videoRequests.addAll(videoIds.map((id) => VideoRequest(locale: locale)

@@ -4,15 +4,15 @@ version: 1.0.0
 homepage: "https://github.com/gmstyle/innertube_dart"
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
+  sdk: '>=3.2.2 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
-  build_runner: ^2.4.13
+  build_runner: ^2.4.14
   flutter:
     sdk: flutter
   http: ^1.2.2
-  youtube_explode_dart: ^2.3.5
+  youtube_explode_dart: ^2.3.6
 
 dev_dependencies:
   flutter_test:
