@@ -32,8 +32,10 @@ class MusicHomeRequest extends InnertubeBase {
         as List<dynamic>;
 
     final sectionList = response['contents']['twoColumnBrowseResultsRenderer']
-            ['tabs'][0]['tabRenderer']['content']['sectionListRenderer']
-        ['contents'];
+                ['tabs'][0]['tabRenderer']['content']['sectionListRenderer']
+            ['contents'] ??
+        response['contents']['twoColumnBrowseResultsRenderer']['tabs'][0]
+            ['tabRenderer']['content']['richGridRenderer']['contents'];
     final List<dynamic> sections = Utils.filterMusicContents(sectionList);
 
     final newSections = [];
@@ -71,6 +73,16 @@ class MusicHomeRequest extends InnertubeBase {
             final playlistId =
                 Utils.setPlaylistId(content['lockupViewModel']['contentId']);
             playlistIds.add(playlistId!);
+          }
+        }
+
+        if (content['richItemRenderer'] != null) {
+          final lvm = content['richItemRenderer']['content']['lockupViewModel'];
+          if (lvm != null) {
+            if (lvm['contentType'] == 'LOCKUP_CONTENT_TYPE_ALBUM') {
+              final playlistId = Utils.setPlaylistId(lvm['contentId']);
+              playlistIds.add(playlistId!);
+            }
           }
         }
       }

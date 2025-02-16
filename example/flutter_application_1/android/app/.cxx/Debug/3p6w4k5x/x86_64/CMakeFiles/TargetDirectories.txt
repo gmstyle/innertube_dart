@@ -1,0 +1,2 @@
+/home/gmstyle/VisualStudioCodeProjects/innertube_dart/example/flutter_application_1/android/app/.cxx/Debug/3p6w4k5x/x86_64/CMakeFiles/edit_cache.dir
+/home/gmstyle/VisualStudioCodeProjects/innertube_dart/example/flutter_application_1/android/app/.cxx/Debug/3p6w4k5x/x86_64/CMakeFiles/rebuild_cache.dir

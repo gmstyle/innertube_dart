@@ -152,13 +152,15 @@ class Utils {
   static List<dynamic> filterMusicContents(List<dynamic> contents) {
     final List<dynamic> filteredContents = [];
     for (final content in contents) {
-      final shelfRenderer =
-          content['itemSectionRenderer']['contents'][0]['shelfRenderer'];
+      final shelfRenderer = content['itemSectionRenderer'] != null
+          ? content['itemSectionRenderer']['contents'][0]['shelfRenderer']
+          : content['richSectionRenderer']['content']['richShelfRenderer'];
       if (shelfRenderer != null) {
         final section = {
           'title': shelfRenderer['title']['runs'][0]['text'],
-          'contents': shelfRenderer['content']['horizontalListRenderer']
-              ['items']
+          'contents': shelfRenderer['content'] != null
+              ? shelfRenderer['content']['horizontalListRenderer']['items']
+              : shelfRenderer['contents'],
         };
 
         filteredContents.add(section);
