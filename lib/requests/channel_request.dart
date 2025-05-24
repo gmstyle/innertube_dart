@@ -58,8 +58,13 @@ class ChannelRequest extends InnertubeBase {
       header = response['header']['pageHeaderRenderer'];
       metadata = response['metadata']['channelMetadataRenderer'];
       sectionList = response['contents']['twoColumnBrowseResultsRenderer']
-              ['tabs'][0]['tabRenderer']['content']['sectionListRenderer']
-          ['contents'];
+                      ['tabs'][0]['tabRenderer']['content']
+                  ['sectionListRenderer'] !=
+              null
+          ? response['contents']['twoColumnBrowseResultsRenderer']['tabs'][0]
+              ['tabRenderer']['content']['sectionListRenderer']['contents']
+          : response['contents']['twoColumnBrowseResultsRenderer']['tabs'][0]
+              ['tabRenderer']['content']['richGridRenderer']['contents'];
     } else {
       //TODO: To be tested because never happens before.
       sectionList = response['onResponseReceivedActions'][0]
@@ -84,7 +89,8 @@ class ChannelRequest extends InnertubeBase {
       'continuationToken': continuationTokenNew
     };
 
-    return _channelResponseMapper.toModel(data);
+    var channel = _channelResponseMapper.toModel(data);
+    return channel;
   }
 
   Future<Channel> _getChannelVideos(
@@ -201,6 +207,10 @@ class ChannelRequest extends InnertubeBase {
     };
     final futures = <Future>[];
     for (final content in section['contents']) {
+      if (content['videoRenderer'] != null) {
+        final videoId = content['videoRenderer']['videoId'];
+        futures.add(_processVideo(newSection, videoId));
+      }
       if (content['gridVideoRenderer'] != null) {
         final videoId = content['gridVideoRenderer']['videoId'];
         futures.add(_processVideo(newSection, videoId));

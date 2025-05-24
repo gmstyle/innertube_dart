@@ -118,30 +118,43 @@ class Utils {
   static List<dynamic> filterChannelContents(List<dynamic> contents) {
     final List<dynamic> filteredContents = [];
     for (final content in contents) {
-      final shelfRenderer =
-          content['itemSectionRenderer']['contents'][0]['shelfRenderer'];
-      if (shelfRenderer != null) {
-        final titleRuns = shelfRenderer['title']['runs'];
-        final browseEndPoint = titleRuns != null
-            ? shelfRenderer['title']['runs'][0]['navigationEndpoint']
-                ['browseEndpoint']
-            : null;
-        final browseId =
-            browseEndPoint != null ? browseEndPoint['browseId'] : null;
-        final horizontalListRenderer =
-            shelfRenderer['content']['horizontalListRenderer'];
-        final expandedShelfContentsRenderer =
-            shelfRenderer['content']['expandedShelfContentsRenderer'];
+      if (content['itemSectionRenderer'] != null) {
+        final shelfRenderer =
+            content['itemSectionRenderer']['contents'][0]['shelfRenderer'];
+        if (shelfRenderer != null) {
+          final titleRuns = shelfRenderer['title']['runs'];
+          final browseEndPoint = titleRuns != null
+              ? shelfRenderer['title']['runs'][0]['navigationEndpoint']
+                  ['browseEndpoint']
+              : null;
+          final browseId =
+              browseEndPoint != null ? browseEndPoint['browseId'] : null;
+          final horizontalListRenderer =
+              shelfRenderer['content']['horizontalListRenderer'];
+          final expandedShelfContentsRenderer =
+              shelfRenderer['content']['expandedShelfContentsRenderer'];
+          final section = {
+            'title': titleRuns != null
+                ? titleRuns[0]['text']
+                : shelfRenderer['title']['simpleText'],
+            'playlistId': browseId != null ? setPlaylistId(browseId) : null,
+            'contents': horizontalListRenderer != null
+                ? horizontalListRenderer['items']
+                : expandedShelfContentsRenderer != null
+                    ? expandedShelfContentsRenderer['items']
+                    : null
+          };
+          filteredContents.add(section);
+        }
+      } else if (content['richItemRenderer'] != null) {
+        final richItemRenderer = content['richItemRenderer'];
+        final videoRenderer = richItemRenderer['content']['videoRenderer'];
+        // Si tratta di un video quindi creo una section aggiungendo il video
         final section = {
-          'title': titleRuns != null
-              ? titleRuns[0]['text']
-              : shelfRenderer['title']['simpleText'],
-          'playlistId': browseId != null ? setPlaylistId(browseId) : null,
-          'contents': horizontalListRenderer != null
-              ? horizontalListRenderer['items']
-              : expandedShelfContentsRenderer != null
-                  ? expandedShelfContentsRenderer['items']
-                  : null
+          'title': content['richItemRenderer']['content']['videoRenderer']
+              ['title']['runs'][0]['text'],
+          'playlistId': null,
+          'contents': [richItemRenderer['content']]
         };
         filteredContents.add(section);
       }
