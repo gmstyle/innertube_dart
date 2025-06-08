@@ -11,8 +11,8 @@ dependencies:
   build_runner: ^2.4.14
   flutter:
     sdk: flutter
-  http: ^1.2.2
-  youtube_explode_dart: ^2.4.1
+  http: ^1.4.0
+  youtube_explode_dart: ^2.4.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
