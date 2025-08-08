@@ -42,8 +42,6 @@ class ChannelRequest extends InnertubeBase {
         return _getChannelVideos(response, continuationToken);
       case ChannelSection.playlists:
         return _getChannelPlaylists(response, continuationToken);
-      default:
-        return _getChannelHome(response, continuationToken);
     }
   }
 
