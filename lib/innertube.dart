@@ -97,10 +97,8 @@ class Innertube extends InnertubeBase {
       {required String playlistId,
       String? continuationToken,
       bool getVideos = true}) async {
-    final response = await PlaylistRequest(locale: locale).getPlaylist(
-        playlistId: playlistId,
-        continuationToken: continuationToken,
-        getVideos: getVideos);
+    final response = await PlaylistRequest(locale: locale)
+        .getPlaylist(playlistId: playlistId, getVideos: getVideos);
 
     return response;
   }

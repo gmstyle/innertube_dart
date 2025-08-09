@@ -94,11 +94,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //getVideo('i2XUrySbdUE').then((value) => print(value.toJson()));
-    search('turbe giovanili', null);
+    //search('turbe giovanili', null);
     //  .then((value) => print(value.toJson()));
     //getTrenging().then((value) => print(value));
-    /* getPlaylist('VLPLn4g4V6ZEYKPRqsOT0YiD4G5em8lcI0Of')
-        .then((value) => print(value.toJson())); */
+    getPlaylist('PLn4g4V6ZEYKPRqsOT0YiD4G5em8lcI0Of')
+        .then((value) => print(value.toJson()));
     /* getChannel('UCp8xgiiJF4JVIHFtR-jMBzA')
         .then((value) => print(value.toJson())); */
     //getMusicHome().then((value) => print(value.toJson()));
