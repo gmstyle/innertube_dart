@@ -11,20 +11,24 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_application_1/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('home shows API list', (WidgetTester tester) async {
+    await tester.pumpWidget(const ApiTesterApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('innertube_dart API tester'), findsOneWidget);
+    expect(find.text('getVideo'), findsOneWidget);
+    expect(find.text('search'), findsOneWidget);
+    expect(find.text('getTrending'), findsOneWidget);
+    expect(find.text('getPlaylist'), findsOneWidget);
+    expect(find.text('getChannel'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    await tester.scrollUntilVisible(
+      find.text('getMusicHome'),
+      250,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('getMusicHome'), findsOneWidget);
+    expect(find.text('suggestQueries'), findsOneWidget);
   });
 }
